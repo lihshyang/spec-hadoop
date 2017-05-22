@@ -587,7 +587,7 @@ public class FSEditLog implements LogsPurgeable {
             if (journalSet.isEmpty()) {
               throw new IOException("No journals available to flush");
             }
-            editLogStream.setReadyToFlush();
+            editLogStream.setReadyToFlush(); // this will swap the buffers
           } catch (IOException e) {
             final String msg =
                 "Could not sync enough journals to persistent storage " +
@@ -721,7 +721,7 @@ public class FSEditLog implements LogsPurgeable {
    * Add create directory record to edit log
    */
   public void logMkDir(String path, INode newNode) {
-    MkdirOp op = MkdirOp.getInstance(cache.get())
+    MkdirOp op = MkdirOp.getInstance(cache.get()) // cache to reuse an object?
       .setInodeId(newNode.getId())
       .setPath(path)
       .setTimestamp(newNode.getModificationTime())
