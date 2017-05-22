@@ -259,7 +259,8 @@ public class NameNode {
   private List<ServicePlugin> plugins;
   
   private NameNodeRpcServer rpcServer;
-  
+
+  private NameNodeSpecServer specServer;
   /** Format a new filesystem.  Destroys any filesystem that may already
    * exist at this location.  **/
   public static void format(Configuration conf) throws IOException {
@@ -491,6 +492,9 @@ public class NameNode {
     loadNamesystem(conf);
 
     rpcServer = createRpcServer(conf);
+    if (conf.getBoolean("dfs.namenode.enable.specnamenode", false)) {
+      specServer = new NameNodeSpecServer(conf, this);
+    }
     if (NamenodeRole.NAMENODE == role) {
       httpServer.setNameNodeAddress(getNameNodeAddress());
       httpServer.setFSImage(getFSImage());
@@ -558,6 +562,9 @@ public class NameNode {
       httpServer.setFSImage(getFSImage());
     }
     rpcServer.start();
+    if (specServer != null) {
+      specServer.start();
+    }
     plugins = conf.getInstances(DFS_NAMENODE_PLUGINS_KEY,
         ServicePlugin.class);
     for (ServicePlugin p: plugins) {
