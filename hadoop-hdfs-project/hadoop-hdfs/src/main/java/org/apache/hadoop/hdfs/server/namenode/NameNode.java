@@ -17,7 +17,6 @@
  */
 package org.apache.hadoop.hdfs.server.namenode;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
@@ -26,20 +25,19 @@ import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.HadoopIllegalArgumentException;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.ha.HAServiceProtocol.HAServiceState;
 import org.apache.hadoop.ha.HAServiceProtocol.StateChangeRequestInfo;
 import org.apache.hadoop.ha.HAServiceStatus;
 import org.apache.hadoop.ha.HealthCheckFailedException;
 import org.apache.hadoop.ha.ServiceFailedException;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.FileUtil;
 import org.apache.hadoop.fs.Trash;
 import static org.apache.hadoop.hdfs.DFSConfigKeys.*;
 import static org.apache.hadoop.util.ExitUtil.terminate;
@@ -59,6 +57,7 @@ import org.apache.hadoop.hdfs.server.namenode.ha.HAContext;
 import org.apache.hadoop.hdfs.server.namenode.ha.HAState;
 import org.apache.hadoop.hdfs.server.namenode.ha.StandbyState;
 import org.apache.hadoop.hdfs.server.namenode.metrics.NameNodeMetrics;
+import org.apache.hadoop.hdfs.server.namenode.spec.NameNodeSpecServer;
 import org.apache.hadoop.hdfs.server.namenode.startupprogress.StartupProgress;
 import org.apache.hadoop.hdfs.server.namenode.startupprogress.StartupProgressMetrics;
 import org.apache.hadoop.hdfs.server.protocol.DatanodeProtocol;
@@ -492,7 +491,7 @@ public class NameNode {
     loadNamesystem(conf);
 
     rpcServer = createRpcServer(conf);
-    if (conf.getBoolean("dfs.namenode.enable.specnamenode", false)) {
+    if (conf.getBoolean("dfs.namenode.enable.specserver", false)) {
       specServer = new NameNodeSpecServer(conf, this);
     }
     if (NamenodeRole.NAMENODE == role) {
@@ -686,9 +685,26 @@ public class NameNode {
     state = createHAState();
     this.allowStaleStandbyReads = HAUtil.shouldAllowStandbyReads(conf);
     this.haContext = createHAContext();
+    final NameNode nn = this;
     try {
       initializeGenericKeys(conf, nsId, namenodeId);
       initialize(conf);
+      Runnable r = new Runnable() {
+        @Override
+        public void run() {
+          try {
+            Thread.sleep(20*1000);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+          try {
+            nn.getRpcServer().mkdirs("/frominside", FsPermission.getDefault(), true);
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+        }
+      };
+      Thread t = new Thread(r);t.run();
       state.prepareToEnterState(haContext);
       state.enterState(haContext);
     } catch (IOException e) {

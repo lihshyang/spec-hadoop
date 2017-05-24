@@ -1359,7 +1359,7 @@ public class FSDirectory implements Closeable {
    * @param mtime the time the inode is removed
    * @throws SnapshotAccessControlException if path is in RO snapshot
    */ 
-  void unprotectedDelete(String src, long mtime) throws UnresolvedLinkException,
+  public void unprotectedDelete(String src, long mtime) throws UnresolvedLinkException,
       QuotaExceededException, SnapshotAccessControlException {
     assert hasWriteLock();
     BlocksMapUpdateInfo collectedBlocks = new BlocksMapUpdateInfo();
@@ -1994,7 +1994,7 @@ public class FSDirectory implements Closeable {
    * The parent path to the directory is at [0, pos-1].
    * All ancestors exist. Newly created one stored at index pos.
    */
-  private void unprotectedMkdir(long inodeId, INodesInPath inodesInPath,
+  public void unprotectedMkdir(long inodeId, INodesInPath inodesInPath,
       int pos, byte[] name, PermissionStatus permission, long timestamp)
       throws QuotaExceededException {
     assert hasWriteLock();

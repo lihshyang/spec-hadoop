@@ -3323,7 +3323,7 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
   /**
    * Create all the necessary directories
    */
-  boolean mkdirs(String src, PermissionStatus permissions,
+  public boolean mkdirs(String src, PermissionStatus permissions,
       boolean createParent) throws IOException, UnresolvedLinkException {
     boolean ret = false;
     try {
