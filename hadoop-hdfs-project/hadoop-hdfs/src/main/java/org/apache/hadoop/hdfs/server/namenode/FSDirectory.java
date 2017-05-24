@@ -118,19 +118,19 @@ public class FSDirectory implements Closeable {
   private Condition cond;
 
   // utility methods to acquire and release read lock and write lock
-  void readLock() {
+  public void readLock() {
     this.dirLock.readLock().lock();
   }
 
-  void readUnlock() {
+  public void readUnlock() {
     this.dirLock.readLock().unlock();
   }
 
-  void writeLock() {
+  public void writeLock() {
     this.dirLock.writeLock().lock();
   }
 
-  void writeUnlock() {
+  public void writeUnlock() {
     this.dirLock.writeLock().unlock();
   }
 

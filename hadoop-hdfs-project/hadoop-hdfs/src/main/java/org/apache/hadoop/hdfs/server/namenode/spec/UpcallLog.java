@@ -17,11 +17,16 @@ import static org.apache.hadoop.util.Time.now;
  */
 public class UpcallLog {
     private static NameNode nn;
+    private long opNum;
     private Queue<LogRecord> records;
 
-    public UpcallLog(NameNode nn) {
+    public void init(NameNode nn) {
         UpcallLog.nn = nn;
-        records = Collections.asLifoQueue(new LinkedList<LogRecord>());
+    }
+
+    public UpcallLog(long opNum) {
+        this.opNum = opNum;
+        this.records = Collections.asLifoQueue(new LinkedList<LogRecord>());
     }
 
     public void append(LogRecord r) {
@@ -38,7 +43,6 @@ public class UpcallLog {
     }
 
     public static abstract class LogRecord {
-        long opNum;
         abstract boolean undo();
 
         public static class MkdirRecord extends LogRecord {
@@ -51,7 +55,9 @@ public class UpcallLog {
             @Override
             boolean undo() {
                 try {
+                    nn.getNamesystem().getFSDirectory().writeLock();
                     nn.getNamesystem().getFSDirectory().unprotectedDelete(dir, now());
+                    nn.getNamesystem().getFSDirectory().writeUnlock();
                 } catch (UnresolvedLinkException e) {
                     e.printStackTrace();
                     return false;
