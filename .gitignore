@@ -1,11 +1,15 @@
 *.iml
 *.ipr
 *.iws
+*.class
+*.obj
+*.DS_Store
 .idea
 .svn
 .classpath
 .project
 .settings
 target
+hadoop-hdfs-project/hadoop-hdfs/src/main/specpaxos/nistore
 hadoop-hdfs-project/hadoop-hdfs/downloads
 hadoop-hdfs-project/hadoop-hdfs-httpfs/downloads

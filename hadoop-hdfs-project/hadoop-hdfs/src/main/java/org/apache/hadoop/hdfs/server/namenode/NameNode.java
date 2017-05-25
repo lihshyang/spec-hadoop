@@ -689,22 +689,22 @@ public class NameNode {
     try {
       initializeGenericKeys(conf, nsId, namenodeId);
       initialize(conf);
-      Runnable r = new Runnable() {
-        @Override
-        public void run() {
-          try {
-            Thread.sleep(20*1000);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-          try {
-            nn.getRpcServer().mkdirs("/frominside", FsPermission.getDefault(), true);
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
-      };
-      Thread t = new Thread(r);t.run();
+//      Runnable r = new Runnable() {
+//        @Override
+//        public void run() {
+//          try {
+//            Thread.sleep(20*1000);
+//          } catch (InterruptedException e) {
+//            e.printStackTrace();
+//          }
+//          try {
+//            nn.getRpcServer().mkdirs("/frominside", FsPermission.getDefault(), true);
+//          } catch (IOException e) {
+//            e.printStackTrace();
+//          }
+//        }
+//      };
+//      Thread t = new Thread(r);t.run();
       state.prepareToEnterState(haContext);
       state.enterState(haContext);
     } catch (IOException e) {
