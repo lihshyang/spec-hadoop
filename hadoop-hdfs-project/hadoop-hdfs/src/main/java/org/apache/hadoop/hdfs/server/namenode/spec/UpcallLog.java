@@ -4,6 +4,7 @@ package org.apache.hadoop.hdfs.server.namenode.spec;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.fs.UnresolvedLinkException;
+import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.protocol.QuotaExceededException;
 import org.apache.hadoop.hdfs.protocol.SnapshotAccessControlException;
 import org.apache.hadoop.hdfs.server.namenode.NameNode;
@@ -72,22 +73,7 @@ public class UpcallLog {
             @Override
             boolean undo() {
                 try {
-                    return nn.getNamesystem().delete(dir, false);
-                } catch (UnresolvedLinkException e) {
-                    e.printStackTrace();
-                    return false;
-                } catch (QuotaExceededException e) {
-                    e.printStackTrace();
-                    return false;
-                } catch (SnapshotAccessControlException e) {
-                    e.printStackTrace();
-                    return false;
-                } catch (SafeModeException e) {
-                    e.printStackTrace();
-                    return false;
-                } catch (AccessControlException e) {
-                    e.printStackTrace();
-                    return false;
+                    return nn.getRpcServer().delete(dir, false);
                 } catch (IOException e) {
                     e.printStackTrace();
                     return false;
@@ -95,8 +81,31 @@ public class UpcallLog {
             }
 
             @Override
-            public String toString(){
-                return "mkdir: "+dir;
+            public String toString() {
+                return "mkdir: " + dir;
+            }
+        }
+
+        public static class DeleteRecord extends LogRecord {
+            String dir;
+            FsPermission permission;
+
+            /**
+             * now only support rmdir semantics
+             */
+            public DeleteRecord(String dir, FsPermission permission) {
+                this.dir = dir;
+                this.permission = permission;
+            }
+
+            @Override
+            boolean undo() {
+                try {
+                    return nn.getRpcServer().mkdirs(dir, permission, false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
             }
         }
     }

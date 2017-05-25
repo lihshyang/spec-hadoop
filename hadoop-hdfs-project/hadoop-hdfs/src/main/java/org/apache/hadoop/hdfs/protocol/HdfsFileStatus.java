@@ -88,6 +88,14 @@ public class HdfsFileStatus {
   }
 
   /**
+   * for consistency check in specpaxos, avoid different nodes have different TS
+   */
+  final public void voidTimestamps() {
+    this.access_time = 0;
+    this.modification_time = 0;
+  }
+
+  /**
    * Get the length of this file, in bytes.
    * @return the length of this file, in bytes.
    */

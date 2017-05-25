@@ -1,14 +1,24 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
+import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.UnresolvedLinkException;
 import org.apache.hadoop.fs.permission.FsPermission;
+import org.apache.hadoop.hdfs.protocol.DirectoryListing;
+import org.apache.hadoop.hdfs.protocol.HdfsFileStatus;
+import org.apache.hadoop.hdfs.protocol.SnapshotAccessControlException;
+import org.apache.hadoop.hdfs.protocolPB.PBHelper;
 import org.apache.hadoop.hdfs.server.namenode.FSDirectory;
 import org.apache.hadoop.hdfs.server.namenode.FSNamesystem;
 import org.apache.hadoop.hdfs.server.namenode.NameNode;
+import org.apache.hadoop.hdfs.server.namenode.SafeModeException;
 import org.apache.hadoop.hdfs.server.protocol.NamenodeProtocols;
+import org.apache.hadoop.security.AccessControlException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -55,44 +65,63 @@ public class NameNodeSpecServer {
    */
   public byte[] replicaUpcall(long opnum, byte[] param) {
     ReplicaUpcall.Request req;
+    UpcallLog log;
 
     try {
       req = ReplicaUpcall.Request.parseFrom(param);
     } catch (InvalidProtocolBufferException e) {
       e.printStackTrace();
-      return ReplicaUpcall.Reply.newBuilder().setException(-1).build().toByteArray();
+      return ReplicaUpcall.Reply.newBuilder().setException("InvalidProtocolBuffer").build().toByteArray();
     }
 
     switch (req.getOp()) {
-      case LS:
 
-        break;
+      case LS:
+        try {
+          DirectoryListing result = rpcServer.getListing(req.getSrc(), req.getStartAfter().toByteArray(), req.getNeedLocation());
+          for (HdfsFileStatus status: result.getPartialListing()) {
+            status.voidTimestamps();
+          }
+          return ReplicaUpcall.Reply.newBuilder().setDirectoryListing(ByteString.
+              copyFrom(SerializationUtils.serialize(result))).build().toByteArray(); // TODO need to check if serializing works
+        } catch (IOException e) {
+          e.printStackTrace();
+          return ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray();
+        }
 
       case MKDIR:
-        UpcallLog log = new UpcallLog(opnum);
+        log = new UpcallLog(opnum);
         upcallLogs.add(log);
-        UpcallLog.currentOpLog = log;
         try {
-          boolean result = this.rpcServer.mkdirs(req.getSrc(), new FsPermission((short) req.getMasked()), req.getCreateparent());
-          UpcallLog.currentOpLog = null;
+          UpcallLog.currentOpLog = log;
+          boolean result = rpcServer.mkdirs(req.getSrc(), new FsPermission((short) req.getMasked()), req.getCreateParent());
           return ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray();
         } catch (IOException e) {
           e.printStackTrace();
-          return ReplicaUpcall.Reply.newBuilder().setException(1).build().toByteArray();
+          return ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray();
         } finally {
           UpcallLog.currentOpLog = null;
         }
 
       case RM:
-
-        break;
+        log = new UpcallLog(opnum);
+        upcallLogs.add(log);
+        try {
+          UpcallLog.currentOpLog = log;
+          boolean result = rpcServer.delete(req.getSrc(), req.getRecursive());
+          return ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray();
+        } catch (IOException e) {
+          e.printStackTrace();
+          return ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray();
+        } finally {
+          UpcallLog.currentOpLog = null;
+        }
 
       default:
         LOG.error("unknown op");
-        return new byte[0];
+        return ReplicaUpcall.Reply.newBuilder().setException("unknown op").build().toByteArray();
     }
 
-    return new byte[0];
   }
 
   /**
@@ -129,5 +158,4 @@ public class NameNodeSpecServer {
       }
     }
   }
-
 }

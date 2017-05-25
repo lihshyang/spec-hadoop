@@ -1,26 +1,31 @@
 option java_package = "org.apache.hadoop.hdfs.server.namenode.spec";
+
 option java_outer_classname = "ReplicaUpcall";
+
 option java_generate_equals_and_hash = true;
+
 package hadoop.hdfs;
 
 message Request {
-     enum Operation {
-     	  MKDIR = 1;
-          RM = 2;
-          LS = 3;
-     }
+    enum Operation {
+        MKDIR = 1;
+        RM = 2;
+        LS = 3;
+    }
 
-     required Operation op = 1;
-     optional string user = 2;
-     optional string src = 3;
-     optional string dst = 4;
-     optional bool recursive = 5;
-     optional int32 masked = 6;
-     optional bool createparent = 7;
+    required Operation op = 1;
+    optional string user = 2;
+    optional string src = 3;
+    optional string dst = 4;
+    optional bool recursive = 5;
+    optional int32 masked = 6;
+    optional bool createParent = 7;
+    optional bytes startAfter = 8;
+    optional bool needLocation = 9;
 }
 
 message Reply {
-     optional int32 exception = 1;
-     optional bool success = 2;
-
+    optional string exception = 1;
+    optional bool success = 2;
+    optional bytes directoryListing = 3;
 }

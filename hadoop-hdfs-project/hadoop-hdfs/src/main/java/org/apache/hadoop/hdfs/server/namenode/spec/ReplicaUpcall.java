@@ -86,15 +86,35 @@ public final class ReplicaUpcall {
      */
     int getMasked();
 
-    // optional bool createparent = 7;
+    // optional bool createParent = 7;
     /**
-     * <code>optional bool createparent = 7;</code>
+     * <code>optional bool createParent = 7;</code>
      */
-    boolean hasCreateparent();
+    boolean hasCreateParent();
     /**
-     * <code>optional bool createparent = 7;</code>
+     * <code>optional bool createParent = 7;</code>
      */
-    boolean getCreateparent();
+    boolean getCreateParent();
+
+    // optional bytes startAfter = 8;
+    /**
+     * <code>optional bytes startAfter = 8;</code>
+     */
+    boolean hasStartAfter();
+    /**
+     * <code>optional bytes startAfter = 8;</code>
+     */
+    com.google.protobuf.ByteString getStartAfter();
+
+    // optional bool needLocation = 9;
+    /**
+     * <code>optional bool needLocation = 9;</code>
+     */
+    boolean hasNeedLocation();
+    /**
+     * <code>optional bool needLocation = 9;</code>
+     */
+    boolean getNeedLocation();
   }
   /**
    * Protobuf type {@code hadoop.hdfs.Request}
@@ -185,7 +205,17 @@ public final class ReplicaUpcall {
             }
             case 56: {
               bitField0_ |= 0x00000040;
-              createparent_ = input.readBool();
+              createParent_ = input.readBool();
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000080;
+              startAfter_ = input.readBytes();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000100;
+              needLocation_ = input.readBool();
               break;
             }
           }
@@ -496,20 +526,52 @@ public final class ReplicaUpcall {
       return masked_;
     }
 
-    // optional bool createparent = 7;
+    // optional bool createParent = 7;
     public static final int CREATEPARENT_FIELD_NUMBER = 7;
-    private boolean createparent_;
+    private boolean createParent_;
     /**
-     * <code>optional bool createparent = 7;</code>
+     * <code>optional bool createParent = 7;</code>
      */
-    public boolean hasCreateparent() {
+    public boolean hasCreateParent() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
-     * <code>optional bool createparent = 7;</code>
+     * <code>optional bool createParent = 7;</code>
      */
-    public boolean getCreateparent() {
-      return createparent_;
+    public boolean getCreateParent() {
+      return createParent_;
+    }
+
+    // optional bytes startAfter = 8;
+    public static final int STARTAFTER_FIELD_NUMBER = 8;
+    private com.google.protobuf.ByteString startAfter_;
+    /**
+     * <code>optional bytes startAfter = 8;</code>
+     */
+    public boolean hasStartAfter() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional bytes startAfter = 8;</code>
+     */
+    public com.google.protobuf.ByteString getStartAfter() {
+      return startAfter_;
+    }
+
+    // optional bool needLocation = 9;
+    public static final int NEEDLOCATION_FIELD_NUMBER = 9;
+    private boolean needLocation_;
+    /**
+     * <code>optional bool needLocation = 9;</code>
+     */
+    public boolean hasNeedLocation() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional bool needLocation = 9;</code>
+     */
+    public boolean getNeedLocation() {
+      return needLocation_;
     }
 
     private void initFields() {
@@ -519,7 +581,9 @@ public final class ReplicaUpcall {
       dst_ = "";
       recursive_ = false;
       masked_ = 0;
-      createparent_ = false;
+      createParent_ = false;
+      startAfter_ = com.google.protobuf.ByteString.EMPTY;
+      needLocation_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -556,7 +620,13 @@ public final class ReplicaUpcall {
         output.writeInt32(6, masked_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeBool(7, createparent_);
+        output.writeBool(7, createParent_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(8, startAfter_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBool(9, needLocation_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -593,7 +663,15 @@ public final class ReplicaUpcall {
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(7, createparent_);
+          .computeBoolSize(7, createParent_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, startAfter_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(9, needLocation_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -648,10 +726,20 @@ public final class ReplicaUpcall {
         result = result && (getMasked()
             == other.getMasked());
       }
-      result = result && (hasCreateparent() == other.hasCreateparent());
-      if (hasCreateparent()) {
-        result = result && (getCreateparent()
-            == other.getCreateparent());
+      result = result && (hasCreateParent() == other.hasCreateParent());
+      if (hasCreateParent()) {
+        result = result && (getCreateParent()
+            == other.getCreateParent());
+      }
+      result = result && (hasStartAfter() == other.hasStartAfter());
+      if (hasStartAfter()) {
+        result = result && getStartAfter()
+            .equals(other.getStartAfter());
+      }
+      result = result && (hasNeedLocation() == other.hasNeedLocation());
+      if (hasNeedLocation()) {
+        result = result && (getNeedLocation()
+            == other.getNeedLocation());
       }
       result = result &&
           getUnknownFields().equals(other.getUnknownFields());
@@ -690,9 +778,17 @@ public final class ReplicaUpcall {
         hash = (37 * hash) + MASKED_FIELD_NUMBER;
         hash = (53 * hash) + getMasked();
       }
-      if (hasCreateparent()) {
+      if (hasCreateParent()) {
         hash = (37 * hash) + CREATEPARENT_FIELD_NUMBER;
-        hash = (53 * hash) + hashBoolean(getCreateparent());
+        hash = (53 * hash) + hashBoolean(getCreateParent());
+      }
+      if (hasStartAfter()) {
+        hash = (37 * hash) + STARTAFTER_FIELD_NUMBER;
+        hash = (53 * hash) + getStartAfter().hashCode();
+      }
+      if (hasNeedLocation()) {
+        hash = (37 * hash) + NEEDLOCATION_FIELD_NUMBER;
+        hash = (53 * hash) + hashBoolean(getNeedLocation());
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -815,8 +911,12 @@ public final class ReplicaUpcall {
         bitField0_ = (bitField0_ & ~0x00000010);
         masked_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
-        createparent_ = false;
+        createParent_ = false;
         bitField0_ = (bitField0_ & ~0x00000040);
+        startAfter_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        needLocation_ = false;
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -872,7 +972,15 @@ public final class ReplicaUpcall {
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
         }
-        result.createparent_ = createparent_;
+        result.createParent_ = createParent_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.startAfter_ = startAfter_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.needLocation_ = needLocation_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -913,8 +1021,14 @@ public final class ReplicaUpcall {
         if (other.hasMasked()) {
           setMasked(other.getMasked());
         }
-        if (other.hasCreateparent()) {
-          setCreateparent(other.getCreateparent());
+        if (other.hasCreateParent()) {
+          setCreateParent(other.getCreateParent());
+        }
+        if (other.hasStartAfter()) {
+          setStartAfter(other.getStartAfter());
+        }
+        if (other.hasNeedLocation()) {
+          setNeedLocation(other.getNeedLocation());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1271,35 +1385,104 @@ public final class ReplicaUpcall {
         return this;
       }
 
-      // optional bool createparent = 7;
-      private boolean createparent_ ;
+      // optional bool createParent = 7;
+      private boolean createParent_ ;
       /**
-       * <code>optional bool createparent = 7;</code>
+       * <code>optional bool createParent = 7;</code>
        */
-      public boolean hasCreateparent() {
+      public boolean hasCreateParent() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
-       * <code>optional bool createparent = 7;</code>
+       * <code>optional bool createParent = 7;</code>
        */
-      public boolean getCreateparent() {
-        return createparent_;
+      public boolean getCreateParent() {
+        return createParent_;
       }
       /**
-       * <code>optional bool createparent = 7;</code>
+       * <code>optional bool createParent = 7;</code>
        */
-      public Builder setCreateparent(boolean value) {
+      public Builder setCreateParent(boolean value) {
         bitField0_ |= 0x00000040;
-        createparent_ = value;
+        createParent_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional bool createparent = 7;</code>
+       * <code>optional bool createParent = 7;</code>
        */
-      public Builder clearCreateparent() {
+      public Builder clearCreateParent() {
         bitField0_ = (bitField0_ & ~0x00000040);
-        createparent_ = false;
+        createParent_ = false;
+        onChanged();
+        return this;
+      }
+
+      // optional bytes startAfter = 8;
+      private com.google.protobuf.ByteString startAfter_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes startAfter = 8;</code>
+       */
+      public boolean hasStartAfter() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional bytes startAfter = 8;</code>
+       */
+      public com.google.protobuf.ByteString getStartAfter() {
+        return startAfter_;
+      }
+      /**
+       * <code>optional bytes startAfter = 8;</code>
+       */
+      public Builder setStartAfter(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        startAfter_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes startAfter = 8;</code>
+       */
+      public Builder clearStartAfter() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        startAfter_ = getDefaultInstance().getStartAfter();
+        onChanged();
+        return this;
+      }
+
+      // optional bool needLocation = 9;
+      private boolean needLocation_ ;
+      /**
+       * <code>optional bool needLocation = 9;</code>
+       */
+      public boolean hasNeedLocation() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional bool needLocation = 9;</code>
+       */
+      public boolean getNeedLocation() {
+        return needLocation_;
+      }
+      /**
+       * <code>optional bool needLocation = 9;</code>
+       */
+      public Builder setNeedLocation(boolean value) {
+        bitField0_ |= 0x00000100;
+        needLocation_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool needLocation = 9;</code>
+       */
+      public Builder clearNeedLocation() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        needLocation_ = false;
         onChanged();
         return this;
       }
@@ -1318,15 +1501,20 @@ public final class ReplicaUpcall {
   public interface ReplyOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional int32 exception = 1;
+    // optional string exception = 1;
     /**
-     * <code>optional int32 exception = 1;</code>
+     * <code>optional string exception = 1;</code>
      */
     boolean hasException();
     /**
-     * <code>optional int32 exception = 1;</code>
+     * <code>optional string exception = 1;</code>
      */
-    int getException();
+    java.lang.String getException();
+    /**
+     * <code>optional string exception = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getExceptionBytes();
 
     // optional bool success = 2;
     /**
@@ -1337,6 +1525,16 @@ public final class ReplicaUpcall {
      * <code>optional bool success = 2;</code>
      */
     boolean getSuccess();
+
+    // optional bytes directoryListing = 3;
+    /**
+     * <code>optional bytes directoryListing = 3;</code>
+     */
+    boolean hasDirectoryListing();
+    /**
+     * <code>optional bytes directoryListing = 3;</code>
+     */
+    com.google.protobuf.ByteString getDirectoryListing();
   }
   /**
    * Protobuf type {@code hadoop.hdfs.Reply}
@@ -1389,14 +1587,19 @@ public final class ReplicaUpcall {
               }
               break;
             }
-            case 8: {
+            case 10: {
               bitField0_ |= 0x00000001;
-              exception_ = input.readInt32();
+              exception_ = input.readBytes();
               break;
             }
             case 16: {
               bitField0_ |= 0x00000002;
               success_ = input.readBool();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              directoryListing_ = input.readBytes();
               break;
             }
           }
@@ -1439,20 +1642,47 @@ public final class ReplicaUpcall {
     }
 
     private int bitField0_;
-    // optional int32 exception = 1;
+    // optional string exception = 1;
     public static final int EXCEPTION_FIELD_NUMBER = 1;
-    private int exception_;
+    private java.lang.Object exception_;
     /**
-     * <code>optional int32 exception = 1;</code>
+     * <code>optional string exception = 1;</code>
      */
     public boolean hasException() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional int32 exception = 1;</code>
+     * <code>optional string exception = 1;</code>
      */
-    public int getException() {
-      return exception_;
+    public java.lang.String getException() {
+      java.lang.Object ref = exception_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          exception_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string exception = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExceptionBytes() {
+      java.lang.Object ref = exception_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        exception_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     // optional bool success = 2;
@@ -1471,9 +1701,26 @@ public final class ReplicaUpcall {
       return success_;
     }
 
+    // optional bytes directoryListing = 3;
+    public static final int DIRECTORYLISTING_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString directoryListing_;
+    /**
+     * <code>optional bytes directoryListing = 3;</code>
+     */
+    public boolean hasDirectoryListing() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes directoryListing = 3;</code>
+     */
+    public com.google.protobuf.ByteString getDirectoryListing() {
+      return directoryListing_;
+    }
+
     private void initFields() {
-      exception_ = 0;
+      exception_ = "";
       success_ = false;
+      directoryListing_ = com.google.protobuf.ByteString.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1488,10 +1735,13 @@ public final class ReplicaUpcall {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, exception_);
+        output.writeBytes(1, getExceptionBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, success_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, directoryListing_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1504,11 +1754,15 @@ public final class ReplicaUpcall {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, exception_);
+          .computeBytesSize(1, getExceptionBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, success_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, directoryListing_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1535,13 +1789,18 @@ public final class ReplicaUpcall {
       boolean result = true;
       result = result && (hasException() == other.hasException());
       if (hasException()) {
-        result = result && (getException()
-            == other.getException());
+        result = result && getException()
+            .equals(other.getException());
       }
       result = result && (hasSuccess() == other.hasSuccess());
       if (hasSuccess()) {
         result = result && (getSuccess()
             == other.getSuccess());
+      }
+      result = result && (hasDirectoryListing() == other.hasDirectoryListing());
+      if (hasDirectoryListing()) {
+        result = result && getDirectoryListing()
+            .equals(other.getDirectoryListing());
       }
       result = result &&
           getUnknownFields().equals(other.getUnknownFields());
@@ -1558,11 +1817,15 @@ public final class ReplicaUpcall {
       hash = (19 * hash) + getDescriptorForType().hashCode();
       if (hasException()) {
         hash = (37 * hash) + EXCEPTION_FIELD_NUMBER;
-        hash = (53 * hash) + getException();
+        hash = (53 * hash) + getException().hashCode();
       }
       if (hasSuccess()) {
         hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
         hash = (53 * hash) + hashBoolean(getSuccess());
+      }
+      if (hasDirectoryListing()) {
+        hash = (37 * hash) + DIRECTORYLISTING_FIELD_NUMBER;
+        hash = (53 * hash) + getDirectoryListing().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1673,10 +1936,12 @@ public final class ReplicaUpcall {
 
       public Builder clear() {
         super.clear();
-        exception_ = 0;
+        exception_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
         success_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
+        directoryListing_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1713,6 +1978,10 @@ public final class ReplicaUpcall {
           to_bitField0_ |= 0x00000002;
         }
         result.success_ = success_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.directoryListing_ = directoryListing_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1730,10 +1999,15 @@ public final class ReplicaUpcall {
       public Builder mergeFrom(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Reply other) {
         if (other == org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Reply.getDefaultInstance()) return this;
         if (other.hasException()) {
-          setException(other.getException());
+          bitField0_ |= 0x00000001;
+          exception_ = other.exception_;
+          onChanged();
         }
         if (other.hasSuccess()) {
           setSuccess(other.getSuccess());
+        }
+        if (other.hasDirectoryListing()) {
+          setDirectoryListing(other.getDirectoryListing());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1762,35 +2036,76 @@ public final class ReplicaUpcall {
       }
       private int bitField0_;
 
-      // optional int32 exception = 1;
-      private int exception_ ;
+      // optional string exception = 1;
+      private java.lang.Object exception_ = "";
       /**
-       * <code>optional int32 exception = 1;</code>
+       * <code>optional string exception = 1;</code>
        */
       public boolean hasException() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional int32 exception = 1;</code>
+       * <code>optional string exception = 1;</code>
        */
-      public int getException() {
-        return exception_;
+      public java.lang.String getException() {
+        java.lang.Object ref = exception_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          exception_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int32 exception = 1;</code>
+       * <code>optional string exception = 1;</code>
        */
-      public Builder setException(int value) {
-        bitField0_ |= 0x00000001;
+      public com.google.protobuf.ByteString
+          getExceptionBytes() {
+        java.lang.Object ref = exception_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          exception_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string exception = 1;</code>
+       */
+      public Builder setException(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
         exception_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 exception = 1;</code>
+       * <code>optional string exception = 1;</code>
        */
       public Builder clearException() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        exception_ = 0;
+        exception_ = getDefaultInstance().getException();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string exception = 1;</code>
+       */
+      public Builder setExceptionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        exception_ = value;
         onChanged();
         return this;
       }
@@ -1828,6 +2143,42 @@ public final class ReplicaUpcall {
         return this;
       }
 
+      // optional bytes directoryListing = 3;
+      private com.google.protobuf.ByteString directoryListing_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes directoryListing = 3;</code>
+       */
+      public boolean hasDirectoryListing() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bytes directoryListing = 3;</code>
+       */
+      public com.google.protobuf.ByteString getDirectoryListing() {
+        return directoryListing_;
+      }
+      /**
+       * <code>optional bytes directoryListing = 3;</code>
+       */
+      public Builder setDirectoryListing(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        directoryListing_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes directoryListing = 3;</code>
+       */
+      public Builder clearDirectoryListing() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        directoryListing_ = getDefaultInstance().getDirectoryListing();
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:hadoop.hdfs.Reply)
     }
 
@@ -1858,15 +2209,17 @@ public final class ReplicaUpcall {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023ReplicaUpcall.proto\022\013hadoop.hdfs\"\276\001\n\007R" +
+      "\n\023ReplicaUpcall.proto\022\013hadoop.hdfs\"\350\001\n\007R" +
       "equest\022*\n\002op\030\001 \002(\0162\036.hadoop.hdfs.Request" +
       ".Operation\022\014\n\004user\030\002 \001(\t\022\013\n\003src\030\003 \001(\t\022\013\n" +
       "\003dst\030\004 \001(\t\022\021\n\trecursive\030\005 \001(\010\022\016\n\006masked\030" +
-      "\006 \001(\005\022\024\n\014createparent\030\007 \001(\010\"&\n\tOperation" +
-      "\022\t\n\005MKDIR\020\001\022\006\n\002RM\020\002\022\006\n\002LS\020\003\"+\n\005Reply\022\021\n\t" +
-      "exception\030\001 \001(\005\022\017\n\007success\030\002 \001(\010B?\n+org." +
-      "apache.hadoop.hdfs.server.namenode.specB" +
-      "\rReplicaUpcall\240\001\001"
+      "\006 \001(\005\022\024\n\014createParent\030\007 \001(\010\022\022\n\nstartAfte" +
+      "r\030\010 \001(\014\022\024\n\014needLocation\030\t \001(\010\"&\n\tOperati" +
+      "on\022\t\n\005MKDIR\020\001\022\006\n\002RM\020\002\022\006\n\002LS\020\003\"E\n\005Reply\022\021" +
+      "\n\texception\030\001 \001(\t\022\017\n\007success\030\002 \001(\010\022\030\n\020di" +
+      "rectoryListing\030\003 \001(\014B?\n+org.apache.hadoo" +
+      "p.hdfs.server.namenode.specB\rReplicaUpca",
+      "ll\240\001\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1878,13 +2231,13 @@ public final class ReplicaUpcall {
           internal_static_hadoop_hdfs_Request_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hadoop_hdfs_Request_descriptor,
-              new java.lang.String[] { "Op", "User", "Src", "Dst", "Recursive", "Masked", "Createparent", });
+              new java.lang.String[] { "Op", "User", "Src", "Dst", "Recursive", "Masked", "CreateParent", "StartAfter", "NeedLocation", });
           internal_static_hadoop_hdfs_Reply_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_hadoop_hdfs_Reply_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hadoop_hdfs_Reply_descriptor,
-              new java.lang.String[] { "Exception", "Success", });
+              new java.lang.String[] { "Exception", "Success", "DirectoryListing", });
           return null;
         }
       };
