@@ -3061,7 +3061,7 @@ public class FSNamesystem implements Namesystem, FSClusterStats,
    * @see ClientProtocol#delete(String, boolean) for detailed description and 
    * description of exceptions
    */
-  boolean delete(String src, boolean recursive)
+  public boolean delete(String src, boolean recursive)
       throws AccessControlException, SafeModeException,
       UnresolvedLinkException, IOException {
     CacheEntry cacheEntry = RetryCache.waitForCompletion(retryCache);

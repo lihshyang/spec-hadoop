@@ -1318,44 +1318,25 @@ public final class ReplicaUpcall {
   public interface ReplyOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 status = 1;
+    // optional int32 exception = 1;
     /**
-     * <code>required int32 status = 1;</code>
-     *
-     * <pre>
-     * 0 = OK
-     * -1 = failed
-     * -2 = retry
-     * -3 = abstain/no reply
-     * </pre>
+     * <code>optional int32 exception = 1;</code>
      */
-    boolean hasStatus();
+    boolean hasException();
     /**
-     * <code>required int32 status = 1;</code>
-     *
-     * <pre>
-     * 0 = OK
-     * -1 = failed
-     * -2 = retry
-     * -3 = abstain/no reply
-     * </pre>
+     * <code>optional int32 exception = 1;</code>
      */
-    int getStatus();
+    int getException();
 
-    // optional string value = 2;
+    // optional bool success = 2;
     /**
-     * <code>optional string value = 2;</code>
+     * <code>optional bool success = 2;</code>
      */
-    boolean hasValue();
+    boolean hasSuccess();
     /**
-     * <code>optional string value = 2;</code>
+     * <code>optional bool success = 2;</code>
      */
-    java.lang.String getValue();
-    /**
-     * <code>optional string value = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getValueBytes();
+    boolean getSuccess();
   }
   /**
    * Protobuf type {@code hadoop.hdfs.Reply}
@@ -1410,12 +1391,12 @@ public final class ReplicaUpcall {
             }
             case 8: {
               bitField0_ |= 0x00000001;
-              status_ = input.readInt32();
+              exception_ = input.readInt32();
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
-              value_ = input.readBytes();
+              success_ = input.readBool();
               break;
             }
           }
@@ -1458,92 +1439,47 @@ public final class ReplicaUpcall {
     }
 
     private int bitField0_;
-    // required int32 status = 1;
-    public static final int STATUS_FIELD_NUMBER = 1;
-    private int status_;
+    // optional int32 exception = 1;
+    public static final int EXCEPTION_FIELD_NUMBER = 1;
+    private int exception_;
     /**
-     * <code>required int32 status = 1;</code>
-     *
-     * <pre>
-     * 0 = OK
-     * -1 = failed
-     * -2 = retry
-     * -3 = abstain/no reply
-     * </pre>
+     * <code>optional int32 exception = 1;</code>
      */
-    public boolean hasStatus() {
+    public boolean hasException() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 status = 1;</code>
-     *
-     * <pre>
-     * 0 = OK
-     * -1 = failed
-     * -2 = retry
-     * -3 = abstain/no reply
-     * </pre>
+     * <code>optional int32 exception = 1;</code>
      */
-    public int getStatus() {
-      return status_;
+    public int getException() {
+      return exception_;
     }
 
-    // optional string value = 2;
-    public static final int VALUE_FIELD_NUMBER = 2;
-    private java.lang.Object value_;
+    // optional bool success = 2;
+    public static final int SUCCESS_FIELD_NUMBER = 2;
+    private boolean success_;
     /**
-     * <code>optional string value = 2;</code>
+     * <code>optional bool success = 2;</code>
      */
-    public boolean hasValue() {
+    public boolean hasSuccess() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional string value = 2;</code>
+     * <code>optional bool success = 2;</code>
      */
-    public java.lang.String getValue() {
-      java.lang.Object ref = value_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          value_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string value = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getValueBytes() {
-      java.lang.Object ref = value_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        value_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public boolean getSuccess() {
+      return success_;
     }
 
     private void initFields() {
-      status_ = 0;
-      value_ = "";
+      exception_ = 0;
+      success_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasStatus()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1552,10 +1488,10 @@ public final class ReplicaUpcall {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt32(1, status_);
+        output.writeInt32(1, exception_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getValueBytes());
+        output.writeBool(2, success_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1568,11 +1504,11 @@ public final class ReplicaUpcall {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(1, status_);
+          .computeInt32Size(1, exception_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getValueBytes());
+          .computeBoolSize(2, success_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1597,15 +1533,15 @@ public final class ReplicaUpcall {
       org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Reply other = (org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Reply) obj;
 
       boolean result = true;
-      result = result && (hasStatus() == other.hasStatus());
-      if (hasStatus()) {
-        result = result && (getStatus()
-            == other.getStatus());
+      result = result && (hasException() == other.hasException());
+      if (hasException()) {
+        result = result && (getException()
+            == other.getException());
       }
-      result = result && (hasValue() == other.hasValue());
-      if (hasValue()) {
-        result = result && getValue()
-            .equals(other.getValue());
+      result = result && (hasSuccess() == other.hasSuccess());
+      if (hasSuccess()) {
+        result = result && (getSuccess()
+            == other.getSuccess());
       }
       result = result &&
           getUnknownFields().equals(other.getUnknownFields());
@@ -1620,13 +1556,13 @@ public final class ReplicaUpcall {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasStatus()) {
-        hash = (37 * hash) + STATUS_FIELD_NUMBER;
-        hash = (53 * hash) + getStatus();
+      if (hasException()) {
+        hash = (37 * hash) + EXCEPTION_FIELD_NUMBER;
+        hash = (53 * hash) + getException();
       }
-      if (hasValue()) {
-        hash = (37 * hash) + VALUE_FIELD_NUMBER;
-        hash = (53 * hash) + getValue().hashCode();
+      if (hasSuccess()) {
+        hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
+        hash = (53 * hash) + hashBoolean(getSuccess());
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1737,9 +1673,9 @@ public final class ReplicaUpcall {
 
       public Builder clear() {
         super.clear();
-        status_ = 0;
+        exception_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        value_ = "";
+        success_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -1772,11 +1708,11 @@ public final class ReplicaUpcall {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.status_ = status_;
+        result.exception_ = exception_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.value_ = value_;
+        result.success_ = success_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1793,23 +1729,17 @@ public final class ReplicaUpcall {
 
       public Builder mergeFrom(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Reply other) {
         if (other == org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Reply.getDefaultInstance()) return this;
-        if (other.hasStatus()) {
-          setStatus(other.getStatus());
+        if (other.hasException()) {
+          setException(other.getException());
         }
-        if (other.hasValue()) {
-          bitField0_ |= 0x00000002;
-          value_ = other.value_;
-          onChanged();
+        if (other.hasSuccess()) {
+          setSuccess(other.getSuccess());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasStatus()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -1832,137 +1762,68 @@ public final class ReplicaUpcall {
       }
       private int bitField0_;
 
-      // required int32 status = 1;
-      private int status_ ;
+      // optional int32 exception = 1;
+      private int exception_ ;
       /**
-       * <code>required int32 status = 1;</code>
-       *
-       * <pre>
-       * 0 = OK
-       * -1 = failed
-       * -2 = retry
-       * -3 = abstain/no reply
-       * </pre>
+       * <code>optional int32 exception = 1;</code>
        */
-      public boolean hasStatus() {
+      public boolean hasException() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 status = 1;</code>
-       *
-       * <pre>
-       * 0 = OK
-       * -1 = failed
-       * -2 = retry
-       * -3 = abstain/no reply
-       * </pre>
+       * <code>optional int32 exception = 1;</code>
        */
-      public int getStatus() {
-        return status_;
+      public int getException() {
+        return exception_;
       }
       /**
-       * <code>required int32 status = 1;</code>
-       *
-       * <pre>
-       * 0 = OK
-       * -1 = failed
-       * -2 = retry
-       * -3 = abstain/no reply
-       * </pre>
+       * <code>optional int32 exception = 1;</code>
        */
-      public Builder setStatus(int value) {
+      public Builder setException(int value) {
         bitField0_ |= 0x00000001;
-        status_ = value;
+        exception_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 status = 1;</code>
-       *
-       * <pre>
-       * 0 = OK
-       * -1 = failed
-       * -2 = retry
-       * -3 = abstain/no reply
-       * </pre>
+       * <code>optional int32 exception = 1;</code>
        */
-      public Builder clearStatus() {
+      public Builder clearException() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        status_ = 0;
+        exception_ = 0;
         onChanged();
         return this;
       }
 
-      // optional string value = 2;
-      private java.lang.Object value_ = "";
+      // optional bool success = 2;
+      private boolean success_ ;
       /**
-       * <code>optional string value = 2;</code>
+       * <code>optional bool success = 2;</code>
        */
-      public boolean hasValue() {
+      public boolean hasSuccess() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string value = 2;</code>
+       * <code>optional bool success = 2;</code>
        */
-      public java.lang.String getValue() {
-        java.lang.Object ref = value_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          value_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public boolean getSuccess() {
+        return success_;
       }
       /**
-       * <code>optional string value = 2;</code>
+       * <code>optional bool success = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getValueBytes() {
-        java.lang.Object ref = value_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          value_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string value = 2;</code>
-       */
-      public Builder setValue(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        value_ = value;
+      public Builder setSuccess(boolean value) {
+        bitField0_ |= 0x00000002;
+        success_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string value = 2;</code>
+       * <code>optional bool success = 2;</code>
        */
-      public Builder clearValue() {
+      public Builder clearSuccess() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        value_ = getDefaultInstance().getValue();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string value = 2;</code>
-       */
-      public Builder setValueBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        value_ = value;
+        success_ = false;
         onChanged();
         return this;
       }
@@ -2002,10 +1863,10 @@ public final class ReplicaUpcall {
       ".Operation\022\014\n\004user\030\002 \001(\t\022\013\n\003src\030\003 \001(\t\022\013\n" +
       "\003dst\030\004 \001(\t\022\021\n\trecursive\030\005 \001(\010\022\016\n\006masked\030" +
       "\006 \001(\005\022\024\n\014createparent\030\007 \001(\010\"&\n\tOperation" +
-      "\022\t\n\005MKDIR\020\001\022\006\n\002RM\020\002\022\006\n\002LS\020\003\"&\n\005Reply\022\016\n\006" +
-      "status\030\001 \002(\005\022\r\n\005value\030\002 \001(\tB?\n+org.apach" +
-      "e.hadoop.hdfs.server.namenode.specB\rRepl" +
-      "icaUpcall\240\001\001"
+      "\022\t\n\005MKDIR\020\001\022\006\n\002RM\020\002\022\006\n\002LS\020\003\"+\n\005Reply\022\021\n\t" +
+      "exception\030\001 \001(\005\022\017\n\007success\030\002 \001(\010B?\n+org." +
+      "apache.hadoop.hdfs.server.namenode.specB" +
+      "\rReplicaUpcall\240\001\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2023,7 +1884,7 @@ public final class ReplicaUpcall {
           internal_static_hadoop_hdfs_Reply_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hadoop_hdfs_Reply_descriptor,
-              new java.lang.String[] { "Status", "Value", });
+              new java.lang.String[] { "Exception", "Success", });
           return null;
         }
       };

@@ -68,6 +68,7 @@ import org.apache.hadoop.hdfs.server.namenode.snapshot.INodeDirectorySnapshottab
 import org.apache.hadoop.hdfs.server.namenode.snapshot.INodeDirectoryWithSnapshot;
 import org.apache.hadoop.hdfs.server.namenode.snapshot.Snapshot;
 import org.apache.hadoop.hdfs.server.namenode.snapshot.Snapshot.Root;
+import org.apache.hadoop.hdfs.server.namenode.spec.UpcallLog;
 import org.apache.hadoop.hdfs.util.ByteArray;
 import org.apache.hadoop.hdfs.util.ReadOnlyList;
 
@@ -1359,7 +1360,7 @@ public class FSDirectory implements Closeable {
    * @param mtime the time the inode is removed
    * @throws SnapshotAccessControlException if path is in RO snapshot
    */ 
-  public void unprotectedDelete(String src, long mtime) throws UnresolvedLinkException,
+  void unprotectedDelete(String src, long mtime) throws UnresolvedLinkException,
       QuotaExceededException, SnapshotAccessControlException {
     assert hasWriteLock();
     BlocksMapUpdateInfo collectedBlocks = new BlocksMapUpdateInfo();
@@ -1965,6 +1966,7 @@ public class FSDirectory implements Closeable {
           NameNode.getNameNodeMetrics().incrFilesCreated();
 
         final String cur = pathbuilder.toString();
+        UpcallLog.getCurrentOpLog().append(new UpcallLog.LogRecord.MkdirRecord(cur));
         fsImage.getEditLog().logMkDir(cur, inodes[i]);
         if(NameNode.stateChangeLog.isDebugEnabled()) {
           NameNode.stateChangeLog.debug(

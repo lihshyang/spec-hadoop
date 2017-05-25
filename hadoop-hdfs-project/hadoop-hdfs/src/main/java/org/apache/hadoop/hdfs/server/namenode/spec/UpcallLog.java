@@ -1,11 +1,16 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.fs.UnresolvedLinkException;
 import org.apache.hadoop.hdfs.protocol.QuotaExceededException;
 import org.apache.hadoop.hdfs.protocol.SnapshotAccessControlException;
 import org.apache.hadoop.hdfs.server.namenode.NameNode;
+import org.apache.hadoop.hdfs.server.namenode.SafeModeException;
+import org.apache.hadoop.security.AccessControlException;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -16,13 +21,24 @@ import static org.apache.hadoop.util.Time.now;
  * Created by aolx on 5/23/17.
  */
 public class UpcallLog {
+    public static final Log LOG = LogFactory.getLog(UpcallLog.class.getName());
+
     private static NameNode nn;
+
+    public long getOpNum() {
+        return opNum;
+    }
+
     private long opNum;
     private Queue<LogRecord> records;
 
-    public void init(NameNode nn) {
+    static volatile UpcallLog currentOpLog;
+
+    public static void setNn(NameNode nn) {
         UpcallLog.nn = nn;
     }
+
+    public static UpcallLog getCurrentOpLog() { return currentOpLog; }
 
     public UpcallLog(long opNum) {
         this.opNum = opNum;
@@ -36,6 +52,7 @@ public class UpcallLog {
     public boolean undo() {
         for (LogRecord r: records) {
             if (!r.undo()) {
+                LOG.warn("undoing: " + r + " unsuccessful");
                 return false;
             }
         }
@@ -55,9 +72,7 @@ public class UpcallLog {
             @Override
             boolean undo() {
                 try {
-                    nn.getNamesystem().getFSDirectory().writeLock();
-                    nn.getNamesystem().getFSDirectory().unprotectedDelete(dir, now());
-                    nn.getNamesystem().getFSDirectory().writeUnlock();
+                    return nn.getNamesystem().delete(dir, false);
                 } catch (UnresolvedLinkException e) {
                     e.printStackTrace();
                     return false;
@@ -67,8 +82,21 @@ public class UpcallLog {
                 } catch (SnapshotAccessControlException e) {
                     e.printStackTrace();
                     return false;
+                } catch (SafeModeException e) {
+                    e.printStackTrace();
+                    return false;
+                } catch (AccessControlException e) {
+                    e.printStackTrace();
+                    return false;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
                 }
-                return true;
+            }
+
+            @Override
+            public String toString(){
+                return "mkdir: "+dir;
             }
         }
     }

@@ -58,6 +58,7 @@ import org.apache.hadoop.hdfs.server.namenode.ha.HAState;
 import org.apache.hadoop.hdfs.server.namenode.ha.StandbyState;
 import org.apache.hadoop.hdfs.server.namenode.metrics.NameNodeMetrics;
 import org.apache.hadoop.hdfs.server.namenode.spec.NameNodeSpecServer;
+import org.apache.hadoop.hdfs.server.namenode.spec.UpcallLog;
 import org.apache.hadoop.hdfs.server.namenode.startupprogress.StartupProgress;
 import org.apache.hadoop.hdfs.server.namenode.startupprogress.StartupProgressMetrics;
 import org.apache.hadoop.hdfs.server.protocol.DatanodeProtocol;
@@ -246,7 +247,6 @@ public class NameNode {
   private final HAContext haContext;
   protected boolean allowStaleStandbyReads;
 
-  
   /** httpServer */
   protected NameNodeHttpServer httpServer;
   private Thread emptier;
