@@ -17,6 +17,7 @@
  */
 package org.apache.hadoop.hdfs.protocol;
 
+import java.io.Serializable;
 import java.net.URI;
 
 import org.apache.hadoop.classification.InterfaceAudience;
@@ -30,7 +31,7 @@ import org.apache.hadoop.hdfs.DFSUtil;
  */
 @InterfaceAudience.Private
 @InterfaceStability.Evolving
-public class HdfsFileStatus {
+public class HdfsFileStatus implements Serializable{
 
   private byte[] path;  // local name of the inode that's encoded in java UTF8
   private byte[] symlink; // symlink target encoded in java UTF8 or null
@@ -40,7 +41,8 @@ public class HdfsFileStatus {
   private long blocksize;
   private long modification_time;
   private long access_time;
-  private FsPermission permission;
+  private transient FsPermission permission;
+  public short permissionInShort;
   private String owner;
   private String group;
   private long fileId;
@@ -93,6 +95,10 @@ public class HdfsFileStatus {
   final public void voidTimestamps() {
     this.access_time = 0;
     this.modification_time = 0;
+  }
+
+  final public void setPermission(FsPermission permission) {
+    this.permission = permission;
   }
 
   /**

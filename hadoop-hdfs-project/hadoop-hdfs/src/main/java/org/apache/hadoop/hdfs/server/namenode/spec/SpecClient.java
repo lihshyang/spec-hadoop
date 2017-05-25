@@ -130,7 +130,11 @@ public class SpecClient implements ClientProtocol {
     if (reply.hasException()) {
       throw new IOException(reply.getException());
     }
-    return (DirectoryListing) SerializationUtils.deserialize(reply.getDirectoryListing().toByteArray());
+    DirectoryListing dl = (DirectoryListing) SerializationUtils.deserialize(reply.getDirectoryListing().toByteArray());
+    for (HdfsFileStatus status: dl.getPartialListing()) {
+      status.setPermission(new FsPermission(status.permissionInShort));
+    }
+    return dl;
   }
 
   @Override

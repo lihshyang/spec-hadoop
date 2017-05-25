@@ -81,6 +81,7 @@ public class NameNodeSpecServer {
           DirectoryListing result = rpcServer.getListing(req.getSrc(), req.getStartAfter().toByteArray(), req.getNeedLocation());
           for (HdfsFileStatus status: result.getPartialListing()) {
             status.voidTimestamps();
+            status.permissionInShort = status.getPermission().toShort();
           }
           return ReplicaUpcall.Reply.newBuilder().setDirectoryListing(ByteString.
               copyFrom(SerializationUtils.serialize(result))).build().toByteArray(); // TODO need to check if serializing works
