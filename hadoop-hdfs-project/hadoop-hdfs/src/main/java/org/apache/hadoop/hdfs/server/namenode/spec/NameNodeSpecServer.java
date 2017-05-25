@@ -94,6 +94,7 @@ public class NameNodeSpecServer {
         log = new UpcallLog(opnum);
         upcallLogs.add(log);
         try {
+          UpcallLog.getUpcallLogLock().lock();
           UpcallLog.currentOpLog = log;
           boolean result = rpcServer.mkdirs(req.getSrc(), new FsPermission((short) req.getMasked()), req.getCreateParent());
           return ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray();
@@ -102,12 +103,14 @@ public class NameNodeSpecServer {
           return ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray();
         } finally {
           UpcallLog.currentOpLog = null;
+          UpcallLog.getUpcallLogLock().unlock();
         }
 
       case RM:
         log = new UpcallLog(opnum);
         upcallLogs.add(log);
         try {
+          UpcallLog.getUpcallLogLock().lock();
           UpcallLog.currentOpLog = log;
           boolean result = rpcServer.delete(req.getSrc(), req.getRecursive());
           return ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray();
@@ -116,6 +119,7 @@ public class NameNodeSpecServer {
           return ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray();
         } finally {
           UpcallLog.currentOpLog = null;
+          UpcallLog.getUpcallLogLock().unlock();
         }
 
       default:

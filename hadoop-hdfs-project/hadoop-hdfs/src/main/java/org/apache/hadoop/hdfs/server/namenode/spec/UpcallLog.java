@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static org.apache.hadoop.util.Time.now;
 
@@ -33,10 +35,15 @@ public class UpcallLog {
     private long opNum;
     private Queue<LogRecord> records;
 
+    static volatile ReentrantLock upcallLogLock = new ReentrantLock();
     static volatile UpcallLog currentOpLog;
 
     public static void setNn(NameNode nn) {
         UpcallLog.nn = nn;
+    }
+
+    public static ReentrantLock getUpcallLogLock() {
+        return upcallLogLock;
     }
 
     public static UpcallLog getCurrentOpLog() { return currentOpLog; }

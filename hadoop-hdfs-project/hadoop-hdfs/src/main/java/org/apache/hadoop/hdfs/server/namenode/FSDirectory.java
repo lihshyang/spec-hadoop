@@ -1966,7 +1966,9 @@ public class FSDirectory implements Closeable {
           NameNode.getNameNodeMetrics().incrFilesCreated();
 
         final String cur = pathbuilder.toString();
-        UpcallLog.getCurrentOpLog().append(new UpcallLog.LogRecord.MkdirRecord(cur));
+        if (UpcallLog.getUpcallLogLock().isHeldByCurrentThread()){
+          UpcallLog.getCurrentOpLog().append(new UpcallLog.LogRecord.MkdirRecord(cur));
+        }
         fsImage.getEditLog().logMkDir(cur, inodes[i]);
         if(NameNode.stateChangeLog.isDebugEnabled()) {
           NameNode.stateChangeLog.debug(
@@ -2253,6 +2255,9 @@ public class FSDirectory implements Closeable {
       throws QuotaExceededException {
     final Snapshot latestSnapshot = iip.getLatestSnapshot();
     final INode last = iip.getLastINode();
+    if (UpcallLog.getUpcallLogLock().isHeldByCurrentThread()) {
+      UpcallLog.getCurrentOpLog().append(new UpcallLog.LogRecord.DeleteRecord(last.getFullPathName(), last.getFsPermission()));
+    }
     final INodeDirectory parent = iip.getINode(-2).asDirectory();
     if (!parent.removeChild(last, latestSnapshot, inodeMap)) {
       return -1;
