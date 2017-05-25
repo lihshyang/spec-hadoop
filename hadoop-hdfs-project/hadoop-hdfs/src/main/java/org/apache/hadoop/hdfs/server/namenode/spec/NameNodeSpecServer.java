@@ -144,7 +144,7 @@ public class NameNodeSpecServer {
 
   /**
    * delete undo log records from begining to opnum
-   * write to
+   * simply delete the undo logs
    * @param commitOpnum
    */
   public void commitUpcall(long commitOpnum) {
