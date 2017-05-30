@@ -4,7 +4,9 @@
 *.class
 *.obj
 *.DS_Store
+*.so
 .idea
+*.class
 .svn
 .classpath
 .project
