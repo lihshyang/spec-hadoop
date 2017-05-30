@@ -1,29 +1,21 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.TextFormat;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.UnresolvedLinkException;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.protocol.DirectoryListing;
 import org.apache.hadoop.hdfs.protocol.HdfsFileStatus;
-import org.apache.hadoop.hdfs.protocol.SnapshotAccessControlException;
-import org.apache.hadoop.hdfs.protocolPB.PBHelper;
 import org.apache.hadoop.hdfs.server.namenode.FSDirectory;
 import org.apache.hadoop.hdfs.server.namenode.FSNamesystem;
 import org.apache.hadoop.hdfs.server.namenode.NameNode;
-import org.apache.hadoop.hdfs.server.namenode.SafeModeException;
 import org.apache.hadoop.hdfs.server.protocol.NamenodeProtocols;
-import org.apache.hadoop.security.AccessControlException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 public class NameNodeSpecServer {
   private static final Log LOG = NameNode.LOG;
@@ -63,15 +55,18 @@ public class NameNodeSpecServer {
    * @param param marshaled parameters
    * @return marshaled return value
    */
-  public byte[] replicaUpcall(long opnum, byte[] param) {
-    ReplicaUpcall.Request req;
+  public String replicaUpcall(long opnum, String param) {
+    ReplicaUpcall.Request req = null;
     UpcallLog log;
 
     try {
-      req = ReplicaUpcall.Request.parseFrom(param);
-    } catch (InvalidProtocolBufferException e) {
+      ReplicaUpcall.Request.Builder builder = ReplicaUpcall.Request.newBuilder();
+      TextFormat.merge(param, builder);
+      req = builder.build();
+    } catch (TextFormat.ParseException e) {
+      LOG.error("cannot parse parameters");
       e.printStackTrace();
-      return ReplicaUpcall.Reply.newBuilder().setException("InvalidProtocolBuffer").build().toByteArray();
+      return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
     }
 
     switch (req.getOp()) {
@@ -83,11 +78,11 @@ public class NameNodeSpecServer {
             status.voidTimestamps();
             status.permissionInShort = status.getPermission().toShort();
           }
-          return ReplicaUpcall.Reply.newBuilder().setDirectoryListing(ByteString.
-              copyFrom(SerializationUtils.serialize(result))).build().toByteArray(); // TODO need to check if serializing works
+          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setDirectoryListing(ByteString.
+              copyFrom(SerializationUtils.serialize(result)))); // TODO need to check if serializing works
         } catch (IOException e) {
           e.printStackTrace();
-          return ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray();
+          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
         }
 
       case MKDIR:
@@ -97,10 +92,10 @@ public class NameNodeSpecServer {
           UpcallLog.getUpcallLogLock().lock();
           UpcallLog.currentOpLog = log;
           boolean result = rpcServer.mkdirs(req.getSrc(), new FsPermission((short) req.getMasked()), req.getCreateParent());
-          return ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray();
+          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setSuccess(result));
         } catch (IOException e) {
           e.printStackTrace();
-          return ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray();
+          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
         } finally {
           UpcallLog.currentOpLog = null;
           UpcallLog.getUpcallLogLock().unlock();
@@ -113,10 +108,10 @@ public class NameNodeSpecServer {
           UpcallLog.getUpcallLogLock().lock();
           UpcallLog.currentOpLog = log;
           boolean result = rpcServer.delete(req.getSrc(), req.getRecursive());
-          return ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray();
+          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setSuccess(result));
         } catch (IOException e) {
           e.printStackTrace();
-          return ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray();
+          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
         } finally {
           UpcallLog.currentOpLog = null;
           UpcallLog.getUpcallLogLock().unlock();
@@ -124,7 +119,7 @@ public class NameNodeSpecServer {
 
       default:
         LOG.error("unknown op");
-        return ReplicaUpcall.Reply.newBuilder().setException("unknown op").build().toByteArray();
+        return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException("unknown op"));
     }
 
   }
