@@ -56,7 +56,7 @@ override LDFLAGS += -lprofiler
 endif
 
 # Make sure all is the default
-.DEFAULT_GOAL := all
+#.DEFAULT_GOAL := all
 
 # Eliminate default suffix rules
 .SUFFIXES:
@@ -154,7 +154,8 @@ $(PROTOSRCS) : .obj/gen/%.pb.cc: %.proto
 	$(call trace,PROTOC,$^,$(PROTOC) --cpp_out=.obj/gen $^)
 $(PROTOOBJS): .obj/%.o: .obj/gen/%.pb.cc
 	$(call compilecxx,CC,)
-
+$(PROTOOBJS:%.o=%-pic.o): .obj/%-pic.o: .obj/gen/%.pb.cc
+	$(call compilecxx,CCPIC,-fPIC)
 #
 # Compilation
 #
@@ -187,6 +188,12 @@ endef
 # position-independent.  PIC objects end in -pic.o instead of just .o.
 # Link targets that build shared objects must depend on the -pic.o
 # versions.
+
+.PHONY: compileso
+compileso: $(OBJS:%.o=%-pic.o)
+.PHONY: compileobj
+compileobj: $(OBJS)
+
 $(OBJS): .obj/%.o: %.cc $(PROTOSRCS)
 	$(call compilecxx,CC,)
 
@@ -195,11 +202,24 @@ $(OBJS:%.o=%-pic.o): .obj/%-pic.o: %.cc
 #
 # Linking
 #
-
 $(call add-LDFLAGS,$(TEST_BINS),$(CHECK_LDFLAGS))
 
+.PHONY: link
 $(BINS) $(TEST_BINS): %:
 	$(call trace,LD,$@,$(LD) -o $@ $^ $(LDFLAGS) $(LDFLAGS-$@))
+finalTarget := ../java/org/apache/hadoop/hdfs/server/namenode/spec/libspecServer.so
+
+.PHONY: finalLib
+finalLib: $(finalTarget)
+
+$(finalTarget): .obj/timeserver/specServer-pic.o $(OBJS-fastpaxos-replica:%.o=%-pic.o) \
+  $(OBJS-spec-replica:%.o=%-pic.o) $(OBJS-vr-replica:%.o=%-pic.o) $(LIB-udptransport:%.o=%-pic.o)
+	$(call trace,LD,$@,$(LD) -o $@ -shared $^ $(LDFLAGS) $(LDFLAGS-$@))
+#$(BINS) $(TEST_BINS): %:
+#	$(call trace,LD,$@,$(LD) -o $@ $^ $(LDFLAGS) $(LDFLAGS-$@))
+#$(BINS)
+#	$(call trace,LD,$@,$(LD) -o $@ -shared $^ $(LDFLAGS) $(LDFLAGS-$@))
+
 
 #
 # Automatic dependencies
@@ -212,17 +232,17 @@ DEPS := $(OBJS:.o=.d) $(OBJS:.o=-pic.d)
 #
 # Testing
 #
-GTEST_INTERNAL_SRCS := $(wildcard $(GTEST_DIR)/src/*.cc)
-GTEST_OBJS := $(patsubst %.cc,.obj/gtest/%.o,$(notdir $(GTEST_INTERNAL_SRCS)))
+#GTEST_INTERNAL_SRCS := $(wildcard $(GTEST_DIR)/src/*.cc)
+#GTEST_OBJS := $(patsubst %.cc,.obj/gtest/%.o,$(notdir $(GTEST_INTERNAL_SRCS)))
 
-$(GTEST_OBJS): .obj/gtest/%.o: $(GTEST_DIR)/src/%.cc
-	$(call compilecxx,CC,-I$(GTEST_DIR) -Wno-missing-field-initializers)
+#$(GTEST_OBJS): .obj/gtest/%.o: $(GTEST_DIR)/src/%.cc
+#	$(call compilecxx,CC,-I$(GTEST_DIR) -Wno-missing-field-initializers)
 
-$(GTEST) : .obj/gtest/gtest-all.o
-	$(call trace,AR,$@,$(AR) $(ARFLAGS) $@ $^)
+#$(GTEST) : .obj/gtest/gtest-all.o
+#	$(call trace,AR,$@,$(AR) $(ARFLAGS) $@ $^)
 
-$(GTEST_MAIN) : .obj/gtest/gtest-all.o .obj/gtest/gtest_main.o
-	$(call trace,AR,$@,$(AR) $(ARFLAGS) $@ $^)
+#$(GTEST_MAIN) : .obj/gtest/gtest-all.o .obj/gtest/gtest_main.o
+#	$(call trace,AR,$@,$(AR) $(ARFLAGS) $@ $^)
 
 #
 # Cleaning
