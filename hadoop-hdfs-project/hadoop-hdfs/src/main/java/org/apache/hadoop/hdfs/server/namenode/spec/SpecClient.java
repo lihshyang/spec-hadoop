@@ -1,6 +1,7 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.TextFormat;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -99,10 +100,13 @@ public class SpecClient implements ClientProtocol {
 
   @Override
   public boolean delete(String src, boolean recursive) throws AccessControlException, FileNotFoundException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
-    ReplicaUpcall.Request req = ReplicaUpcall.Request.newBuilder().setSrc(src).
-        setRecursive(recursive).build();
+    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
+        setRecursive(recursive);
     // call specpaxos
-    ReplicaUpcall.Reply reply = ReplicaUpcall.Reply.parseFrom();
+    String result = ... TextFormat.printToString(req);
+    ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
+    TextFormat.merge(result, repBuilder);
+    ReplicaUpcall.Reply reply = repBuilder.build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
     }
@@ -111,10 +115,13 @@ public class SpecClient implements ClientProtocol {
 
   @Override
   public boolean mkdirs(String src, FsPermission masked, boolean createParent) throws AccessControlException, FileAlreadyExistsException, FileNotFoundException, NSQuotaExceededException, ParentNotDirectoryException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
-    ReplicaUpcall.Request req = ReplicaUpcall.Request.newBuilder().setSrc(src).
-        setMasked(masked.toShort()).setCreateParent(createParent).build();
+    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
+        setMasked(masked.toShort()).setCreateParent(createParent);
     // call specpaxos
-    ReplicaUpcall.Reply reply = ReplicaUpcall.Reply.parseFrom();
+    String result = ... TextFormat.printToString(req);
+    ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
+    TextFormat.merge(result, repBuilder);
+    ReplicaUpcall.Reply reply = repBuilder.build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
     }
@@ -123,10 +130,13 @@ public class SpecClient implements ClientProtocol {
 
   @Override
   public DirectoryListing getListing(String src, byte[] startAfter, boolean needLocation) throws AccessControlException, FileNotFoundException, UnresolvedLinkException, IOException {
-    ReplicaUpcall.Request req = ReplicaUpcall.Request.newBuilder().setSrc(src).
-        setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation).build();
+    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
+        setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation);
     // call specpaxos
-    ReplicaUpcall.Reply reply = ReplicaUpcall.Reply.parseFrom();
+    String result = ... TextFormat.printToString(req);
+    ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
+    TextFormat.merge(result, repBuilder);
+    ReplicaUpcall.Reply reply = repBuilder.build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
     }
