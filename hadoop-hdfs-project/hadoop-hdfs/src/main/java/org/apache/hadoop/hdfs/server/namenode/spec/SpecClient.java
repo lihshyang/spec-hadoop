@@ -345,4 +345,16 @@ public class SpecClient implements ClientProtocol {
   public SnapshotDiffReport getSnapshotDiffReport(String snapshotRoot, String fromSnapshot, String toSnapshot) throws IOException {
     return null;
   }
+
+  public static void main(String[] args) throws IOException, InterruptedException {
+    System.out.println("starting mkdir");
+    SpecClient client = new SpecClient();
+    System.out.println(client.mkdirs("/mkdirtest", FsPermission.getDefault(), true));
+    System.out.println("mkdir complete");
+    Thread.sleep(2000);
+    DirectoryListing result = client.getListing("/", new byte[0], false);
+    for (HdfsFileStatus s: result.getPartialListing()) {
+      System.out.println(s.toString());
+    }
+  }
 }
