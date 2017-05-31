@@ -103,7 +103,8 @@ public class SpecClient implements ClientProtocol {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setRecursive(recursive);
     // call specpaxos
-    String result = ... TextFormat.printToString(req);
+    String result = "";
+    TextFormat.printToString(req);
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
     ReplicaUpcall.Reply reply = repBuilder.build();
@@ -118,7 +119,8 @@ public class SpecClient implements ClientProtocol {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setMasked(masked.toShort()).setCreateParent(createParent);
     // call specpaxos
-    String result = ... TextFormat.printToString(req);
+    String result = "";
+    TextFormat.printToString(req);
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
     ReplicaUpcall.Reply reply = repBuilder.build();
@@ -133,7 +135,8 @@ public class SpecClient implements ClientProtocol {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation);
     // call specpaxos
-    String result = ... TextFormat.printToString(req);
+    String result = "";
+    TextFormat.printToString(req);
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
     ReplicaUpcall.Reply reply = repBuilder.build();

@@ -120,7 +120,7 @@ public class Trash extends Configured {
   }
 
   /** get the current working directory */
-  Path getCurrentTrashDir() {
+  public Path getCurrentTrashDir() {
     return trashPolicy.getCurrentTrashDir();
   }
 
