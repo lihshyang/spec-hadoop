@@ -40,11 +40,41 @@ public class NameNodeSpecServer {
 
   public void start() {
     SpecServerCLib specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
-    specServer.run(new CommitUpcall(this), new ReplicaUpcall(this), new RollbackUpcall(this));
+    specServer.run(new CommitUpcallWrapper(this), new ReplicaUpcallWrapper(this), new RollbackUpcallWrapper(this));
   }
 
   public void stop() {
 
+  }
+
+  public class ReplicaUpcallWrapper implements SpecServerCLib.ReplicaUpcall_t {
+    private final NameNodeSpecServer parent;
+    ReplicaUpcallWrapper(NameNodeSpecServer parent) {
+      this.parent = parent;
+    }
+    public void invoke(long opnum, Pointer str1, Pointer str2) {
+      str2.setString(0, parent.replicaUpcall(opnum, str1.getString(0)));
+    }
+  }
+  public class RollbackUpcallWrapper implements SpecServerCLib.RollbackUpcall_t {
+    private final NameNodeSpecServer parent;
+    RollbackUpcallWrapper(NameNodeSpecServer parent) {
+      this.parent = parent;
+    }
+    public void invoke(long current, long to) {
+      this.parent.rollbackUpcall(current, to);
+    }
+  }
+
+  public class CommitUpcallWrapper implements SpecServerCLib.CommitUpcall_t{
+    private final NameNodeSpecServer parent;
+    CommitUpcallWrapper(NameNodeSpecServer parent) {
+      this.parent = parent;
+    }
+    public void invoke(long opnum) {
+      parent.commitUpcall(opnum);
+      //System.out.println("in java commit, " + opnum);
+    }
   }
 
   /**
@@ -57,34 +87,6 @@ public class NameNodeSpecServer {
    * @param param marshaled parameters
    * @return marshaled return value
    */
-  static public class CommitUpcall implements SpecServerCLib.CommitUpcall_t{
-    private final NameNodeSpecServer parent;
-    CommitUpcall(NameNodeSpecServer parent) {
-      this.parent = parent;
-    }
-    public void invoke(long opnum) {
-      parent.commitUpcall(opnum);
-      //System.out.println("in java commit, " + opnum);
-    }
-  }
-  static public class ReplicaUpcall implements SpecServerCLib.ReplicaUpcall_t {
-    private final NameNodeSpecServer parent;
-    ReplicaUpcall(NameNodeSpecServer parent) {
-      this.parent = parent;
-    }
-    public void invoke(long opnum, Pointer str1, Pointer str2) {
-      str2.setString(0, parent.replicaUpcall(opnum, str1.getString(0)));
-    }
-  }
-  static public class RollbackUpcall implements SpecServerCLib.RollbackUpcall_t {
-    private final NameNodeSpecServer parent;
-    RollbackUpcall(NameNodeSpecServer parent) {
-      this.parent = parent;
-    }
-    public void invoke(long current, long to) {
-      this.parent.rollbackUpcall(current, to);
-    }
-  }
   public String replicaUpcall(long opnum, String param) {
     ReplicaUpcall.Request req = null;
     UpcallLog log;
