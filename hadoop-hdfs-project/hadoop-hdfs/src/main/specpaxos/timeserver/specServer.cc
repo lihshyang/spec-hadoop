@@ -15,7 +15,7 @@ HdfsServer::ReplicaUpcall(opnum_t opnum,
                                const string &str1,
                                string &str2)
 {
-    char buf[100];
+    char buf[str2.length()]; //allocate more than str2.length() ??
     strcpy(buf, str2.c_str());
     replicaFunc(opnum, str1.c_str(), buf);
     str2 = buf;
@@ -23,7 +23,6 @@ HdfsServer::ReplicaUpcall(opnum_t opnum,
 
 }
 
-/* Ignore for now, will be used when running specpaxos. */
 void
 HdfsServer::RollbackUpcall(opnum_t current,
                                 opnum_t to,
@@ -35,7 +34,6 @@ HdfsServer::RollbackUpcall(opnum_t current,
 }
 
 
-/* Ignore for now, will be used when running specpaxos. */
 void
 HdfsServer::CommitUpcall(opnum_t commitOpnum)
 {
@@ -43,10 +41,9 @@ HdfsServer::CommitUpcall(opnum_t commitOpnum)
     commitFunc(commitOpnum);
 }
 
-
 void run(CommitUpcall_t commitFunc, ReplicaUpcall_t replicaFunc, RollbackUpcall_t rollbackFunc) {
     int index = -1;
-    const char *configPath = "./replica.conf";
+    const char *configPath = "./quorum.config";
     enum {
         PROTO_UNKNOWN,
         PROTO_VR,

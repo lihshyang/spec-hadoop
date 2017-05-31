@@ -7,6 +7,7 @@ package org.apache.hadoop.hdfs.server.namenode.spec;
 import com.sun.jna.Library;
 import com.sun.jna.Callback;
 import com.sun.jna.Pointer;
+import com.sun.jna.ptr.PointerByReference;
 
 public interface SpecServerCLib extends Library {
   interface CommitUpcall_t extends Callback {
@@ -20,7 +21,7 @@ public interface SpecServerCLib extends Library {
   interface RollbackUpcall_t extends Callback {
     void invoke(long current, long to);
   }
-
+  void runClient(String req, PointerByReference reply);
   void run(CommitUpcall_t commitUpcall, ReplicaUpcall_t replicaUpcall, RollbackUpcall_t rollbackUpcall);
 }
 

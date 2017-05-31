@@ -2,6 +2,9 @@ package org.apache.hadoop.hdfs.server.namenode.spec;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.TextFormat;
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
+import com.sun.jna.ptr.PointerByReference;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -97,13 +100,21 @@ public class SpecClient implements ClientProtocol {
   public void rename2(String src, String dst, Options.Rename... options) throws AccessControlException, DSQuotaExceededException, FileAlreadyExistsException, FileNotFoundException, NSQuotaExceededException, ParentNotDirectoryException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
 
   }
-
+  private String callClientClib(String request) {
+    SpecServerCLib specServer = (SpecServerCLib)Native.loadLibrary("specServer", SpecServerCLib.class);
+    PointerByReference ptrRep = new PointerByReference();
+    specServer.runClient(request, ptrRep);
+    final Pointer reply = ptrRep.getValue();
+    return reply.getString(0);
+  }
   @Override
   public boolean delete(String src, boolean recursive) throws AccessControlException, FileNotFoundException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setRecursive(recursive);
-    // call specpaxos
-    String result = "";
+
+
+    String reqStr = "";
+    String result = callClientClib(reqStr);
     TextFormat.printToString(req);
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
@@ -119,7 +130,8 @@ public class SpecClient implements ClientProtocol {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setMasked(masked.toShort()).setCreateParent(createParent);
     // call specpaxos
-    String result = "";
+    String reqStr = "";
+    String result = callClientClib(reqStr);
     TextFormat.printToString(req);
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
@@ -135,7 +147,9 @@ public class SpecClient implements ClientProtocol {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation);
     // call specpaxos
-    String result = "";
+    String reqStr = "";
+    String result = callClientClib(reqStr);
+
     TextFormat.printToString(req);
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
