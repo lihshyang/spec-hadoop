@@ -5,8 +5,8 @@
 
 
 
-void runClient(const char* req, char** reply) {
-    const char *configPath = "./quorum.config";
+void runClient(const char* configDir, const char* req, char** reply) {
+    string configPath = configDir;
     hdfsSpec::Client client(configPath);
     const string requestStr = req;
     string replyStr = client.Invoke(requestStr);
@@ -17,7 +17,7 @@ void runClient(const char* req, char** reply) {
 namespace hdfsSpec {
     Client::Client(string configPath)
             : transport(0.0, 0.0, 0) {
-        string shardConfigPath = configPath + ".config";
+        string shardConfigPath = configPath;
         ifstream shardConfigStream(shardConfigPath);
         if (shardConfigStream.fail()) {
             fprintf(stderr, "unable to read configuration file: %s\n",
