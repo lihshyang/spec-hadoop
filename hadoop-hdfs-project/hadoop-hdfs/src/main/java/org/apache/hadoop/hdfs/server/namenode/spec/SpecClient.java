@@ -21,15 +21,19 @@ import org.apache.hadoop.security.token.Token;
 import javax.sql.rowset.serial.SerialStruct;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * Created by aolx on 2017/5/25.
  */
 public class SpecClient implements ClientProtocol {
   final SpecServerCLib specServer;
-
+  final String confPath;
   public SpecClient() {
     specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
+    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    URL resource = cl.getResource("quorum.config");
+    confPath = resource.getPath();
   }
 
   @Override
@@ -109,7 +113,7 @@ public class SpecClient implements ClientProtocol {
 
   private String callClientClib(String request) {
     PointerByReference ptrRep = new PointerByReference();
-    specServer.runClient(request, ptrRep);
+    specServer.runClient(confPath, request, ptrRep);
     final Pointer reply = ptrRep.getValue();
     return reply.getString(0);
   }
