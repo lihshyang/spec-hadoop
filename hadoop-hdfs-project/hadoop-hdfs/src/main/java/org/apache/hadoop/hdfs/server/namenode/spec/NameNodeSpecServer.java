@@ -16,6 +16,7 @@ import org.apache.hadoop.hdfs.server.namenode.NameNode;
 import org.apache.hadoop.hdfs.server.protocol.NamenodeProtocols;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -45,7 +46,10 @@ public class NameNodeSpecServer {
       @Override
       public void run() {
         SpecServerCLib specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
-        specServer.run(new CommitUpcallWrapper(thisServer), new ReplicaUpcallWrapper(thisServer), new RollbackUpcallWrapper(thisServer));
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        URL resource = cl.getResource("quorum.config");
+        String confPath = resource.getPath();
+        specServer.run(confPath, new CommitUpcallWrapper(thisServer), new ReplicaUpcallWrapper(thisServer), new RollbackUpcallWrapper(thisServer));
       }
     });
     t.setDaemon(true);
