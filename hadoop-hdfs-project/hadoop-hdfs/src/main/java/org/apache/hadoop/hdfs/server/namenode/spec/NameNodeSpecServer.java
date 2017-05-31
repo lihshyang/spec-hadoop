@@ -18,6 +18,7 @@ import org.apache.hadoop.hdfs.server.protocol.NamenodeProtocols;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
+
 public class NameNodeSpecServer {
   private static final Log LOG = NameNode.LOG;
   private static final Log stateChangeLog = NameNode.stateChangeLog;
@@ -49,28 +50,35 @@ public class NameNodeSpecServer {
 
   public class ReplicaUpcallWrapper implements SpecServerCLib.ReplicaUpcall_t {
     private final NameNodeSpecServer parent;
+
     ReplicaUpcallWrapper(NameNodeSpecServer parent) {
       this.parent = parent;
     }
+
     public void invoke(long opnum, Pointer str1, Pointer str2) {
       str2.setString(0, parent.replicaUpcall(opnum, str1.getString(0)));
     }
   }
+
   public class RollbackUpcallWrapper implements SpecServerCLib.RollbackUpcall_t {
     private final NameNodeSpecServer parent;
+
     RollbackUpcallWrapper(NameNodeSpecServer parent) {
       this.parent = parent;
     }
+
     public void invoke(long current, long to) {
       this.parent.rollbackUpcall(current, to);
     }
   }
 
-  public class CommitUpcallWrapper implements SpecServerCLib.CommitUpcall_t{
+  public class CommitUpcallWrapper implements SpecServerCLib.CommitUpcall_t {
     private final NameNodeSpecServer parent;
+
     CommitUpcallWrapper(NameNodeSpecServer parent) {
       this.parent = parent;
     }
+
     public void invoke(long opnum) {
       parent.commitUpcall(opnum);
       //System.out.println("in java commit, " + opnum);
@@ -80,9 +88,10 @@ public class NameNodeSpecServer {
   /**
    * for read operations: return the result
    * for write operations:
-   *   create a undo log record and append to a undo log,
-   *   apply the op to the namespace, editlog it (no need to logsync)
-   *   return the result
+   * create a undo log record and append to a undo log,
+   * apply the op to the namespace, editlog it (no need to logsync)
+   * return the result
+   *
    * @param opnum operation number
    * @param param marshaled parameters
    * @return marshaled return value
@@ -106,7 +115,7 @@ public class NameNodeSpecServer {
       case LS:
         try {
           DirectoryListing result = rpcServer.getListing(req.getSrc(), req.getStartAfter().toByteArray(), req.getNeedLocation());
-          for (HdfsFileStatus status: result.getPartialListing()) {
+          for (HdfsFileStatus status : result.getPartialListing()) {
             status.voidTimestamps();
             status.permissionInShort = status.getPermission().toShort();
           }
@@ -158,6 +167,7 @@ public class NameNodeSpecServer {
 
   /**
    * rollback by undoing the logs, editlog them (no need to logsync either)
+   *
    * @param current must be the latest opnum, right?...
    * @param to
    */
@@ -177,6 +187,7 @@ public class NameNodeSpecServer {
   /**
    * delete undo log records from begining to opnum
    * simply delete the undo logs
+   *
    * @param commitOpnum
    */
   public void commitUpcall(long commitOpnum) {
