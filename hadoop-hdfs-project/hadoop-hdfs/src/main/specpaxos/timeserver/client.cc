@@ -17,7 +17,7 @@ void runClient(const char* req, char** reply) {
 namespace hdfsSpec {
     Client::Client(string configPath)
             : transport(0.0, 0.0, 0) {
-        string shardConfigPath = configPath + ".config";
+        string shardConfigPath = configPath;
         ifstream shardConfigStream(shardConfigPath);
         if (shardConfigStream.fail()) {
             fprintf(stderr, "unable to read configuration file: %s\n",
