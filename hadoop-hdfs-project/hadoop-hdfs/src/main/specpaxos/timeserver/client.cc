@@ -7,14 +7,14 @@
 
 void runClient(const char* configDir, const char* req, char** reply) {
     string configPath = configDir;
-    hdfsSpec::Client client(configPath);
+    Client client(configPath);
     const string requestStr = req;
     string replyStr = client.Invoke(requestStr);
     *reply = (char*)malloc(sizeof(char) * (replyStr.length() + 1));
     memset(*reply, 0, sizeof(char) * (replyStr.length() + 1));
     strcpy(*reply, replyStr.c_str());
 }
-namespace hdfsSpec {
+
     Client::Client(string configPath)
             : transport(0.0, 0.0, 0) {
         string shardConfigPath = configPath;
@@ -75,4 +75,4 @@ namespace hdfsSpec {
     }
 
 /* Returns the value corresponding to the supplied key. */
-}// namespace hdfsSpec
+// namespace hdfsSpec

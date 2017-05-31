@@ -212,7 +212,7 @@ finalTarget := ../java/org/apache/hadoop/hdfs/server/namenode/spec/libspecServer
 .PHONY: finalLib
 finalLib: $(finalTarget)
 
-$(finalTarget): .obj/timeserver/specServer-pic.o $(OBJS-fastpaxos-replica:%.o=%-pic.o) \
+$(finalTarget): .obj/timeserver/specServer-pic.o .obj/timeserver/client-pic.o $(OBJS-fastpaxos-replica:%.o=%-pic.o) \
   $(OBJS-spec-replica:%.o=%-pic.o) $(OBJS-vr-replica:%.o=%-pic.o) $(LIB-udptransport:%.o=%-pic.o)
 	$(call trace,LD,$@,$(LD) -o $@ -shared $^ $(LDFLAGS) $(LDFLAGS-$@))
 #$(BINS) $(TEST_BINS): %:

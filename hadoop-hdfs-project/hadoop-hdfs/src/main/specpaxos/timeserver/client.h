@@ -26,7 +26,7 @@
 #include <set>
 using namespace std;
 extern "C" void runClient(const char* configDir, const char* req, char** reply);
-namespace hdfsSpec {
+
     class Client {
     public:
         Client(string configPath);
@@ -54,7 +54,7 @@ namespace hdfsSpec {
         void run_client(); // Runs the transport event loop.
 
     };
-}
+
  //namespace hdfsSpec
 
 
