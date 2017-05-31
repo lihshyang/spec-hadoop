@@ -72,11 +72,11 @@ void run(CommitUpcall_t commitFunc, ReplicaUpcall_t replicaFunc, RollbackUpcall_
 
     specpaxos::Replica *replica;
     HdfsServer server(commitFunc, replicaFunc, rollbackFunc);
-    server.CommitUpcall(233333);
-    const string str1 = "str1";
-    string str2 = "str2";
-    server.ReplicaUpcall(233, str1, str2);
-    cout << "after replicaUpcall str2: " << str2 << endl;
+    //server.CommitUpcall(233333);
+    //const string str1 = "str1";
+    //string str2 = "str2";
+    //server.ReplicaUpcall(233, str1, str2);
+    //cout << "after replicaUpcall str2: " << str2 << endl;
     replica = new specpaxos::spec::SpecReplica(
               config, index, true, &transport, &server);
 

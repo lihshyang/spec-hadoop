@@ -2,6 +2,8 @@ package org.apache.hadoop.hdfs.server.namenode.spec;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.TextFormat;
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.hadoop.conf.Configuration;
@@ -16,7 +18,6 @@ import org.apache.hadoop.hdfs.server.protocol.NamenodeProtocols;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 public class NameNodeSpecServer {
   private static final Log LOG = NameNode.LOG;
   private static final Log stateChangeLog = NameNode.stateChangeLog;
@@ -38,7 +39,8 @@ public class NameNodeSpecServer {
   }
 
   public void start() {
-
+    SpecServerCLib specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
+    specServer.run(new CommitUpcall(this), new ReplicaUpcall(this), new RollbackUpcall(this));
   }
 
   public void stop() {
@@ -55,6 +57,34 @@ public class NameNodeSpecServer {
    * @param param marshaled parameters
    * @return marshaled return value
    */
+  static public class CommitUpcall implements SpecServerCLib.CommitUpcall_t{
+    private final NameNodeSpecServer parent;
+    CommitUpcall(NameNodeSpecServer parent) {
+      this.parent = parent;
+    }
+    public void invoke(long opnum) {
+      parent.commitUpcall(opnum);
+      //System.out.println("in java commit, " + opnum);
+    }
+  }
+  static public class ReplicaUpcall implements SpecServerCLib.ReplicaUpcall_t {
+    private final NameNodeSpecServer parent;
+    ReplicaUpcall(NameNodeSpecServer parent) {
+      this.parent = parent;
+    }
+    public void invoke(long opnum, Pointer str1, Pointer str2) {
+      str2.setString(0, parent.replicaUpcall(opnum, str1.getString(0)));
+    }
+  }
+  static public class RollbackUpcall implements SpecServerCLib.RollbackUpcall_t {
+    private final NameNodeSpecServer parent;
+    RollbackUpcall(NameNodeSpecServer parent) {
+      this.parent = parent;
+    }
+    public void invoke(long current, long to) {
+      this.parent.rollbackUpcall(current, to);
+    }
+  }
   public String replicaUpcall(long opnum, String param) {
     ReplicaUpcall.Request req = null;
     UpcallLog log;
