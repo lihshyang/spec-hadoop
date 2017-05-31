@@ -44,7 +44,6 @@ HdfsServer::CommitUpcall(opnum_t commitOpnum)
 void run(const char* configDir, CommitUpcall_t commitFunc, ReplicaUpcall_t replicaFunc, RollbackUpcall_t rollbackFunc) {
     int index = -1;
     string configPath = configDir;
-    configPath.append("quorum.config");
     enum {
         PROTO_UNKNOWN,
         PROTO_VR,

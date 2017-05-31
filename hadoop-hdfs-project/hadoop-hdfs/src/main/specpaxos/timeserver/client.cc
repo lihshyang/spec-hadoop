@@ -7,7 +7,6 @@
 
 void runClient(const char* configDir, const char* req, char** reply) {
     string configPath = configDir;
-    configPath.append("quorum.config");
     hdfsSpec::Client client(configPath);
     const string requestStr = req;
     string replyStr = client.Invoke(requestStr);
