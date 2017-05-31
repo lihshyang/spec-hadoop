@@ -40,12 +40,19 @@ public class NameNodeSpecServer {
   }
 
   public void start() {
-    SpecServerCLib specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
-    specServer.run(new CommitUpcallWrapper(this), new ReplicaUpcallWrapper(this), new RollbackUpcallWrapper(this));
+    final NameNodeSpecServer thisServer = this;
+    Thread t = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        SpecServerCLib specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
+        specServer.run(new CommitUpcallWrapper(thisServer), new ReplicaUpcallWrapper(thisServer), new RollbackUpcallWrapper(thisServer));
+      }
+    });
+    t.setDaemon(true);
+    t.start();
   }
 
   public void stop() {
-
   }
 
   public class ReplicaUpcallWrapper implements SpecServerCLib.ReplicaUpcall_t {
