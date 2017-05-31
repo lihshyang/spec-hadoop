@@ -26,6 +26,12 @@ import java.io.IOException;
  * Created by aolx on 2017/5/25.
  */
 public class SpecClient implements ClientProtocol {
+  final SpecServerCLib specServer;
+
+  public SpecClient() {
+    specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
+  }
+
   @Override
   public LocatedBlocks getBlockLocations(String src, long offset, long length) throws AccessControlException, FileNotFoundException, UnresolvedLinkException, IOException {
     return null;
@@ -100,22 +106,19 @@ public class SpecClient implements ClientProtocol {
   public void rename2(String src, String dst, Options.Rename... options) throws AccessControlException, DSQuotaExceededException, FileAlreadyExistsException, FileNotFoundException, NSQuotaExceededException, ParentNotDirectoryException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
 
   }
+
   private String callClientClib(String request) {
-    SpecServerCLib specServer = (SpecServerCLib)Native.loadLibrary("specServer", SpecServerCLib.class);
     PointerByReference ptrRep = new PointerByReference();
     specServer.runClient(request, ptrRep);
     final Pointer reply = ptrRep.getValue();
     return reply.getString(0);
   }
+
   @Override
   public boolean delete(String src, boolean recursive) throws AccessControlException, FileNotFoundException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setRecursive(recursive);
-
-
-    String reqStr = "";
-    String result = callClientClib(reqStr);
-    TextFormat.printToString(req);
+    String result = callClientClib(TextFormat.printToString(req));
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
     ReplicaUpcall.Reply reply = repBuilder.build();
@@ -129,9 +132,7 @@ public class SpecClient implements ClientProtocol {
   public boolean mkdirs(String src, FsPermission masked, boolean createParent) throws AccessControlException, FileAlreadyExistsException, FileNotFoundException, NSQuotaExceededException, ParentNotDirectoryException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setMasked(masked.toShort()).setCreateParent(createParent);
-    // call specpaxos
-    String reqStr = "";
-    String result = callClientClib(reqStr);
+    String result = callClientClib(TextFormat.printToString(req));
     TextFormat.printToString(req);
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
@@ -146,10 +147,7 @@ public class SpecClient implements ClientProtocol {
   public DirectoryListing getListing(String src, byte[] startAfter, boolean needLocation) throws AccessControlException, FileNotFoundException, UnresolvedLinkException, IOException {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
         setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation);
-    // call specpaxos
-    String reqStr = "";
-    String result = callClientClib(reqStr);
-
+    String result = callClientClib(TextFormat.printToString(req));
     TextFormat.printToString(req);
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
     TextFormat.merge(result, repBuilder);
