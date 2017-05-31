@@ -43,9 +43,9 @@ public class NameNodeSpecServer {
     final NameNodeSpecServer thisServer = this;
     Thread t = new Thread(new Runnable() {
       @Override
-      public void run() {
+      public void run(String configPath) {
         SpecServerCLib specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
-        specServer.run(new CommitUpcallWrapper(thisServer), new ReplicaUpcallWrapper(thisServer), new RollbackUpcallWrapper(thisServer));
+        specServer.run(configPath, new CommitUpcallWrapper(thisServer), new ReplicaUpcallWrapper(thisServer), new RollbackUpcallWrapper(thisServer));
       }
     });
     t.setDaemon(true);

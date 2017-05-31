@@ -25,7 +25,7 @@
 #include <thread>
 #include <set>
 using namespace std;
-extern "C" void runClient(const char* req, char** reply);
+extern "C" void runClient(const char* configDir, const char* req, char** reply);
 namespace hdfsSpec {
     class Client {
     public:

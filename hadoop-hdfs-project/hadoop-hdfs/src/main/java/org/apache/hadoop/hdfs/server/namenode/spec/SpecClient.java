@@ -107,9 +107,9 @@ public class SpecClient implements ClientProtocol {
 
   }
 
-  private String callClientClib(String request) {
+  private String callClientClib(String configPath, String request) {
     PointerByReference ptrRep = new PointerByReference();
-    specServer.runClient(request, ptrRep);
+    specServer.runClient(configPath, request, ptrRep);
     final Pointer reply = ptrRep.getValue();
     return reply.getString(0);
   }

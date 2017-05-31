@@ -21,7 +21,7 @@ public interface SpecServerCLib extends Library {
   interface RollbackUpcall_t extends Callback {
     void invoke(long current, long to);
   }
-  void runClient(String req, PointerByReference reply);
-  void run(CommitUpcall_t commitUpcall, ReplicaUpcall_t replicaUpcall, RollbackUpcall_t rollbackUpcall);
+  void runClient(String configPath, String req, PointerByReference reply);
+  void run(String configPath, CommitUpcall_t commitUpcall, ReplicaUpcall_t replicaUpcall, RollbackUpcall_t rollbackUpcall);
 }
 
