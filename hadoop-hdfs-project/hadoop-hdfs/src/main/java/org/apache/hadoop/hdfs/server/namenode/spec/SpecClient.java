@@ -26,6 +26,12 @@ import java.io.IOException;
  * Created by aolx on 2017/5/25.
  */
 public class SpecClient implements ClientProtocol {
+  final SpecServerCLib specServer;
+
+  public SpecClient() {
+    specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
+  }
+
   @Override
   public LocatedBlocks getBlockLocations(String src, long offset, long length) throws AccessControlException, FileNotFoundException, UnresolvedLinkException, IOException {
     return null;
@@ -102,7 +108,6 @@ public class SpecClient implements ClientProtocol {
   }
 
   private String callClientClib(String request) {
-    SpecServerCLib specServer = (SpecServerCLib)Native.loadLibrary("specServer", SpecServerCLib.class);
     PointerByReference ptrRep = new PointerByReference();
     specServer.runClient(request, ptrRep);
     final Pointer reply = ptrRep.getValue();
