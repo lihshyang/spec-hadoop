@@ -6,6 +6,7 @@
 
 
 void runClient(const char* configDir, const char* req, char** reply) {
+    cout << "in runClinet ! " << endl;
     string configPath = configDir;
     Client client(configPath);
     const string requestStr = req;
