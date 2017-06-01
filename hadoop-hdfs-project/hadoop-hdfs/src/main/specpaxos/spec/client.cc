@@ -47,7 +47,7 @@ SpecClient::SpecClient(const Configuration &config,
     : Client(config, transport, clientid),
       speculativeReplyQuorum(config.FastQuorumSize())
 {
-    std::cout << "in specClient 0 ! " << endl;
+    std::cout << "in specClient 0 ! " << std::endl;
     lastReqId = 0;
     view = 0;
     pendingRequest = NULL;
