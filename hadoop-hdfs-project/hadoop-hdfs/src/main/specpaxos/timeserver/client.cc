@@ -25,18 +25,24 @@ void runClient(const char* configDir, const char* req, char** reply) {
 
     Client::Client(string configPath)
             : transport(0.0, 0.0, 0) {
+        cout << "in runClinet00 ! " << endl;
         string shardConfigPath = configPath;
+        cout << "in runClinet01 ! " << endl;
         ifstream shardConfigStream(shardConfigPath);
+        cout << "in runClinet02 ! " << endl;
         if (shardConfigStream.fail()) {
             fprintf(stderr, "unable to read configuration file: %s\n",
                     shardConfigPath.c_str());
             exit(0);
         }
+        cout << "in runClinet03 ! " << endl;
         specpaxos::Configuration shardConfig(shardConfigStream);
+        cout << "in runClinet04 ! " << endl;
         shard = new specpaxos::spec::SpecClient(shardConfig, &transport);
+        cout << "in runClinet05 ! " << endl;
         /* Run the transport in a new thread. */
         clientTransport = new thread(&Client::run_client, this);
-
+        cout << "in runClinet06 ! " << endl;
         Debug("client [%lu] created!");
     }
 
