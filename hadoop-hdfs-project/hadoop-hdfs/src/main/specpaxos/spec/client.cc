@@ -35,7 +35,7 @@
 #include "lib/transport.h"
 #include "spec/client.h"
 #include "spec/spec-proto.pb.h"
-
+#include <iostream>
 namespace specpaxos {
 namespace spec {
 
@@ -47,6 +47,7 @@ SpecClient::SpecClient(const Configuration &config,
     : Client(config, transport, clientid),
       speculativeReplyQuorum(config.FastQuorumSize())
 {
+    std::cout << "in specClient 0 ! " << endl;
     lastReqId = 0;
     view = 0;
     pendingRequest = NULL;
