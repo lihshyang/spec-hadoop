@@ -38,7 +38,7 @@ void runClient(const char* configDir, const char* req, char** reply) {
         cout << "in runClinet03 ! " << endl;
         specpaxos::Configuration shardConfig(shardConfigStream);
         cout << "in runClinet04 ! " << endl;
-        shard = new specpaxos::spec::SpecClient(shardConfig, &transport);
+        shard = new specpaxos::spec::SpecClient(shardConfig, &transport, 0);
         cout << "in runClinet05 ! " << endl;
         /* Run the transport in a new thread. */
         clientTransport = new thread(&Client::run_client, this);
