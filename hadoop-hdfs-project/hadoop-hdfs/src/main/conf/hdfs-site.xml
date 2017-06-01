@@ -18,6 +18,10 @@
 
 <configuration>
     <property>
+        <name>dfs.specserver.index</name>
+        <value>0</value>
+    </property>
+    <property>
         <name>dfs.namenode.enable.specserver</name>
         <value>true</value>
     </property>

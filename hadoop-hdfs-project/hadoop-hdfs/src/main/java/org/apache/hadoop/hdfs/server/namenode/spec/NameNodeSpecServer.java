@@ -28,10 +28,12 @@ public class NameNodeSpecServer {
   private final FSNamesystem namesystem;
   private final NamenodeProtocols rpcServer;
   private final FSDirectory fsDirectory;
+  private final Configuration conf;
 
   private LinkedList<UpcallLog> upcallLogs;
 
   public NameNodeSpecServer(Configuration conf, NameNode nn) {
+    this.conf = conf;
     this.nn = nn;
     this.rpcServer = nn.getRpcServer();
     this.namesystem = nn.getNamesystem();
@@ -49,7 +51,7 @@ public class NameNodeSpecServer {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
         URL resource = cl.getResource("quorum.config");
         String confPath = resource.getPath();
-        specServer.run(confPath, new CommitUpcallWrapper(thisServer), new ReplicaUpcallWrapper(thisServer), new RollbackUpcallWrapper(thisServer));
+        specServer.run(confPath, conf.getInt("dfs.specserver.index", 0), new CommitUpcallWrapper(thisServer), new ReplicaUpcallWrapper(thisServer), new RollbackUpcallWrapper(thisServer));
       }
     });
     t.setDaemon(true);
