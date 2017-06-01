@@ -8,12 +8,19 @@
 void runClient(const char* configDir, const char* req, char** reply) {
     cout << "in runClinet ! " << endl;
     string configPath = configDir;
+    cout << "in runClinet1 ! " << endl;
     Client client(configPath);
+    cout << "in runClinet2 ! " << endl;
     const string requestStr = req;
+    cout << "in runClinet3 ! " << endl;
     string replyStr = client.Invoke(requestStr);
+    cout << "in runClinet4 ! " << endl;
     *reply = (char*)malloc(sizeof(char) * (replyStr.length() + 1));
+    cout << "in runClinet5 ! " << endl;
     memset(*reply, 0, sizeof(char) * (replyStr.length() + 1));
+    cout << "in runClinet6 ! " << endl;
     strcpy(*reply, replyStr.c_str());
+    cout << "in runClinet7 ! " << endl;
 }
 
     Client::Client(string configPath)
