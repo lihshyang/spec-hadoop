@@ -207,7 +207,8 @@ $(call add-LDFLAGS,$(TEST_BINS),$(CHECK_LDFLAGS))
 .PHONY: link
 $(BINS) $(TEST_BINS): %:
 	$(call trace,LD,$@,$(LD) -o $@ $^ $(LDFLAGS) $(LDFLAGS-$@))
-finalTarget := ../java/org/apache/hadoop/hdfs/server/namenode/spec/libspecServer.so
+#finalTarget := ../java/org/apache/hadoop/hdfs/server/namenode/spec/libspecServer.so
+finalTarget := ../conf/libspecServer.so
 
 .PHONY: finalLib
 finalLib: $(finalTarget)
