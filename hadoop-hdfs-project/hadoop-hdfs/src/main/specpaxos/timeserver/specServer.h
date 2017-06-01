@@ -29,4 +29,4 @@ private:
 };
 
 
-extern "C" void run(const char* configDir, CommitUpcall_t commitFunc, ReplicaUpcall_t replicaFunc, RollbackUpcall_t rollbackFunc);
+extern "C" void run(const char* configDir, const int index, CommitUpcall_t commitFunc, ReplicaUpcall_t replicaFunc, RollbackUpcall_t rollbackFunc);

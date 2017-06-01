@@ -42,8 +42,7 @@ HdfsServer::CommitUpcall(opnum_t commitOpnum)
 }
 
 
-void run(const char* configDir, CommitUpcall_t commitFunc, ReplicaUpcall_t replicaFunc, RollbackUpcall_t rollbackFunc) {
-    int index = -1;
+void run(const char* configDir, const int index, CommitUpcall_t commitFunc, ReplicaUpcall_t replicaFunc, RollbackUpcall_t rollbackFunc) {
     string configPath = configDir;
     enum {
         PROTO_UNKNOWN,

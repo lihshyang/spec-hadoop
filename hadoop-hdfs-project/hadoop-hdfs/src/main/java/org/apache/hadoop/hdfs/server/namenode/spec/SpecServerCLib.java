@@ -22,6 +22,6 @@ public interface SpecServerCLib extends Library {
     void invoke(long current, long to);
   }
   void runClient(String configPath, String req, PointerByReference reply);
-  void run(String configPath, CommitUpcall_t commitUpcall, ReplicaUpcall_t replicaUpcall, RollbackUpcall_t rollbackUpcall);
+  void run(String configPath, int index, CommitUpcall_t commitUpcall, ReplicaUpcall_t replicaUpcall, RollbackUpcall_t rollbackUpcall);
 }
 
