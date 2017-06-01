@@ -1,5 +1,7 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.classification.InterfaceAudience;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -14,8 +16,12 @@ import java.net.URI;
  */
 public class SpecBackedFileSystem extends FileSystem {
 
-  public SpecBackedFileSystem() {
+  static final Log LOG = LogFactory.getLog(SpecBackedFileSystem.class);
 
+  private final SpecClient client;
+
+  public SpecBackedFileSystem() {
+    this.client = new SpecClient();
   }
 
   @Override
@@ -50,6 +56,8 @@ public class SpecBackedFileSystem extends FileSystem {
 
   @Override
   public FileStatus[] listStatus(Path f) throws FileNotFoundException, IOException {
+
+//    return client.getListing(f.toString());
     return new FileStatus[0];
   }
 
@@ -65,7 +73,8 @@ public class SpecBackedFileSystem extends FileSystem {
 
   @Override
   public boolean mkdirs(Path f, FsPermission permission) throws IOException {
-    return false;
+    LOG.debug("mkdir: "+f.toString());
+    return client.mkdirs(f.toString(), permission, true);
   }
 
   @Override
