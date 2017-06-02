@@ -23,6 +23,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 
+import static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Request.Operation.LS;
+import static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Request.Operation.MKDIR;
+import static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Request.Operation.RM;
+
 /**
  * Created by aolx on 2017/5/25.
  */
@@ -120,7 +124,7 @@ public class SpecClient implements ClientProtocol {
 
   @Override
   public boolean delete(String src, boolean recursive) throws AccessControlException, FileNotFoundException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
-    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
+    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(RM).setSrc(src).
         setRecursive(recursive);
     String result = callClientClib(TextFormat.printToString(req));
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
@@ -134,7 +138,7 @@ public class SpecClient implements ClientProtocol {
 
   @Override
   public boolean mkdirs(String src, FsPermission masked, boolean createParent) throws AccessControlException, FileAlreadyExistsException, FileNotFoundException, NSQuotaExceededException, ParentNotDirectoryException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
-    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
+    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(MKDIR).setSrc(src).
         setMasked(masked.toShort()).setCreateParent(createParent);
     String result = callClientClib(TextFormat.printToString(req));
     TextFormat.printToString(req);
@@ -149,7 +153,7 @@ public class SpecClient implements ClientProtocol {
 
   @Override
   public DirectoryListing getListing(String src, byte[] startAfter, boolean needLocation) throws AccessControlException, FileNotFoundException, UnresolvedLinkException, IOException {
-    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setSrc(src).
+    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(LS).setSrc(src).
         setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation);
     String result = callClientClib(TextFormat.printToString(req));
     TextFormat.printToString(req);
