@@ -15,10 +15,10 @@ HdfsServer::ReplicaUpcall(opnum_t opnum,
                                const string &str1,
                                string &str2)
 {
-    char buf[str2.length()]; //allocate more than str2.length() ??
-    strcpy(buf, str2.c_str());
+    char* buf; //allocate more than str2.length() ??
     replicaFunc(opnum, str1.c_str(), buf);
     cout << "replicaUpcall returned" << endl;
+    cout << str2 << " -> " << buf << endl;
     str2 = buf;
     cout << "replicaUpcall returned 1 " << str1 << " " << str2 << endl;
     Debug("Received Upcall: " FMT_OPNUM ", %s", opnum, str1.c_str());
