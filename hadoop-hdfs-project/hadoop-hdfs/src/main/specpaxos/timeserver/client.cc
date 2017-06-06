@@ -6,43 +6,28 @@
 
 
 void runClient(const char* configDir, const char* req, char** reply) {
-    cout << "in runClinet ! " << endl;
     string configPath = configDir;
-    cout << "in runClinet1 ! " << endl;
     Client client(configPath);
-    cout << "in runClinet2 ! " << endl;
     const string requestStr = req;
-    cout << "in runClinet3 ! " << endl;
     string replyStr = client.Invoke(requestStr);
-    cout << "in runClinet4 ! " << endl;
     *reply = (char*)malloc(sizeof(char) * (replyStr.length() + 1));
-    cout << "in runClinet5 ! " << endl;
     memset(*reply, 0, sizeof(char) * (replyStr.length() + 1));
-    cout << "in runClinet6 ! " << endl;
     strcpy(*reply, replyStr.c_str());
-    cout << "in runClinet7 ! " << endl;
 }
 
     Client::Client(string configPath)
             : transport(0.0, 0.0, 0) {
-        cout << "in runClinet00 ! " << endl;
         string shardConfigPath = configPath;
-        cout << "in runClinet01 ! " << endl;
         ifstream shardConfigStream(shardConfigPath);
-        cout << "in runClinet02 ! " << endl;
         if (shardConfigStream.fail()) {
             fprintf(stderr, "unable to read configuration file: %s\n",
                     shardConfigPath.c_str());
             exit(0);
         }
-        cout << "in runClinet03 ! " << endl;
         specpaxos::Configuration shardConfig(shardConfigStream);
-        cout << "in runClinet04 ! " << endl;
         shard = new specpaxos::spec::SpecClient(shardConfig, &transport, 0);
-        cout << "in runClinet05 ! " << endl;
         /* Run the transport in a new thread. */
         clientTransport = new thread(&Client::run_client, this);
-        cout << "in runClinet06 ! " << endl;
         Debug("client [%lu] created!");
     }
 
