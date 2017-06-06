@@ -18,7 +18,9 @@ HdfsServer::ReplicaUpcall(opnum_t opnum,
     char buf[str2.length()]; //allocate more than str2.length() ??
     strcpy(buf, str2.c_str());
     replicaFunc(opnum, str1.c_str(), buf);
+    cout << "replicaUpcall returned" << endl;
     str2 = buf;
+    cout << "replicaUpcall returned 1 " << str1 << " " << str2 << endl;
     Debug("Received Upcall: " FMT_OPNUM ", %s", opnum, str1.c_str());
 
 }
@@ -29,6 +31,7 @@ HdfsServer::RollbackUpcall(opnum_t current,
                                 const std::map<opnum_t, string> &opMap)
 {
     rollbackFunc(current, to);
+    cout << "rollbackUpcall returned" << endl;
     Debug("Received Rollback Upcall: " FMT_OPNUM ", " FMT_OPNUM, current, to);
 
 }
@@ -39,6 +42,7 @@ HdfsServer::CommitUpcall(opnum_t commitOpnum)
 {
     Debug("Received Commit Upcall: " FMT_OPNUM, commitOpnum);
     commitFunc(commitOpnum);
+    cout << "commitUpcall returned" << endl;
 }
 
 
