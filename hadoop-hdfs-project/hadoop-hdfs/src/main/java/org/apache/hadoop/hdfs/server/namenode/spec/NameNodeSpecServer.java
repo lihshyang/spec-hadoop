@@ -136,7 +136,9 @@ public class NameNodeSpecServer {
               copyFrom(SerializationUtils.serialize(result)))); // TODO need to check if serializing works
         } catch (IOException e) {
           e.printStackTrace();
-          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
+          String ret = TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
+          LOG.debug("ls return string length:" + ret.length());
+          return ret;
         }
 
       case MKDIR:
