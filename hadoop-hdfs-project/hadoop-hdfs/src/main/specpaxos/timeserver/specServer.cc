@@ -15,7 +15,8 @@ HdfsServer::ReplicaUpcall(opnum_t opnum,
                                const string &str1,
                                string &str2)
 {
-    char* buf; //allocate more than str2.length() ??
+    char buf[1024]; //allocate more than str2.length() ??
+    strcpy(buf, str2.c_str());
     replicaFunc(opnum, str1.c_str(), buf);
     cout << "replicaUpcall returned" << endl;
     cout << str2 << " -> " << buf << endl;

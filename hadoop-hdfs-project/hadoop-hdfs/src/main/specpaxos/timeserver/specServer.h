@@ -9,7 +9,7 @@
 
 using namespace std;
 typedef void (*CommitUpcall_t)(long op);
-typedef void (*ReplicaUpcall_t)(long opnum, const char* str1, char* str2);
+typedef void (*ReplicaUpcall_t)(long opnum, const char* str1, char str2[]);
 typedef void (*RollbackUpcall_t)(long current, long to);
 
 class HdfsServer : public specpaxos::AppReplica
