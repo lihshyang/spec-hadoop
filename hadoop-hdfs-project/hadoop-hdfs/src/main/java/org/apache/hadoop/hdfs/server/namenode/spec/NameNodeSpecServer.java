@@ -132,12 +132,14 @@ public class NameNodeSpecServer {
             status.voidTimestamps();
             status.permissionInShort = status.getPermission().toShort();
           }
-          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setDirectoryListing(ByteString.
+          String ret = TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setDirectoryListing(ByteString.
               copyFrom(SerializationUtils.serialize(result)))); // TODO need to check if serializing works
+          LOG.debug("ls return string length:" + ret.length());
+          return ret;
+
         } catch (IOException e) {
           e.printStackTrace();
           String ret = TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
-          LOG.debug("ls return string length:" + ret.length());
           return ret;
         }
 
