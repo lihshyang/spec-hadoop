@@ -358,7 +358,7 @@ public class SpecClient implements ClientProtocol {
     Thread.sleep(2000);
     DirectoryListing result = client.getListing("/", new byte[0], false);
     for (HdfsFileStatus s: result.getPartialListing()) {
-      System.out.println(s.toString());
+      System.out.println(s.getLocalName() + " " + s.getOwner() + " " + s.getModificationTime());
     }
   }
 }
