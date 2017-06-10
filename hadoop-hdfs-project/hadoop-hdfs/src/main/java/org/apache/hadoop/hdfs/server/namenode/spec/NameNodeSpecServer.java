@@ -5,7 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.TextFormat;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.logging.Log;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -15,7 +15,6 @@ import org.apache.hadoop.hdfs.server.namenode.FSDirectory;
 import org.apache.hadoop.hdfs.server.namenode.FSNamesystem;
 import org.apache.hadoop.hdfs.server.namenode.NameNode;
 import org.apache.hadoop.hdfs.server.protocol.NamenodeProtocols;
-import com.google.common.io.BaseEncoding;
 
 import java.io.IOException;
 import java.net.URL;
@@ -117,11 +116,11 @@ public class NameNodeSpecServer {
 
     try {
       ReplicaUpcall.Request.Builder builder = ReplicaUpcall.Request.newBuilder();
-      byte[] bytes = BaseEncoding.base64().decode(param);
+      byte[] bytes = Base64.decodeBase64(param);
       req = builder.mergeFrom(bytes).build();
     } catch (InvalidProtocolBufferException e) {
       e.printStackTrace();
-      return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
+      return Base64.encodeBase64String(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
     }
 
     switch (req.getOp()) {
@@ -151,10 +150,10 @@ public class NameNodeSpecServer {
           }
           dl.setRemainingEntries(result.getRemainingEntries());
           ReplicaUpcall.DirectoryListing listing = dl.build();
-          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setDirectoryListing(listing).build().toByteArray());
+          return Base64.encodeBase64String(ReplicaUpcall.Reply.newBuilder().setDirectoryListing(listing).build().toByteArray());
         } catch (IOException e) {
           e.printStackTrace();
-          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
+          return Base64.encodeBase64String(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
         }
 
       case MKDIR:
@@ -164,10 +163,10 @@ public class NameNodeSpecServer {
           UpcallLog.getUpcallLogLock().lock();
           UpcallLog.currentOpLog = log;
           boolean result = rpcServer.mkdirs(req.getSrc(), new FsPermission((short) req.getMasked()), req.getCreateParent());
-          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray());
+          return Base64.encodeBase64String(ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray());
         } catch (IOException e) {
           e.printStackTrace();
-          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
+          return Base64.encodeBase64String(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
         } finally {
           UpcallLog.currentOpLog = null;
           UpcallLog.getUpcallLogLock().unlock();
@@ -180,10 +179,10 @@ public class NameNodeSpecServer {
           UpcallLog.getUpcallLogLock().lock();
           UpcallLog.currentOpLog = log;
           boolean result = rpcServer.delete(req.getSrc(), req.getRecursive());
-          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray());
+          return Base64.encodeBase64String(ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray());
         } catch (IOException e) {
           e.printStackTrace();
-          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
+          return Base64.encodeBase64String(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
         } finally {
           UpcallLog.currentOpLog = null;
           UpcallLog.getUpcallLogLock().unlock();
@@ -191,7 +190,7 @@ public class NameNodeSpecServer {
 
       default:
         LOG.error("unknown op");
-        return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException("unknown op").build().toByteArray());
+        return Base64.encodeBase64String(ReplicaUpcall.Reply.newBuilder().setException("unknown op").build().toByteArray());
     }
 
   }

@@ -1,6 +1,5 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
-import com.google.common.io.BaseEncoding;
 import com.google.protobuf.ByteString;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -16,6 +15,7 @@ import org.apache.hadoop.io.EnumSetWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.security.AccessControlException;
 import org.apache.hadoop.security.token.Token;
+import org.apache.commons.codec.binary.Base64;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -115,7 +115,7 @@ public class SpecClient implements ClientProtocol {
 
   private String callClientClib(byte[] request) {
     PointerByReference ptrRep = new PointerByReference();
-    specServer.runClient(confPath, BaseEncoding.base64().encode(request), ptrRep);
+    specServer.runClient(confPath, Base64.encodeBase64String(request), ptrRep);
     final Pointer reply = ptrRep.getValue();
     return reply.getString(0);
   }
@@ -126,7 +126,7 @@ public class SpecClient implements ClientProtocol {
         setRecursive(recursive);
     String result = callClientClib(req.build().toByteArray());
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    byte[] bytes = BaseEncoding.base64().decode(result);
+    byte[] bytes = Base64.decodeBase64(result);
     ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
@@ -140,7 +140,7 @@ public class SpecClient implements ClientProtocol {
         setMasked(masked.toShort()).setCreateParent(createParent);
     String result = callClientClib(req.build().toByteArray());
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    byte[] bytes = BaseEncoding.base64().decode(result);
+    byte[] bytes = Base64.decodeBase64(result);
     ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
@@ -154,7 +154,7 @@ public class SpecClient implements ClientProtocol {
         setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation);
     String result = callClientClib(req.build().toByteArray());
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    byte[] bytes = BaseEncoding.base64().decode(result);
+    byte[] bytes = Base64.decodeBase64(result);
     ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
