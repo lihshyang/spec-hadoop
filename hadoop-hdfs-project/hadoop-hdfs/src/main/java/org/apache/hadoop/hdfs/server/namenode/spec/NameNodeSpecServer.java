@@ -1,6 +1,7 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.TextFormat;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -14,6 +15,7 @@ import org.apache.hadoop.hdfs.server.namenode.FSDirectory;
 import org.apache.hadoop.hdfs.server.namenode.FSNamesystem;
 import org.apache.hadoop.hdfs.server.namenode.NameNode;
 import org.apache.hadoop.hdfs.server.protocol.NamenodeProtocols;
+import com.google.common.io.BaseEncoding;
 
 import java.io.IOException;
 import java.net.URL;
@@ -115,12 +117,11 @@ public class NameNodeSpecServer {
 
     try {
       ReplicaUpcall.Request.Builder builder = ReplicaUpcall.Request.newBuilder();
-      TextFormat.merge(param, builder);
-      req = builder.build();
-    } catch (TextFormat.ParseException e) {
-      LOG.error("cannot parse parameters");
+      byte[] bytes = BaseEncoding.base64().decode(param);
+      req = builder.mergeFrom(bytes).build();
+    } catch (InvalidProtocolBufferException e) {
       e.printStackTrace();
-      return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
+      return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
     }
 
     switch (req.getOp()) {
@@ -128,19 +129,32 @@ public class NameNodeSpecServer {
       case LS:
         try {
           DirectoryListing result = rpcServer.getListing(req.getSrc(), req.getStartAfter().toByteArray(), req.getNeedLocation());
+          ReplicaUpcall.DirectoryListing.Builder dl = ReplicaUpcall.DirectoryListing.newBuilder();
           for (HdfsFileStatus status : result.getPartialListing()) {
             status.voidTimestamps();
             status.permissionInShort = status.getPermission().toShort();
+            ReplicaUpcall.HdfsFileStatus st = ReplicaUpcall.HdfsFileStatus.newBuilder()
+                .setFileType(status.isDir() ? ReplicaUpcall.HdfsFileStatus.FileType.IS_DIR : (status.isSymlink() ?
+                    ReplicaUpcall.HdfsFileStatus.FileType.IS_SYMLINK : ReplicaUpcall.HdfsFileStatus.FileType.IS_FILE))
+                .setPath(ByteString.copyFrom(status.getLocalNameInBytes()))
+                .setLength(status.getLen())
+                .setPermission(status.permissionInShort)
+                .setOwner(status.getOwner())
+                .setGroup(status.getGroup())
+                .setModificationTime(status.getModificationTime())
+                .setAccessTime(status.getAccessTime())
+                .setBlockReplication(status.getReplication())
+                .setFileId(status.getFileId())
+                .setChildrenNum(status.getChildrenNum())
+                .build();
+            dl.addPartialListing(st);
           }
-          String ret = TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setDirectoryListing(ByteString.
-              copyFrom(SerializationUtils.serialize(result)))); // TODO need to check if serializing works
-          LOG.debug("ls return string length:" + ret.length());
-          return ret;
-
+          dl.setRemainingEntries(result.getRemainingEntries());
+          ReplicaUpcall.DirectoryListing listing = dl.build();
+          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setDirectoryListing(listing).build().toByteArray());
         } catch (IOException e) {
           e.printStackTrace();
-          String ret = TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
-          return ret;
+          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
         }
 
       case MKDIR:
@@ -150,10 +164,10 @@ public class NameNodeSpecServer {
           UpcallLog.getUpcallLogLock().lock();
           UpcallLog.currentOpLog = log;
           boolean result = rpcServer.mkdirs(req.getSrc(), new FsPermission((short) req.getMasked()), req.getCreateParent());
-          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setSuccess(result));
+          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray());
         } catch (IOException e) {
           e.printStackTrace();
-          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
+          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
         } finally {
           UpcallLog.currentOpLog = null;
           UpcallLog.getUpcallLogLock().unlock();
@@ -166,10 +180,10 @@ public class NameNodeSpecServer {
           UpcallLog.getUpcallLogLock().lock();
           UpcallLog.currentOpLog = log;
           boolean result = rpcServer.delete(req.getSrc(), req.getRecursive());
-          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setSuccess(result));
+          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setSuccess(result).build().toByteArray());
         } catch (IOException e) {
           e.printStackTrace();
-          return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()));
+          return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException(e.getMessage()).build().toByteArray());
         } finally {
           UpcallLog.currentOpLog = null;
           UpcallLog.getUpcallLogLock().unlock();
@@ -177,7 +191,7 @@ public class NameNodeSpecServer {
 
       default:
         LOG.error("unknown op");
-        return TextFormat.printToString(ReplicaUpcall.Reply.newBuilder().setException("unknown op"));
+        return BaseEncoding.base64().encode(ReplicaUpcall.Reply.newBuilder().setException("unknown op").build().toByteArray());
     }
 
   }
