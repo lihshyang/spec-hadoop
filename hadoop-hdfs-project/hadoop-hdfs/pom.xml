@@ -181,12 +181,6 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
       <version>4.4.0</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>21.0</version>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
 
   <build>
