@@ -28,6 +28,7 @@ message Reply {
     optional string exception = 1;
     optional bool success = 2;
     optional DirectoryListing directoryListing = 3;
+    optional HdfsFileStatus hdfsFileStatus = 4;
 }
 
 message DirectoryListing {
