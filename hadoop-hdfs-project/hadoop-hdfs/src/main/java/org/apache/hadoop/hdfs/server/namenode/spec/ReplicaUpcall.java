@@ -1539,6 +1539,23 @@ public final class ReplicaUpcall {
      * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
      */
     org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListingOrBuilder getDirectoryListingOrBuilder();
+
+    // optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    boolean hasHdfsFileStatus();
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getHdfsFileStatus();
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getHdfsFileStatusOrBuilder();
   }
   /**
    * Protobuf type {@code hadoop.hdfs.Reply}
@@ -1612,6 +1629,19 @@ public final class ReplicaUpcall {
                 directoryListing_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
+              break;
+            }
+            case 34: {
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = hdfsFileStatus_.toBuilder();
+              }
+              hdfsFileStatus_ = input.readMessage(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(hdfsFileStatus_);
+                hdfsFileStatus_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -1735,10 +1765,36 @@ public final class ReplicaUpcall {
       return directoryListing_;
     }
 
+    // optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;
+    public static final int HDFSFILESTATUS_FIELD_NUMBER = 4;
+    private org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus hdfsFileStatus_;
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    public boolean hasHdfsFileStatus() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getHdfsFileStatus() {
+      return hdfsFileStatus_;
+    }
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getHdfsFileStatusOrBuilder() {
+      return hdfsFileStatus_;
+    }
+
     private void initFields() {
       exception_ = "";
       success_ = false;
       directoryListing_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.getDefaultInstance();
+      hdfsFileStatus_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1747,6 +1803,12 @@ public final class ReplicaUpcall {
 
       if (hasDirectoryListing()) {
         if (!getDirectoryListing().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasHdfsFileStatus()) {
+        if (!getHdfsFileStatus().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -1766,6 +1828,9 @@ public final class ReplicaUpcall {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeMessage(3, directoryListing_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, hdfsFileStatus_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1787,6 +1852,10 @@ public final class ReplicaUpcall {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, directoryListing_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(4, hdfsFileStatus_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1826,6 +1895,11 @@ public final class ReplicaUpcall {
         result = result && getDirectoryListing()
             .equals(other.getDirectoryListing());
       }
+      result = result && (hasHdfsFileStatus() == other.hasHdfsFileStatus());
+      if (hasHdfsFileStatus()) {
+        result = result && getHdfsFileStatus()
+            .equals(other.getHdfsFileStatus());
+      }
       result = result &&
           getUnknownFields().equals(other.getUnknownFields());
       return result;
@@ -1850,6 +1924,10 @@ public final class ReplicaUpcall {
       if (hasDirectoryListing()) {
         hash = (37 * hash) + DIRECTORYLISTING_FIELD_NUMBER;
         hash = (53 * hash) + getDirectoryListing().hashCode();
+      }
+      if (hasHdfsFileStatus()) {
+        hash = (37 * hash) + HDFSFILESTATUS_FIELD_NUMBER;
+        hash = (53 * hash) + getHdfsFileStatus().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1953,6 +2031,7 @@ public final class ReplicaUpcall {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getDirectoryListingFieldBuilder();
+          getHdfsFileStatusFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1971,6 +2050,12 @@ public final class ReplicaUpcall {
           directoryListingBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (hdfsFileStatusBuilder_ == null) {
+          hdfsFileStatus_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
+        } else {
+          hdfsFileStatusBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2015,6 +2100,14 @@ public final class ReplicaUpcall {
         } else {
           result.directoryListing_ = directoryListingBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (hdfsFileStatusBuilder_ == null) {
+          result.hdfsFileStatus_ = hdfsFileStatus_;
+        } else {
+          result.hdfsFileStatus_ = hdfsFileStatusBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2042,6 +2135,9 @@ public final class ReplicaUpcall {
         if (other.hasDirectoryListing()) {
           mergeDirectoryListing(other.getDirectoryListing());
         }
+        if (other.hasHdfsFileStatus()) {
+          mergeHdfsFileStatus(other.getHdfsFileStatus());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2049,7 +2145,13 @@ public final class ReplicaUpcall {
       public final boolean isInitialized() {
         if (hasDirectoryListing()) {
           if (!getDirectoryListing().isInitialized()) {
-            
+
+            return false;
+          }
+        }
+        if (hasHdfsFileStatus()) {
+          if (!getHdfsFileStatus().isInitialized()) {
+
             return false;
           }
         }
@@ -2297,6 +2399,132 @@ public final class ReplicaUpcall {
           directoryListing_ = null;
         }
         return directoryListingBuilder_;
+      }
+
+      // optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;
+      private org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus hdfsFileStatus_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder> hdfsFileStatusBuilder_;
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public boolean hasHdfsFileStatus() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getHdfsFileStatus() {
+        if (hdfsFileStatusBuilder_ == null) {
+          return hdfsFileStatus_;
+        } else {
+          return hdfsFileStatusBuilder_.getMessage();
+        }
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public Builder setHdfsFileStatus(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus value) {
+        if (hdfsFileStatusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          hdfsFileStatus_ = value;
+          onChanged();
+        } else {
+          hdfsFileStatusBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public Builder setHdfsFileStatus(
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder builderForValue) {
+        if (hdfsFileStatusBuilder_ == null) {
+          hdfsFileStatus_ = builderForValue.build();
+          onChanged();
+        } else {
+          hdfsFileStatusBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public Builder mergeHdfsFileStatus(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus value) {
+        if (hdfsFileStatusBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              hdfsFileStatus_ != org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance()) {
+            hdfsFileStatus_ =
+                org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.newBuilder(hdfsFileStatus_).mergeFrom(value).buildPartial();
+          } else {
+            hdfsFileStatus_ = value;
+          }
+          onChanged();
+        } else {
+          hdfsFileStatusBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public Builder clearHdfsFileStatus() {
+        if (hdfsFileStatusBuilder_ == null) {
+          hdfsFileStatus_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
+          onChanged();
+        } else {
+          hdfsFileStatusBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder getHdfsFileStatusBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getHdfsFileStatusFieldBuilder().getBuilder();
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getHdfsFileStatusOrBuilder() {
+        if (hdfsFileStatusBuilder_ != null) {
+          return hdfsFileStatusBuilder_.getMessageOrBuilder();
+        } else {
+          return hdfsFileStatus_;
+        }
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder>
+      getHdfsFileStatusFieldBuilder() {
+        if (hdfsFileStatusBuilder_ == null) {
+          hdfsFileStatusBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder>(
+              hdfsFileStatus_,
+              getParentForChildren(),
+              isClean());
+          hdfsFileStatus_ = null;
+        }
+        return hdfsFileStatusBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:hadoop.hdfs.Reply)
@@ -5251,24 +5479,25 @@ public final class ReplicaUpcall {
       "\003dst\030\004 \001(\t\022\021\n\trecursive\030\005 \001(\010\022\016\n\006masked\030" +
       "\006 \001(\005\022\024\n\014createParent\030\007 \001(\010\022\022\n\nstartAfte" +
       "r\030\010 \001(\014\022\024\n\014needLocation\030\t \001(\010\"&\n\tOperati" +
-      "on\022\t\n\005MKDIR\020\001\022\006\n\002RM\020\002\022\006\n\002LS\020\003\"d\n\005Reply\022\021" +
-      "\n\texception\030\001 \001(\t\022\017\n\007success\030\002 \001(\010\0227\n\020di" +
-      "rectoryListing\030\003 \001(\0132\035.hadoop.hdfs.Direc" +
-      "toryListing\"a\n\020DirectoryListing\0223\n\016parti",
-      "alListing\030\001 \003(\0132\033.hadoop.hdfs.HdfsFileSt" +
-      "atus\022\030\n\020remainingEntries\030\002 \002(\r\"\201\003\n\016HdfsF" +
-      "ileStatus\0226\n\010fileType\030\001 \002(\0162$.hadoop.hdf" +
-      "s.HdfsFileStatus.FileType\022\014\n\004path\030\002 \002(\014\022" +
-      "\016\n\006length\030\003 \002(\004\022\022\n\npermission\030\004 \002(\r\022\r\n\005o" +
-      "wner\030\005 \002(\t\022\r\n\005group\030\006 \002(\t\022\031\n\021modificatio" +
-      "n_time\030\007 \002(\004\022\023\n\013access_time\030\010 \002(\004\022\017\n\007sym" +
-      "link\030\t \001(\014\022\034\n\021block_replication\030\n \001(\r:\0010" +
-      "\022\024\n\tblocksize\030\013 \001(\004:\0010\022\021\n\tlocations\030\014 \001(" +
-      "\r\022\021\n\006fileId\030\r \001(\004:\0010\022\027\n\013childrenNum\030\016 \001(",
-      "\005:\002-1\"3\n\010FileType\022\n\n\006IS_DIR\020\001\022\013\n\007IS_FILE" +
-      "\020\002\022\016\n\nIS_SYMLINK\020\003B?\n+org.apache.hadoop." +
-      "hdfs.server.namenode.specB\rReplicaUpcall" +
-      "\240\001\001"
+          "on\022\t\n\005MKDIR\020\001\022\006\n\002RM\020\002\022\006\n\002LS\020\003\"\231\001\n\005Reply\022" +
+          "\021\n\texception\030\001 \001(\t\022\017\n\007success\030\002 \001(\010\0227\n\020d" +
+          "irectoryListing\030\003 \001(\0132\035.hadoop.hdfs.Dire" +
+          "ctoryListing\0223\n\016hdfsFileStatus\030\004 \001(\0132\033.h",
+        "adoop.hdfs.HdfsFileStatus\"a\n\020DirectoryLi" +
+            "sting\0223\n\016partialListing\030\001 \003(\0132\033.hadoop.h" +
+            "dfs.HdfsFileStatus\022\030\n\020remainingEntries\030\002" +
+            " \002(\r\"\201\003\n\016HdfsFileStatus\0226\n\010fileType\030\001 \002(" +
+            "\0162$.hadoop.hdfs.HdfsFileStatus.FileType\022" +
+            "\014\n\004path\030\002 \002(\014\022\016\n\006length\030\003 \002(\004\022\022\n\npermiss" +
+            "ion\030\004 \002(\r\022\r\n\005owner\030\005 \002(\t\022\r\n\005group\030\006 \002(\t\022" +
+            "\031\n\021modification_time\030\007 \002(\004\022\023\n\013access_tim" +
+            "e\030\010 \002(\004\022\017\n\007symlink\030\t \001(\014\022\034\n\021block_replic" +
+            "ation\030\n \001(\r:\0010\022\024\n\tblocksize\030\013 \001(\004:\0010\022\021\n\t",
+        "locations\030\014 \001(\r\022\021\n\006fileId\030\r \001(\004:\0010\022\027\n\013ch" +
+            "ildrenNum\030\016 \001(\005:\002-1\"3\n\010FileType\022\n\n\006IS_DI" +
+            "R\020\001\022\013\n\007IS_FILE\020\002\022\016\n\nIS_SYMLINK\020\003B?\n+org." +
+            "apache.hadoop.hdfs.server.namenode.specB" +
+            "\rReplicaUpcall\240\001\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5286,7 +5515,7 @@ public final class ReplicaUpcall {
           internal_static_hadoop_hdfs_Reply_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hadoop_hdfs_Reply_descriptor,
-              new java.lang.String[] { "Exception", "Success", "DirectoryListing", });
+              new java.lang.String[]{"Exception", "Success", "DirectoryListing", "HdfsFileStatus",});
           internal_static_hadoop_hdfs_DirectoryListing_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_hadoop_hdfs_DirectoryListing_fieldAccessorTable = new
