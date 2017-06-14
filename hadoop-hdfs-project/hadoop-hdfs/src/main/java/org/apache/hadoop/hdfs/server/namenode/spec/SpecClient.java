@@ -1,11 +1,9 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.TextFormat;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
-import org.apache.commons.lang.SerializationUtils;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.hdfs.protocol.*;
@@ -17,8 +15,8 @@ import org.apache.hadoop.io.EnumSetWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.security.AccessControlException;
 import org.apache.hadoop.security.token.Token;
+import org.apache.commons.codec.binary.Base64;
 
-import javax.sql.rowset.serial.SerialStruct;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -115,9 +113,9 @@ public class SpecClient implements ClientProtocol {
 
   }
 
-  private String callClientClib(String request) {
+  private String callClientClib(byte[] request) {
     PointerByReference ptrRep = new PointerByReference();
-    specServer.runClient(confPath, request, ptrRep);
+    specServer.runClient(confPath, Base64.encodeBase64String(request), ptrRep);
     final Pointer reply = ptrRep.getValue();
     return reply.getString(0);
   }
@@ -126,10 +124,10 @@ public class SpecClient implements ClientProtocol {
   public boolean delete(String src, boolean recursive) throws AccessControlException, FileNotFoundException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(RM).setSrc(src).
         setRecursive(recursive);
-    String result = callClientClib(TextFormat.printToString(req));
+    String result = callClientClib(req.build().toByteArray());
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    TextFormat.merge(result, repBuilder);
-    ReplicaUpcall.Reply reply = repBuilder.build();
+    byte[] bytes = Base64.decodeBase64(result);
+    ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
     }
@@ -140,11 +138,10 @@ public class SpecClient implements ClientProtocol {
   public boolean mkdirs(String src, FsPermission masked, boolean createParent) throws AccessControlException, FileAlreadyExistsException, FileNotFoundException, NSQuotaExceededException, ParentNotDirectoryException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(MKDIR).setSrc(src).
         setMasked(masked.toShort()).setCreateParent(createParent);
-    String result = callClientClib(TextFormat.printToString(req));
-    TextFormat.printToString(req);
+    String result = callClientClib(req.build().toByteArray());
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    TextFormat.merge(result, repBuilder);
-    ReplicaUpcall.Reply reply = repBuilder.build();
+    byte[] bytes = Base64.decodeBase64(result);
+    ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
     }
@@ -155,18 +152,22 @@ public class SpecClient implements ClientProtocol {
   public DirectoryListing getListing(String src, byte[] startAfter, boolean needLocation) throws AccessControlException, FileNotFoundException, UnresolvedLinkException, IOException {
     ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(LS).setSrc(src).
         setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation);
-    String result = callClientClib(TextFormat.printToString(req));
-    TextFormat.printToString(req);
+    String result = callClientClib(req.build().toByteArray());
     ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    TextFormat.merge(result, repBuilder);
-    ReplicaUpcall.Reply reply = repBuilder.build();
+    byte[] bytes = Base64.decodeBase64(result);
+    ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
     if (reply.hasException()) {
       throw new IOException(reply.getException());
     }
-    DirectoryListing dl = (DirectoryListing) SerializationUtils.deserialize(reply.getDirectoryListing().toByteArray());
-    for (HdfsFileStatus status: dl.getPartialListing()) {
-      status.setPermission(new FsPermission(status.permissionInShort));
+    ReplicaUpcall.DirectoryListing listing = reply.getDirectoryListing();
+    HdfsFileStatus[] allStates = new HdfsFileStatus[listing.getPartialListingCount()];
+    for (int i = 0; i < allStates.length; i++) {
+      ReplicaUpcall.HdfsFileStatus l = listing.getPartialListing(i);
+      allStates[i] = new HdfsFileStatus(l.getLength(),l.getFileType()==ReplicaUpcall.HdfsFileStatus.FileType.IS_DIR,
+          l.getBlockReplication(),l.getBlocksize(),l.getModificationTime(),l.getAccessTime(),new FsPermission((short) l.getPermission()),
+          l.getOwner(),l.getGroup(),l.getSymlink().toByteArray(),l.getPath().toByteArray(),l.getFileId(),l.getChildrenNum());
     }
+    DirectoryListing dl = new DirectoryListing(allStates, listing.getRemainingEntries());
     return dl;
   }
 

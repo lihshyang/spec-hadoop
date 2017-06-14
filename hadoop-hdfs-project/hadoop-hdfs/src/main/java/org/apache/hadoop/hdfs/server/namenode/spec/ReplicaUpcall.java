@@ -1526,15 +1526,36 @@ public final class ReplicaUpcall {
      */
     boolean getSuccess();
 
-    // optional bytes directoryListing = 3;
+    // optional .hadoop.hdfs.DirectoryListing directoryListing = 3;
     /**
-     * <code>optional bytes directoryListing = 3;</code>
+     * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
      */
     boolean hasDirectoryListing();
     /**
-     * <code>optional bytes directoryListing = 3;</code>
+     * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
      */
-    com.google.protobuf.ByteString getDirectoryListing();
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing getDirectoryListing();
+    /**
+     * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
+     */
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListingOrBuilder getDirectoryListingOrBuilder();
+
+    // optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    boolean hasHdfsFileStatus();
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getHdfsFileStatus();
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getHdfsFileStatusOrBuilder();
   }
   /**
    * Protobuf type {@code hadoop.hdfs.Reply}
@@ -1598,8 +1619,29 @@ public final class ReplicaUpcall {
               break;
             }
             case 26: {
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = directoryListing_.toBuilder();
+              }
+              directoryListing_ = input.readMessage(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(directoryListing_);
+                directoryListing_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000004;
-              directoryListing_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = hdfsFileStatus_.toBuilder();
+              }
+              hdfsFileStatus_ = input.readMessage(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(hdfsFileStatus_);
+                hdfsFileStatus_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -1701,32 +1743,76 @@ public final class ReplicaUpcall {
       return success_;
     }
 
-    // optional bytes directoryListing = 3;
+    // optional .hadoop.hdfs.DirectoryListing directoryListing = 3;
     public static final int DIRECTORYLISTING_FIELD_NUMBER = 3;
-    private com.google.protobuf.ByteString directoryListing_;
+    private org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing directoryListing_;
     /**
-     * <code>optional bytes directoryListing = 3;</code>
+     * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
      */
     public boolean hasDirectoryListing() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional bytes directoryListing = 3;</code>
+     * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
      */
-    public com.google.protobuf.ByteString getDirectoryListing() {
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing getDirectoryListing() {
       return directoryListing_;
+    }
+    /**
+     * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
+     */
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListingOrBuilder getDirectoryListingOrBuilder() {
+      return directoryListing_;
+    }
+
+    // optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;
+    public static final int HDFSFILESTATUS_FIELD_NUMBER = 4;
+    private org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus hdfsFileStatus_;
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    public boolean hasHdfsFileStatus() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getHdfsFileStatus() {
+      return hdfsFileStatus_;
+    }
+
+    /**
+     * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+     */
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getHdfsFileStatusOrBuilder() {
+      return hdfsFileStatus_;
     }
 
     private void initFields() {
       exception_ = "";
       success_ = false;
-      directoryListing_ = com.google.protobuf.ByteString.EMPTY;
+      directoryListing_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.getDefaultInstance();
+      hdfsFileStatus_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (hasDirectoryListing()) {
+        if (!getDirectoryListing().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasHdfsFileStatus()) {
+        if (!getHdfsFileStatus().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1741,7 +1827,10 @@ public final class ReplicaUpcall {
         output.writeBool(2, success_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeBytes(3, directoryListing_);
+        output.writeMessage(3, directoryListing_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, hdfsFileStatus_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1762,7 +1851,11 @@ public final class ReplicaUpcall {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(3, directoryListing_);
+          .computeMessageSize(3, directoryListing_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+            .computeMessageSize(4, hdfsFileStatus_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1802,6 +1895,11 @@ public final class ReplicaUpcall {
         result = result && getDirectoryListing()
             .equals(other.getDirectoryListing());
       }
+      result = result && (hasHdfsFileStatus() == other.hasHdfsFileStatus());
+      if (hasHdfsFileStatus()) {
+        result = result && getHdfsFileStatus()
+            .equals(other.getHdfsFileStatus());
+      }
       result = result &&
           getUnknownFields().equals(other.getUnknownFields());
       return result;
@@ -1826,6 +1924,10 @@ public final class ReplicaUpcall {
       if (hasDirectoryListing()) {
         hash = (37 * hash) + DIRECTORYLISTING_FIELD_NUMBER;
         hash = (53 * hash) + getDirectoryListing().hashCode();
+      }
+      if (hasHdfsFileStatus()) {
+        hash = (37 * hash) + HDFSFILESTATUS_FIELD_NUMBER;
+        hash = (53 * hash) + getHdfsFileStatus().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -1928,6 +2030,8 @@ public final class ReplicaUpcall {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getDirectoryListingFieldBuilder();
+          getHdfsFileStatusFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1940,8 +2044,18 @@ public final class ReplicaUpcall {
         bitField0_ = (bitField0_ & ~0x00000001);
         success_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
-        directoryListing_ = com.google.protobuf.ByteString.EMPTY;
+        if (directoryListingBuilder_ == null) {
+          directoryListing_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.getDefaultInstance();
+        } else {
+          directoryListingBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (hdfsFileStatusBuilder_ == null) {
+          hdfsFileStatus_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
+        } else {
+          hdfsFileStatusBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1981,7 +2095,19 @@ public final class ReplicaUpcall {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.directoryListing_ = directoryListing_;
+        if (directoryListingBuilder_ == null) {
+          result.directoryListing_ = directoryListing_;
+        } else {
+          result.directoryListing_ = directoryListingBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (hdfsFileStatusBuilder_ == null) {
+          result.hdfsFileStatus_ = hdfsFileStatus_;
+        } else {
+          result.hdfsFileStatus_ = hdfsFileStatusBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2007,13 +2133,28 @@ public final class ReplicaUpcall {
           setSuccess(other.getSuccess());
         }
         if (other.hasDirectoryListing()) {
-          setDirectoryListing(other.getDirectoryListing());
+          mergeDirectoryListing(other.getDirectoryListing());
+        }
+        if (other.hasHdfsFileStatus()) {
+          mergeHdfsFileStatus(other.getHdfsFileStatus());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (hasDirectoryListing()) {
+          if (!getDirectoryListing().isInitialized()) {
+
+            return false;
+          }
+        }
+        if (hasHdfsFileStatus()) {
+          if (!getHdfsFileStatus().isInitialized()) {
+
+            return false;
+          }
+        }
         return true;
       }
 
@@ -2143,40 +2284,247 @@ public final class ReplicaUpcall {
         return this;
       }
 
-      // optional bytes directoryListing = 3;
-      private com.google.protobuf.ByteString directoryListing_ = com.google.protobuf.ByteString.EMPTY;
+      // optional .hadoop.hdfs.DirectoryListing directoryListing = 3;
+      private org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing directoryListing_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListingOrBuilder> directoryListingBuilder_;
       /**
-       * <code>optional bytes directoryListing = 3;</code>
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
        */
       public boolean hasDirectoryListing() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional bytes directoryListing = 3;</code>
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
        */
-      public com.google.protobuf.ByteString getDirectoryListing() {
-        return directoryListing_;
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing getDirectoryListing() {
+        if (directoryListingBuilder_ == null) {
+          return directoryListing_;
+        } else {
+          return directoryListingBuilder_.getMessage();
+        }
       }
       /**
-       * <code>optional bytes directoryListing = 3;</code>
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
        */
-      public Builder setDirectoryListing(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000004;
-        directoryListing_ = value;
-        onChanged();
+      public Builder setDirectoryListing(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing value) {
+        if (directoryListingBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          directoryListing_ = value;
+          onChanged();
+        } else {
+          directoryListingBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional bytes directoryListing = 3;</code>
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
+       */
+      public Builder setDirectoryListing(
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.Builder builderForValue) {
+        if (directoryListingBuilder_ == null) {
+          directoryListing_ = builderForValue.build();
+          onChanged();
+        } else {
+          directoryListingBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
+       */
+      public Builder mergeDirectoryListing(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing value) {
+        if (directoryListingBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              directoryListing_ != org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.getDefaultInstance()) {
+            directoryListing_ =
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.newBuilder(directoryListing_).mergeFrom(value).buildPartial();
+          } else {
+            directoryListing_ = value;
+          }
+          onChanged();
+        } else {
+          directoryListingBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
        */
       public Builder clearDirectoryListing() {
+        if (directoryListingBuilder_ == null) {
+          directoryListing_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.getDefaultInstance();
+          onChanged();
+        } else {
+          directoryListingBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
-        directoryListing_ = getDefaultInstance().getDirectoryListing();
-        onChanged();
         return this;
+      }
+      /**
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.Builder getDirectoryListingBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getDirectoryListingFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListingOrBuilder getDirectoryListingOrBuilder() {
+        if (directoryListingBuilder_ != null) {
+          return directoryListingBuilder_.getMessageOrBuilder();
+        } else {
+          return directoryListing_;
+        }
+      }
+      /**
+       * <code>optional .hadoop.hdfs.DirectoryListing directoryListing = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListingOrBuilder> 
+          getDirectoryListingFieldBuilder() {
+        if (directoryListingBuilder_ == null) {
+          directoryListingBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListingOrBuilder>(
+                  directoryListing_,
+                  getParentForChildren(),
+                  isClean());
+          directoryListing_ = null;
+        }
+        return directoryListingBuilder_;
+      }
+
+      // optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;
+      private org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus hdfsFileStatus_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder> hdfsFileStatusBuilder_;
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public boolean hasHdfsFileStatus() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getHdfsFileStatus() {
+        if (hdfsFileStatusBuilder_ == null) {
+          return hdfsFileStatus_;
+        } else {
+          return hdfsFileStatusBuilder_.getMessage();
+        }
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public Builder setHdfsFileStatus(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus value) {
+        if (hdfsFileStatusBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          hdfsFileStatus_ = value;
+          onChanged();
+        } else {
+          hdfsFileStatusBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public Builder setHdfsFileStatus(
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder builderForValue) {
+        if (hdfsFileStatusBuilder_ == null) {
+          hdfsFileStatus_ = builderForValue.build();
+          onChanged();
+        } else {
+          hdfsFileStatusBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public Builder mergeHdfsFileStatus(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus value) {
+        if (hdfsFileStatusBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              hdfsFileStatus_ != org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance()) {
+            hdfsFileStatus_ =
+                org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.newBuilder(hdfsFileStatus_).mergeFrom(value).buildPartial();
+          } else {
+            hdfsFileStatus_ = value;
+          }
+          onChanged();
+        } else {
+          hdfsFileStatusBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public Builder clearHdfsFileStatus() {
+        if (hdfsFileStatusBuilder_ == null) {
+          hdfsFileStatus_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
+          onChanged();
+        } else {
+          hdfsFileStatusBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder getHdfsFileStatusBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getHdfsFileStatusFieldBuilder().getBuilder();
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getHdfsFileStatusOrBuilder() {
+        if (hdfsFileStatusBuilder_ != null) {
+          return hdfsFileStatusBuilder_.getMessageOrBuilder();
+        } else {
+          return hdfsFileStatus_;
+        }
+      }
+
+      /**
+       * <code>optional .hadoop.hdfs.HdfsFileStatus hdfsFileStatus = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder>
+      getHdfsFileStatusFieldBuilder() {
+        if (hdfsFileStatusBuilder_ == null) {
+          hdfsFileStatusBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder>(
+              hdfsFileStatus_,
+              getParentForChildren(),
+              isClean());
+          hdfsFileStatus_ = null;
+        }
+        return hdfsFileStatusBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:hadoop.hdfs.Reply)
@@ -2190,6 +2538,2912 @@ public final class ReplicaUpcall {
     // @@protoc_insertion_point(class_scope:hadoop.hdfs.Reply)
   }
 
+  public interface DirectoryListingOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    java.util.List<org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus> 
+        getPartialListingList();
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getPartialListing(int index);
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    int getPartialListingCount();
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    java.util.List<? extends org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder> 
+        getPartialListingOrBuilderList();
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getPartialListingOrBuilder(
+        int index);
+
+    // required uint32 remainingEntries = 2;
+    /**
+     * <code>required uint32 remainingEntries = 2;</code>
+     */
+    boolean hasRemainingEntries();
+    /**
+     * <code>required uint32 remainingEntries = 2;</code>
+     */
+    int getRemainingEntries();
+  }
+  /**
+   * Protobuf type {@code hadoop.hdfs.DirectoryListing}
+   */
+  public static final class DirectoryListing extends
+      com.google.protobuf.GeneratedMessage
+      implements DirectoryListingOrBuilder {
+    // Use DirectoryListing.newBuilder() to construct.
+    private DirectoryListing(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DirectoryListing(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DirectoryListing defaultInstance;
+    public static DirectoryListing getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DirectoryListing getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DirectoryListing(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                partialListing_ = new java.util.ArrayList<org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              partialListing_.add(input.readMessage(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.PARSER, extensionRegistry));
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000001;
+              remainingEntries_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          partialListing_ = java.util.Collections.unmodifiableList(partialListing_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_DirectoryListing_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_DirectoryListing_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.class, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DirectoryListing> PARSER =
+        new com.google.protobuf.AbstractParser<DirectoryListing>() {
+      public DirectoryListing parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DirectoryListing(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DirectoryListing> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;
+    public static final int PARTIALLISTING_FIELD_NUMBER = 1;
+    private java.util.List<org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus> partialListing_;
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    public java.util.List<org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus> getPartialListingList() {
+      return partialListing_;
+    }
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    public java.util.List<? extends org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder> 
+        getPartialListingOrBuilderList() {
+      return partialListing_;
+    }
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    public int getPartialListingCount() {
+      return partialListing_.size();
+    }
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getPartialListing(int index) {
+      return partialListing_.get(index);
+    }
+    /**
+     * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+     */
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getPartialListingOrBuilder(
+        int index) {
+      return partialListing_.get(index);
+    }
+
+    // required uint32 remainingEntries = 2;
+    public static final int REMAININGENTRIES_FIELD_NUMBER = 2;
+    private int remainingEntries_;
+    /**
+     * <code>required uint32 remainingEntries = 2;</code>
+     */
+    public boolean hasRemainingEntries() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required uint32 remainingEntries = 2;</code>
+     */
+    public int getRemainingEntries() {
+      return remainingEntries_;
+    }
+
+    private void initFields() {
+      partialListing_ = java.util.Collections.emptyList();
+      remainingEntries_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasRemainingEntries()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getPartialListingCount(); i++) {
+        if (!getPartialListing(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < partialListing_.size(); i++) {
+        output.writeMessage(1, partialListing_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeUInt32(2, remainingEntries_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < partialListing_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, partialListing_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(2, remainingEntries_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing)) {
+        return super.equals(obj);
+      }
+      org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing other = (org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing) obj;
+
+      boolean result = true;
+      result = result && getPartialListingList()
+          .equals(other.getPartialListingList());
+      result = result && (hasRemainingEntries() == other.hasRemainingEntries());
+      if (hasRemainingEntries()) {
+        result = result && (getRemainingEntries()
+            == other.getRemainingEntries());
+      }
+      result = result &&
+          getUnknownFields().equals(other.getUnknownFields());
+      return result;
+    }
+
+    private int memoizedHashCode = 0;
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (getPartialListingCount() > 0) {
+        hash = (37 * hash) + PARTIALLISTING_FIELD_NUMBER;
+        hash = (53 * hash) + getPartialListingList().hashCode();
+      }
+      if (hasRemainingEntries()) {
+        hash = (37 * hash) + REMAININGENTRIES_FIELD_NUMBER;
+        hash = (53 * hash) + getRemainingEntries();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code hadoop.hdfs.DirectoryListing}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListingOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_DirectoryListing_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_DirectoryListing_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.class, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.Builder.class);
+      }
+
+      // Construct using org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getPartialListingFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (partialListingBuilder_ == null) {
+          partialListing_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          partialListingBuilder_.clear();
+        }
+        remainingEntries_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_DirectoryListing_descriptor;
+      }
+
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing getDefaultInstanceForType() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.getDefaultInstance();
+      }
+
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing build() {
+        org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing buildPartial() {
+        org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing result = new org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (partialListingBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            partialListing_ = java.util.Collections.unmodifiableList(partialListing_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.partialListing_ = partialListing_;
+        } else {
+          result.partialListing_ = partialListingBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.remainingEntries_ = remainingEntries_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing) {
+          return mergeFrom((org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing other) {
+        if (other == org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing.getDefaultInstance()) return this;
+        if (partialListingBuilder_ == null) {
+          if (!other.partialListing_.isEmpty()) {
+            if (partialListing_.isEmpty()) {
+              partialListing_ = other.partialListing_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensurePartialListingIsMutable();
+              partialListing_.addAll(other.partialListing_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.partialListing_.isEmpty()) {
+            if (partialListingBuilder_.isEmpty()) {
+              partialListingBuilder_.dispose();
+              partialListingBuilder_ = null;
+              partialListing_ = other.partialListing_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              partialListingBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPartialListingFieldBuilder() : null;
+            } else {
+              partialListingBuilder_.addAllMessages(other.partialListing_);
+            }
+          }
+        }
+        if (other.hasRemainingEntries()) {
+          setRemainingEntries(other.getRemainingEntries());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasRemainingEntries()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getPartialListingCount(); i++) {
+          if (!getPartialListing(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.DirectoryListing) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;
+      private java.util.List<org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus> partialListing_ =
+        java.util.Collections.emptyList();
+      private void ensurePartialListingIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          partialListing_ = new java.util.ArrayList<org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus>(partialListing_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder> partialListingBuilder_;
+
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public java.util.List<org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus> getPartialListingList() {
+        if (partialListingBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(partialListing_);
+        } else {
+          return partialListingBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public int getPartialListingCount() {
+        if (partialListingBuilder_ == null) {
+          return partialListing_.size();
+        } else {
+          return partialListingBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getPartialListing(int index) {
+        if (partialListingBuilder_ == null) {
+          return partialListing_.get(index);
+        } else {
+          return partialListingBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder setPartialListing(
+          int index, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus value) {
+        if (partialListingBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePartialListingIsMutable();
+          partialListing_.set(index, value);
+          onChanged();
+        } else {
+          partialListingBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder setPartialListing(
+          int index, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder builderForValue) {
+        if (partialListingBuilder_ == null) {
+          ensurePartialListingIsMutable();
+          partialListing_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          partialListingBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder addPartialListing(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus value) {
+        if (partialListingBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePartialListingIsMutable();
+          partialListing_.add(value);
+          onChanged();
+        } else {
+          partialListingBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder addPartialListing(
+          int index, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus value) {
+        if (partialListingBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePartialListingIsMutable();
+          partialListing_.add(index, value);
+          onChanged();
+        } else {
+          partialListingBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder addPartialListing(
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder builderForValue) {
+        if (partialListingBuilder_ == null) {
+          ensurePartialListingIsMutable();
+          partialListing_.add(builderForValue.build());
+          onChanged();
+        } else {
+          partialListingBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder addPartialListing(
+          int index, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder builderForValue) {
+        if (partialListingBuilder_ == null) {
+          ensurePartialListingIsMutable();
+          partialListing_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          partialListingBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder addAllPartialListing(
+          java.lang.Iterable<? extends org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus> values) {
+        if (partialListingBuilder_ == null) {
+          ensurePartialListingIsMutable();
+          super.addAll(values, partialListing_);
+          onChanged();
+        } else {
+          partialListingBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder clearPartialListing() {
+        if (partialListingBuilder_ == null) {
+          partialListing_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          partialListingBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public Builder removePartialListing(int index) {
+        if (partialListingBuilder_ == null) {
+          ensurePartialListingIsMutable();
+          partialListing_.remove(index);
+          onChanged();
+        } else {
+          partialListingBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder getPartialListingBuilder(
+          int index) {
+        return getPartialListingFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder getPartialListingOrBuilder(
+          int index) {
+        if (partialListingBuilder_ == null) {
+          return partialListing_.get(index);  } else {
+          return partialListingBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public java.util.List<? extends org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder> 
+           getPartialListingOrBuilderList() {
+        if (partialListingBuilder_ != null) {
+          return partialListingBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(partialListing_);
+        }
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder addPartialListingBuilder() {
+        return getPartialListingFieldBuilder().addBuilder(
+            org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder addPartialListingBuilder(
+          int index) {
+        return getPartialListingFieldBuilder().addBuilder(
+            index, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .hadoop.hdfs.HdfsFileStatus partialListing = 1;</code>
+       */
+      public java.util.List<org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder> 
+           getPartialListingBuilderList() {
+        return getPartialListingFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder> 
+          getPartialListingFieldBuilder() {
+        if (partialListingBuilder_ == null) {
+          partialListingBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder>(
+                  partialListing_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          partialListing_ = null;
+        }
+        return partialListingBuilder_;
+      }
+
+      // required uint32 remainingEntries = 2;
+      private int remainingEntries_ ;
+      /**
+       * <code>required uint32 remainingEntries = 2;</code>
+       */
+      public boolean hasRemainingEntries() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required uint32 remainingEntries = 2;</code>
+       */
+      public int getRemainingEntries() {
+        return remainingEntries_;
+      }
+      /**
+       * <code>required uint32 remainingEntries = 2;</code>
+       */
+      public Builder setRemainingEntries(int value) {
+        bitField0_ |= 0x00000002;
+        remainingEntries_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint32 remainingEntries = 2;</code>
+       */
+      public Builder clearRemainingEntries() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        remainingEntries_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:hadoop.hdfs.DirectoryListing)
+    }
+
+    static {
+      defaultInstance = new DirectoryListing(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:hadoop.hdfs.DirectoryListing)
+  }
+
+  public interface HdfsFileStatusOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;
+    /**
+     * <code>required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;</code>
+     */
+    boolean hasFileType();
+    /**
+     * <code>required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;</code>
+     */
+    org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType getFileType();
+
+    // required bytes path = 2;
+    /**
+     * <code>required bytes path = 2;</code>
+     *
+     * <pre>
+     * local name of inode encoded java UTF8
+     * </pre>
+     */
+    boolean hasPath();
+    /**
+     * <code>required bytes path = 2;</code>
+     *
+     * <pre>
+     * local name of inode encoded java UTF8
+     * </pre>
+     */
+    com.google.protobuf.ByteString getPath();
+
+    // required uint64 length = 3;
+    /**
+     * <code>required uint64 length = 3;</code>
+     */
+    boolean hasLength();
+    /**
+     * <code>required uint64 length = 3;</code>
+     */
+    long getLength();
+
+    // required uint32 permission = 4;
+    /**
+     * <code>required uint32 permission = 4;</code>
+     */
+    boolean hasPermission();
+    /**
+     * <code>required uint32 permission = 4;</code>
+     */
+    int getPermission();
+
+    // required string owner = 5;
+    /**
+     * <code>required string owner = 5;</code>
+     */
+    boolean hasOwner();
+    /**
+     * <code>required string owner = 5;</code>
+     */
+    java.lang.String getOwner();
+    /**
+     * <code>required string owner = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getOwnerBytes();
+
+    // required string group = 6;
+    /**
+     * <code>required string group = 6;</code>
+     */
+    boolean hasGroup();
+    /**
+     * <code>required string group = 6;</code>
+     */
+    java.lang.String getGroup();
+    /**
+     * <code>required string group = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getGroupBytes();
+
+    // required uint64 modification_time = 7;
+    /**
+     * <code>required uint64 modification_time = 7;</code>
+     */
+    boolean hasModificationTime();
+    /**
+     * <code>required uint64 modification_time = 7;</code>
+     */
+    long getModificationTime();
+
+    // required uint64 access_time = 8;
+    /**
+     * <code>required uint64 access_time = 8;</code>
+     */
+    boolean hasAccessTime();
+    /**
+     * <code>required uint64 access_time = 8;</code>
+     */
+    long getAccessTime();
+
+    // optional bytes symlink = 9;
+    /**
+     * <code>optional bytes symlink = 9;</code>
+     *
+     * <pre>
+     * Optional fields for symlink
+     * </pre>
+     */
+    boolean hasSymlink();
+    /**
+     * <code>optional bytes symlink = 9;</code>
+     *
+     * <pre>
+     * Optional fields for symlink
+     * </pre>
+     */
+    com.google.protobuf.ByteString getSymlink();
+
+    // optional uint32 block_replication = 10 [default = 0];
+    /**
+     * <code>optional uint32 block_replication = 10 [default = 0];</code>
+     *
+     * <pre>
+     * Optional fields for file
+     * </pre>
+     */
+    boolean hasBlockReplication();
+    /**
+     * <code>optional uint32 block_replication = 10 [default = 0];</code>
+     *
+     * <pre>
+     * Optional fields for file
+     * </pre>
+     */
+    int getBlockReplication();
+
+    // optional uint64 blocksize = 11 [default = 0];
+    /**
+     * <code>optional uint64 blocksize = 11 [default = 0];</code>
+     */
+    boolean hasBlocksize();
+    /**
+     * <code>optional uint64 blocksize = 11 [default = 0];</code>
+     */
+    long getBlocksize();
+
+    // optional uint32 locations = 12;
+    /**
+     * <code>optional uint32 locations = 12;</code>
+     *
+     * <pre>
+     * suppled only if asked by client
+     * </pre>
+     */
+    boolean hasLocations();
+    /**
+     * <code>optional uint32 locations = 12;</code>
+     *
+     * <pre>
+     * suppled only if asked by client
+     * </pre>
+     */
+    int getLocations();
+
+    // optional uint64 fileId = 13 [default = 0];
+    /**
+     * <code>optional uint64 fileId = 13 [default = 0];</code>
+     *
+     * <pre>
+     * Optional field for fileId
+     * </pre>
+     */
+    boolean hasFileId();
+    /**
+     * <code>optional uint64 fileId = 13 [default = 0];</code>
+     *
+     * <pre>
+     * Optional field for fileId
+     * </pre>
+     */
+    long getFileId();
+
+    // optional int32 childrenNum = 14 [default = -1];
+    /**
+     * <code>optional int32 childrenNum = 14 [default = -1];</code>
+     */
+    boolean hasChildrenNum();
+    /**
+     * <code>optional int32 childrenNum = 14 [default = -1];</code>
+     */
+    int getChildrenNum();
+  }
+  /**
+   * Protobuf type {@code hadoop.hdfs.HdfsFileStatus}
+   */
+  public static final class HdfsFileStatus extends
+      com.google.protobuf.GeneratedMessage
+      implements HdfsFileStatusOrBuilder {
+    // Use HdfsFileStatus.newBuilder() to construct.
+    private HdfsFileStatus(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private HdfsFileStatus(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final HdfsFileStatus defaultInstance;
+    public static HdfsFileStatus getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public HdfsFileStatus getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HdfsFileStatus(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType value = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                fileType_ = value;
+              }
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              path_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              length_ = input.readUInt64();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              permission_ = input.readUInt32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              owner_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              group_ = input.readBytes();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              modificationTime_ = input.readUInt64();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000080;
+              accessTime_ = input.readUInt64();
+              break;
+            }
+            case 74: {
+              bitField0_ |= 0x00000100;
+              symlink_ = input.readBytes();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              blockReplication_ = input.readUInt32();
+              break;
+            }
+            case 88: {
+              bitField0_ |= 0x00000400;
+              blocksize_ = input.readUInt64();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000800;
+              locations_ = input.readUInt32();
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00001000;
+              fileId_ = input.readUInt64();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00002000;
+              childrenNum_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_HdfsFileStatus_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_HdfsFileStatus_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.class, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<HdfsFileStatus> PARSER =
+        new com.google.protobuf.AbstractParser<HdfsFileStatus>() {
+      public HdfsFileStatus parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new HdfsFileStatus(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HdfsFileStatus> getParserForType() {
+      return PARSER;
+    }
+
+    /**
+     * Protobuf enum {@code hadoop.hdfs.HdfsFileStatus.FileType}
+     */
+    public enum FileType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>IS_DIR = 1;</code>
+       */
+      IS_DIR(0, 1),
+      /**
+       * <code>IS_FILE = 2;</code>
+       */
+      IS_FILE(1, 2),
+      /**
+       * <code>IS_SYMLINK = 3;</code>
+       */
+      IS_SYMLINK(2, 3),
+      ;
+
+      /**
+       * <code>IS_DIR = 1;</code>
+       */
+      public static final int IS_DIR_VALUE = 1;
+      /**
+       * <code>IS_FILE = 2;</code>
+       */
+      public static final int IS_FILE_VALUE = 2;
+      /**
+       * <code>IS_SYMLINK = 3;</code>
+       */
+      public static final int IS_SYMLINK_VALUE = 3;
+
+
+      public final int getNumber() { return value; }
+
+      public static FileType valueOf(int value) {
+        switch (value) {
+          case 1: return IS_DIR;
+          case 2: return IS_FILE;
+          case 3: return IS_SYMLINK;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<FileType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static com.google.protobuf.Internal.EnumLiteMap<FileType>
+          internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<FileType>() {
+              public FileType findValueByNumber(int number) {
+                return FileType.valueOf(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(index);
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final FileType[] VALUES = values();
+
+      public static FileType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int index;
+      private final int value;
+
+      private FileType(int index, int value) {
+        this.index = index;
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:hadoop.hdfs.HdfsFileStatus.FileType)
+    }
+
+    private int bitField0_;
+    // required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;
+    public static final int FILETYPE_FIELD_NUMBER = 1;
+    private org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType fileType_;
+    /**
+     * <code>required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;</code>
+     */
+    public boolean hasFileType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;</code>
+     */
+    public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType getFileType() {
+      return fileType_;
+    }
+
+    // required bytes path = 2;
+    public static final int PATH_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString path_;
+    /**
+     * <code>required bytes path = 2;</code>
+     *
+     * <pre>
+     * local name of inode encoded java UTF8
+     * </pre>
+     */
+    public boolean hasPath() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bytes path = 2;</code>
+     *
+     * <pre>
+     * local name of inode encoded java UTF8
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getPath() {
+      return path_;
+    }
+
+    // required uint64 length = 3;
+    public static final int LENGTH_FIELD_NUMBER = 3;
+    private long length_;
+    /**
+     * <code>required uint64 length = 3;</code>
+     */
+    public boolean hasLength() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required uint64 length = 3;</code>
+     */
+    public long getLength() {
+      return length_;
+    }
+
+    // required uint32 permission = 4;
+    public static final int PERMISSION_FIELD_NUMBER = 4;
+    private int permission_;
+    /**
+     * <code>required uint32 permission = 4;</code>
+     */
+    public boolean hasPermission() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required uint32 permission = 4;</code>
+     */
+    public int getPermission() {
+      return permission_;
+    }
+
+    // required string owner = 5;
+    public static final int OWNER_FIELD_NUMBER = 5;
+    private java.lang.Object owner_;
+    /**
+     * <code>required string owner = 5;</code>
+     */
+    public boolean hasOwner() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required string owner = 5;</code>
+     */
+    public java.lang.String getOwner() {
+      java.lang.Object ref = owner_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          owner_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string owner = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getOwnerBytes() {
+      java.lang.Object ref = owner_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        owner_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string group = 6;
+    public static final int GROUP_FIELD_NUMBER = 6;
+    private java.lang.Object group_;
+    /**
+     * <code>required string group = 6;</code>
+     */
+    public boolean hasGroup() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required string group = 6;</code>
+     */
+    public java.lang.String getGroup() {
+      java.lang.Object ref = group_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          group_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string group = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getGroupBytes() {
+      java.lang.Object ref = group_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        group_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required uint64 modification_time = 7;
+    public static final int MODIFICATION_TIME_FIELD_NUMBER = 7;
+    private long modificationTime_;
+    /**
+     * <code>required uint64 modification_time = 7;</code>
+     */
+    public boolean hasModificationTime() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required uint64 modification_time = 7;</code>
+     */
+    public long getModificationTime() {
+      return modificationTime_;
+    }
+
+    // required uint64 access_time = 8;
+    public static final int ACCESS_TIME_FIELD_NUMBER = 8;
+    private long accessTime_;
+    /**
+     * <code>required uint64 access_time = 8;</code>
+     */
+    public boolean hasAccessTime() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>required uint64 access_time = 8;</code>
+     */
+    public long getAccessTime() {
+      return accessTime_;
+    }
+
+    // optional bytes symlink = 9;
+    public static final int SYMLINK_FIELD_NUMBER = 9;
+    private com.google.protobuf.ByteString symlink_;
+    /**
+     * <code>optional bytes symlink = 9;</code>
+     *
+     * <pre>
+     * Optional fields for symlink
+     * </pre>
+     */
+    public boolean hasSymlink() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional bytes symlink = 9;</code>
+     *
+     * <pre>
+     * Optional fields for symlink
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getSymlink() {
+      return symlink_;
+    }
+
+    // optional uint32 block_replication = 10 [default = 0];
+    public static final int BLOCK_REPLICATION_FIELD_NUMBER = 10;
+    private int blockReplication_;
+    /**
+     * <code>optional uint32 block_replication = 10 [default = 0];</code>
+     *
+     * <pre>
+     * Optional fields for file
+     * </pre>
+     */
+    public boolean hasBlockReplication() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional uint32 block_replication = 10 [default = 0];</code>
+     *
+     * <pre>
+     * Optional fields for file
+     * </pre>
+     */
+    public int getBlockReplication() {
+      return blockReplication_;
+    }
+
+    // optional uint64 blocksize = 11 [default = 0];
+    public static final int BLOCKSIZE_FIELD_NUMBER = 11;
+    private long blocksize_;
+    /**
+     * <code>optional uint64 blocksize = 11 [default = 0];</code>
+     */
+    public boolean hasBlocksize() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional uint64 blocksize = 11 [default = 0];</code>
+     */
+    public long getBlocksize() {
+      return blocksize_;
+    }
+
+    // optional uint32 locations = 12;
+    public static final int LOCATIONS_FIELD_NUMBER = 12;
+    private int locations_;
+    /**
+     * <code>optional uint32 locations = 12;</code>
+     *
+     * <pre>
+     * suppled only if asked by client
+     * </pre>
+     */
+    public boolean hasLocations() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional uint32 locations = 12;</code>
+     *
+     * <pre>
+     * suppled only if asked by client
+     * </pre>
+     */
+    public int getLocations() {
+      return locations_;
+    }
+
+    // optional uint64 fileId = 13 [default = 0];
+    public static final int FILEID_FIELD_NUMBER = 13;
+    private long fileId_;
+    /**
+     * <code>optional uint64 fileId = 13 [default = 0];</code>
+     *
+     * <pre>
+     * Optional field for fileId
+     * </pre>
+     */
+    public boolean hasFileId() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional uint64 fileId = 13 [default = 0];</code>
+     *
+     * <pre>
+     * Optional field for fileId
+     * </pre>
+     */
+    public long getFileId() {
+      return fileId_;
+    }
+
+    // optional int32 childrenNum = 14 [default = -1];
+    public static final int CHILDRENNUM_FIELD_NUMBER = 14;
+    private int childrenNum_;
+    /**
+     * <code>optional int32 childrenNum = 14 [default = -1];</code>
+     */
+    public boolean hasChildrenNum() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional int32 childrenNum = 14 [default = -1];</code>
+     */
+    public int getChildrenNum() {
+      return childrenNum_;
+    }
+
+    private void initFields() {
+      fileType_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType.IS_DIR;
+      path_ = com.google.protobuf.ByteString.EMPTY;
+      length_ = 0L;
+      permission_ = 0;
+      owner_ = "";
+      group_ = "";
+      modificationTime_ = 0L;
+      accessTime_ = 0L;
+      symlink_ = com.google.protobuf.ByteString.EMPTY;
+      blockReplication_ = 0;
+      blocksize_ = 0L;
+      locations_ = 0;
+      fileId_ = 0L;
+      childrenNum_ = -1;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasFileType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPath()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLength()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPermission()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasOwner()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasGroup()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasModificationTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasAccessTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, fileType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, path_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeUInt64(3, length_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeUInt32(4, permission_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getOwnerBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getGroupBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeUInt64(7, modificationTime_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeUInt64(8, accessTime_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(9, symlink_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeUInt32(10, blockReplication_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeUInt64(11, blocksize_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeUInt32(12, locations_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeUInt64(13, fileId_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt32(14, childrenNum_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, fileType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, path_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, length_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(4, permission_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getOwnerBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getGroupBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(7, modificationTime_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(8, accessTime_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, symlink_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(10, blockReplication_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(11, blocksize_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(12, locations_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(13, fileId_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, childrenNum_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus)) {
+        return super.equals(obj);
+      }
+      org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus other = (org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus) obj;
+
+      boolean result = true;
+      result = result && (hasFileType() == other.hasFileType());
+      if (hasFileType()) {
+        result = result &&
+            (getFileType() == other.getFileType());
+      }
+      result = result && (hasPath() == other.hasPath());
+      if (hasPath()) {
+        result = result && getPath()
+            .equals(other.getPath());
+      }
+      result = result && (hasLength() == other.hasLength());
+      if (hasLength()) {
+        result = result && (getLength()
+            == other.getLength());
+      }
+      result = result && (hasPermission() == other.hasPermission());
+      if (hasPermission()) {
+        result = result && (getPermission()
+            == other.getPermission());
+      }
+      result = result && (hasOwner() == other.hasOwner());
+      if (hasOwner()) {
+        result = result && getOwner()
+            .equals(other.getOwner());
+      }
+      result = result && (hasGroup() == other.hasGroup());
+      if (hasGroup()) {
+        result = result && getGroup()
+            .equals(other.getGroup());
+      }
+      result = result && (hasModificationTime() == other.hasModificationTime());
+      if (hasModificationTime()) {
+        result = result && (getModificationTime()
+            == other.getModificationTime());
+      }
+      result = result && (hasAccessTime() == other.hasAccessTime());
+      if (hasAccessTime()) {
+        result = result && (getAccessTime()
+            == other.getAccessTime());
+      }
+      result = result && (hasSymlink() == other.hasSymlink());
+      if (hasSymlink()) {
+        result = result && getSymlink()
+            .equals(other.getSymlink());
+      }
+      result = result && (hasBlockReplication() == other.hasBlockReplication());
+      if (hasBlockReplication()) {
+        result = result && (getBlockReplication()
+            == other.getBlockReplication());
+      }
+      result = result && (hasBlocksize() == other.hasBlocksize());
+      if (hasBlocksize()) {
+        result = result && (getBlocksize()
+            == other.getBlocksize());
+      }
+      result = result && (hasLocations() == other.hasLocations());
+      if (hasLocations()) {
+        result = result && (getLocations()
+            == other.getLocations());
+      }
+      result = result && (hasFileId() == other.hasFileId());
+      if (hasFileId()) {
+        result = result && (getFileId()
+            == other.getFileId());
+      }
+      result = result && (hasChildrenNum() == other.hasChildrenNum());
+      if (hasChildrenNum()) {
+        result = result && (getChildrenNum()
+            == other.getChildrenNum());
+      }
+      result = result &&
+          getUnknownFields().equals(other.getUnknownFields());
+      return result;
+    }
+
+    private int memoizedHashCode = 0;
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasFileType()) {
+        hash = (37 * hash) + FILETYPE_FIELD_NUMBER;
+        hash = (53 * hash) + hashEnum(getFileType());
+      }
+      if (hasPath()) {
+        hash = (37 * hash) + PATH_FIELD_NUMBER;
+        hash = (53 * hash) + getPath().hashCode();
+      }
+      if (hasLength()) {
+        hash = (37 * hash) + LENGTH_FIELD_NUMBER;
+        hash = (53 * hash) + hashLong(getLength());
+      }
+      if (hasPermission()) {
+        hash = (37 * hash) + PERMISSION_FIELD_NUMBER;
+        hash = (53 * hash) + getPermission();
+      }
+      if (hasOwner()) {
+        hash = (37 * hash) + OWNER_FIELD_NUMBER;
+        hash = (53 * hash) + getOwner().hashCode();
+      }
+      if (hasGroup()) {
+        hash = (37 * hash) + GROUP_FIELD_NUMBER;
+        hash = (53 * hash) + getGroup().hashCode();
+      }
+      if (hasModificationTime()) {
+        hash = (37 * hash) + MODIFICATION_TIME_FIELD_NUMBER;
+        hash = (53 * hash) + hashLong(getModificationTime());
+      }
+      if (hasAccessTime()) {
+        hash = (37 * hash) + ACCESS_TIME_FIELD_NUMBER;
+        hash = (53 * hash) + hashLong(getAccessTime());
+      }
+      if (hasSymlink()) {
+        hash = (37 * hash) + SYMLINK_FIELD_NUMBER;
+        hash = (53 * hash) + getSymlink().hashCode();
+      }
+      if (hasBlockReplication()) {
+        hash = (37 * hash) + BLOCK_REPLICATION_FIELD_NUMBER;
+        hash = (53 * hash) + getBlockReplication();
+      }
+      if (hasBlocksize()) {
+        hash = (37 * hash) + BLOCKSIZE_FIELD_NUMBER;
+        hash = (53 * hash) + hashLong(getBlocksize());
+      }
+      if (hasLocations()) {
+        hash = (37 * hash) + LOCATIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getLocations();
+      }
+      if (hasFileId()) {
+        hash = (37 * hash) + FILEID_FIELD_NUMBER;
+        hash = (53 * hash) + hashLong(getFileId());
+      }
+      if (hasChildrenNum()) {
+        hash = (37 * hash) + CHILDRENNUM_FIELD_NUMBER;
+        hash = (53 * hash) + getChildrenNum();
+      }
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code hadoop.hdfs.HdfsFileStatus}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatusOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_HdfsFileStatus_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_HdfsFileStatus_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.class, org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.Builder.class);
+      }
+
+      // Construct using org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        fileType_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType.IS_DIR;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        path_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        length_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        permission_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        owner_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        group_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        modificationTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        accessTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        symlink_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        blockReplication_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        blocksize_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        locations_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
+        fileId_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        childrenNum_ = -1;
+        bitField0_ = (bitField0_ & ~0x00002000);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.internal_static_hadoop_hdfs_HdfsFileStatus_descriptor;
+      }
+
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus getDefaultInstanceForType() {
+        return org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance();
+      }
+
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus build() {
+        org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus buildPartial() {
+        org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus result = new org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.fileType_ = fileType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.path_ = path_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.length_ = length_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.permission_ = permission_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.owner_ = owner_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.group_ = group_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.modificationTime_ = modificationTime_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.accessTime_ = accessTime_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.symlink_ = symlink_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.blockReplication_ = blockReplication_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.blocksize_ = blocksize_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.locations_ = locations_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.fileId_ = fileId_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.childrenNum_ = childrenNum_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus) {
+          return mergeFrom((org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus other) {
+        if (other == org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.getDefaultInstance()) return this;
+        if (other.hasFileType()) {
+          setFileType(other.getFileType());
+        }
+        if (other.hasPath()) {
+          setPath(other.getPath());
+        }
+        if (other.hasLength()) {
+          setLength(other.getLength());
+        }
+        if (other.hasPermission()) {
+          setPermission(other.getPermission());
+        }
+        if (other.hasOwner()) {
+          bitField0_ |= 0x00000010;
+          owner_ = other.owner_;
+          onChanged();
+        }
+        if (other.hasGroup()) {
+          bitField0_ |= 0x00000020;
+          group_ = other.group_;
+          onChanged();
+        }
+        if (other.hasModificationTime()) {
+          setModificationTime(other.getModificationTime());
+        }
+        if (other.hasAccessTime()) {
+          setAccessTime(other.getAccessTime());
+        }
+        if (other.hasSymlink()) {
+          setSymlink(other.getSymlink());
+        }
+        if (other.hasBlockReplication()) {
+          setBlockReplication(other.getBlockReplication());
+        }
+        if (other.hasBlocksize()) {
+          setBlocksize(other.getBlocksize());
+        }
+        if (other.hasLocations()) {
+          setLocations(other.getLocations());
+        }
+        if (other.hasFileId()) {
+          setFileId(other.getFileId());
+        }
+        if (other.hasChildrenNum()) {
+          setChildrenNum(other.getChildrenNum());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasFileType()) {
+          
+          return false;
+        }
+        if (!hasPath()) {
+          
+          return false;
+        }
+        if (!hasLength()) {
+          
+          return false;
+        }
+        if (!hasPermission()) {
+          
+          return false;
+        }
+        if (!hasOwner()) {
+          
+          return false;
+        }
+        if (!hasGroup()) {
+          
+          return false;
+        }
+        if (!hasModificationTime()) {
+          
+          return false;
+        }
+        if (!hasAccessTime()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;
+      private org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType fileType_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType.IS_DIR;
+      /**
+       * <code>required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;</code>
+       */
+      public boolean hasFileType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;</code>
+       */
+      public org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType getFileType() {
+        return fileType_;
+      }
+      /**
+       * <code>required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;</code>
+       */
+      public Builder setFileType(org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        fileType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .hadoop.hdfs.HdfsFileStatus.FileType fileType = 1;</code>
+       */
+      public Builder clearFileType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        fileType_ = org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.HdfsFileStatus.FileType.IS_DIR;
+        onChanged();
+        return this;
+      }
+
+      // required bytes path = 2;
+      private com.google.protobuf.ByteString path_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes path = 2;</code>
+       *
+       * <pre>
+       * local name of inode encoded java UTF8
+       * </pre>
+       */
+      public boolean hasPath() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bytes path = 2;</code>
+       *
+       * <pre>
+       * local name of inode encoded java UTF8
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getPath() {
+        return path_;
+      }
+      /**
+       * <code>required bytes path = 2;</code>
+       *
+       * <pre>
+       * local name of inode encoded java UTF8
+       * </pre>
+       */
+      public Builder setPath(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        path_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes path = 2;</code>
+       *
+       * <pre>
+       * local name of inode encoded java UTF8
+       * </pre>
+       */
+      public Builder clearPath() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        path_ = getDefaultInstance().getPath();
+        onChanged();
+        return this;
+      }
+
+      // required uint64 length = 3;
+      private long length_ ;
+      /**
+       * <code>required uint64 length = 3;</code>
+       */
+      public boolean hasLength() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required uint64 length = 3;</code>
+       */
+      public long getLength() {
+        return length_;
+      }
+      /**
+       * <code>required uint64 length = 3;</code>
+       */
+      public Builder setLength(long value) {
+        bitField0_ |= 0x00000004;
+        length_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint64 length = 3;</code>
+       */
+      public Builder clearLength() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        length_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required uint32 permission = 4;
+      private int permission_ ;
+      /**
+       * <code>required uint32 permission = 4;</code>
+       */
+      public boolean hasPermission() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required uint32 permission = 4;</code>
+       */
+      public int getPermission() {
+        return permission_;
+      }
+      /**
+       * <code>required uint32 permission = 4;</code>
+       */
+      public Builder setPermission(int value) {
+        bitField0_ |= 0x00000008;
+        permission_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint32 permission = 4;</code>
+       */
+      public Builder clearPermission() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        permission_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string owner = 5;
+      private java.lang.Object owner_ = "";
+      /**
+       * <code>required string owner = 5;</code>
+       */
+      public boolean hasOwner() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required string owner = 5;</code>
+       */
+      public java.lang.String getOwner() {
+        java.lang.Object ref = owner_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          owner_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string owner = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getOwnerBytes() {
+        java.lang.Object ref = owner_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          owner_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string owner = 5;</code>
+       */
+      public Builder setOwner(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        owner_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string owner = 5;</code>
+       */
+      public Builder clearOwner() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        owner_ = getDefaultInstance().getOwner();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string owner = 5;</code>
+       */
+      public Builder setOwnerBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        owner_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string group = 6;
+      private java.lang.Object group_ = "";
+      /**
+       * <code>required string group = 6;</code>
+       */
+      public boolean hasGroup() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required string group = 6;</code>
+       */
+      public java.lang.String getGroup() {
+        java.lang.Object ref = group_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          group_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string group = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getGroupBytes() {
+        java.lang.Object ref = group_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          group_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string group = 6;</code>
+       */
+      public Builder setGroup(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        group_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string group = 6;</code>
+       */
+      public Builder clearGroup() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        group_ = getDefaultInstance().getGroup();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string group = 6;</code>
+       */
+      public Builder setGroupBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        group_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required uint64 modification_time = 7;
+      private long modificationTime_ ;
+      /**
+       * <code>required uint64 modification_time = 7;</code>
+       */
+      public boolean hasModificationTime() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required uint64 modification_time = 7;</code>
+       */
+      public long getModificationTime() {
+        return modificationTime_;
+      }
+      /**
+       * <code>required uint64 modification_time = 7;</code>
+       */
+      public Builder setModificationTime(long value) {
+        bitField0_ |= 0x00000040;
+        modificationTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint64 modification_time = 7;</code>
+       */
+      public Builder clearModificationTime() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        modificationTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required uint64 access_time = 8;
+      private long accessTime_ ;
+      /**
+       * <code>required uint64 access_time = 8;</code>
+       */
+      public boolean hasAccessTime() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>required uint64 access_time = 8;</code>
+       */
+      public long getAccessTime() {
+        return accessTime_;
+      }
+      /**
+       * <code>required uint64 access_time = 8;</code>
+       */
+      public Builder setAccessTime(long value) {
+        bitField0_ |= 0x00000080;
+        accessTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required uint64 access_time = 8;</code>
+       */
+      public Builder clearAccessTime() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        accessTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional bytes symlink = 9;
+      private com.google.protobuf.ByteString symlink_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes symlink = 9;</code>
+       *
+       * <pre>
+       * Optional fields for symlink
+       * </pre>
+       */
+      public boolean hasSymlink() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional bytes symlink = 9;</code>
+       *
+       * <pre>
+       * Optional fields for symlink
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getSymlink() {
+        return symlink_;
+      }
+      /**
+       * <code>optional bytes symlink = 9;</code>
+       *
+       * <pre>
+       * Optional fields for symlink
+       * </pre>
+       */
+      public Builder setSymlink(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        symlink_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes symlink = 9;</code>
+       *
+       * <pre>
+       * Optional fields for symlink
+       * </pre>
+       */
+      public Builder clearSymlink() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        symlink_ = getDefaultInstance().getSymlink();
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 block_replication = 10 [default = 0];
+      private int blockReplication_ ;
+      /**
+       * <code>optional uint32 block_replication = 10 [default = 0];</code>
+       *
+       * <pre>
+       * Optional fields for file
+       * </pre>
+       */
+      public boolean hasBlockReplication() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional uint32 block_replication = 10 [default = 0];</code>
+       *
+       * <pre>
+       * Optional fields for file
+       * </pre>
+       */
+      public int getBlockReplication() {
+        return blockReplication_;
+      }
+      /**
+       * <code>optional uint32 block_replication = 10 [default = 0];</code>
+       *
+       * <pre>
+       * Optional fields for file
+       * </pre>
+       */
+      public Builder setBlockReplication(int value) {
+        bitField0_ |= 0x00000200;
+        blockReplication_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 block_replication = 10 [default = 0];</code>
+       *
+       * <pre>
+       * Optional fields for file
+       * </pre>
+       */
+      public Builder clearBlockReplication() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        blockReplication_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional uint64 blocksize = 11 [default = 0];
+      private long blocksize_ ;
+      /**
+       * <code>optional uint64 blocksize = 11 [default = 0];</code>
+       */
+      public boolean hasBlocksize() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional uint64 blocksize = 11 [default = 0];</code>
+       */
+      public long getBlocksize() {
+        return blocksize_;
+      }
+      /**
+       * <code>optional uint64 blocksize = 11 [default = 0];</code>
+       */
+      public Builder setBlocksize(long value) {
+        bitField0_ |= 0x00000400;
+        blocksize_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint64 blocksize = 11 [default = 0];</code>
+       */
+      public Builder clearBlocksize() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        blocksize_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional uint32 locations = 12;
+      private int locations_ ;
+      /**
+       * <code>optional uint32 locations = 12;</code>
+       *
+       * <pre>
+       * suppled only if asked by client
+       * </pre>
+       */
+      public boolean hasLocations() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional uint32 locations = 12;</code>
+       *
+       * <pre>
+       * suppled only if asked by client
+       * </pre>
+       */
+      public int getLocations() {
+        return locations_;
+      }
+      /**
+       * <code>optional uint32 locations = 12;</code>
+       *
+       * <pre>
+       * suppled only if asked by client
+       * </pre>
+       */
+      public Builder setLocations(int value) {
+        bitField0_ |= 0x00000800;
+        locations_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 locations = 12;</code>
+       *
+       * <pre>
+       * suppled only if asked by client
+       * </pre>
+       */
+      public Builder clearLocations() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        locations_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional uint64 fileId = 13 [default = 0];
+      private long fileId_ ;
+      /**
+       * <code>optional uint64 fileId = 13 [default = 0];</code>
+       *
+       * <pre>
+       * Optional field for fileId
+       * </pre>
+       */
+      public boolean hasFileId() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional uint64 fileId = 13 [default = 0];</code>
+       *
+       * <pre>
+       * Optional field for fileId
+       * </pre>
+       */
+      public long getFileId() {
+        return fileId_;
+      }
+      /**
+       * <code>optional uint64 fileId = 13 [default = 0];</code>
+       *
+       * <pre>
+       * Optional field for fileId
+       * </pre>
+       */
+      public Builder setFileId(long value) {
+        bitField0_ |= 0x00001000;
+        fileId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint64 fileId = 13 [default = 0];</code>
+       *
+       * <pre>
+       * Optional field for fileId
+       * </pre>
+       */
+      public Builder clearFileId() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        fileId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 childrenNum = 14 [default = -1];
+      private int childrenNum_ = -1;
+      /**
+       * <code>optional int32 childrenNum = 14 [default = -1];</code>
+       */
+      public boolean hasChildrenNum() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional int32 childrenNum = 14 [default = -1];</code>
+       */
+      public int getChildrenNum() {
+        return childrenNum_;
+      }
+      /**
+       * <code>optional int32 childrenNum = 14 [default = -1];</code>
+       */
+      public Builder setChildrenNum(int value) {
+        bitField0_ |= 0x00002000;
+        childrenNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 childrenNum = 14 [default = -1];</code>
+       */
+      public Builder clearChildrenNum() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        childrenNum_ = -1;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:hadoop.hdfs.HdfsFileStatus)
+    }
+
+    static {
+      defaultInstance = new HdfsFileStatus(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:hadoop.hdfs.HdfsFileStatus)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_hadoop_hdfs_Request_descriptor;
   private static
@@ -2200,6 +5454,16 @@ public final class ReplicaUpcall {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_hadoop_hdfs_Reply_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_hadoop_hdfs_DirectoryListing_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_hadoop_hdfs_DirectoryListing_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_hadoop_hdfs_HdfsFileStatus_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_hadoop_hdfs_HdfsFileStatus_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2215,11 +5479,25 @@ public final class ReplicaUpcall {
       "\003dst\030\004 \001(\t\022\021\n\trecursive\030\005 \001(\010\022\016\n\006masked\030" +
       "\006 \001(\005\022\024\n\014createParent\030\007 \001(\010\022\022\n\nstartAfte" +
       "r\030\010 \001(\014\022\024\n\014needLocation\030\t \001(\010\"&\n\tOperati" +
-      "on\022\t\n\005MKDIR\020\001\022\006\n\002RM\020\002\022\006\n\002LS\020\003\"E\n\005Reply\022\021" +
-      "\n\texception\030\001 \001(\t\022\017\n\007success\030\002 \001(\010\022\030\n\020di" +
-      "rectoryListing\030\003 \001(\014B?\n+org.apache.hadoo" +
-      "p.hdfs.server.namenode.specB\rReplicaUpca",
-      "ll\240\001\001"
+          "on\022\t\n\005MKDIR\020\001\022\006\n\002RM\020\002\022\006\n\002LS\020\003\"\231\001\n\005Reply\022" +
+          "\021\n\texception\030\001 \001(\t\022\017\n\007success\030\002 \001(\010\0227\n\020d" +
+          "irectoryListing\030\003 \001(\0132\035.hadoop.hdfs.Dire" +
+          "ctoryListing\0223\n\016hdfsFileStatus\030\004 \001(\0132\033.h",
+        "adoop.hdfs.HdfsFileStatus\"a\n\020DirectoryLi" +
+            "sting\0223\n\016partialListing\030\001 \003(\0132\033.hadoop.h" +
+            "dfs.HdfsFileStatus\022\030\n\020remainingEntries\030\002" +
+            " \002(\r\"\201\003\n\016HdfsFileStatus\0226\n\010fileType\030\001 \002(" +
+            "\0162$.hadoop.hdfs.HdfsFileStatus.FileType\022" +
+            "\014\n\004path\030\002 \002(\014\022\016\n\006length\030\003 \002(\004\022\022\n\npermiss" +
+            "ion\030\004 \002(\r\022\r\n\005owner\030\005 \002(\t\022\r\n\005group\030\006 \002(\t\022" +
+            "\031\n\021modification_time\030\007 \002(\004\022\023\n\013access_tim" +
+            "e\030\010 \002(\004\022\017\n\007symlink\030\t \001(\014\022\034\n\021block_replic" +
+            "ation\030\n \001(\r:\0010\022\024\n\tblocksize\030\013 \001(\004:\0010\022\021\n\t",
+        "locations\030\014 \001(\r\022\021\n\006fileId\030\r \001(\004:\0010\022\027\n\013ch" +
+            "ildrenNum\030\016 \001(\005:\002-1\"3\n\010FileType\022\n\n\006IS_DI" +
+            "R\020\001\022\013\n\007IS_FILE\020\002\022\016\n\nIS_SYMLINK\020\003B?\n+org." +
+            "apache.hadoop.hdfs.server.namenode.specB" +
+            "\rReplicaUpcall\240\001\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2237,7 +5515,19 @@ public final class ReplicaUpcall {
           internal_static_hadoop_hdfs_Reply_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_hadoop_hdfs_Reply_descriptor,
-              new java.lang.String[] { "Exception", "Success", "DirectoryListing", });
+              new java.lang.String[]{"Exception", "Success", "DirectoryListing", "HdfsFileStatus",});
+          internal_static_hadoop_hdfs_DirectoryListing_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_hadoop_hdfs_DirectoryListing_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_hadoop_hdfs_DirectoryListing_descriptor,
+              new java.lang.String[] { "PartialListing", "RemainingEntries", });
+          internal_static_hadoop_hdfs_HdfsFileStatus_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_hadoop_hdfs_HdfsFileStatus_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_hadoop_hdfs_HdfsFileStatus_descriptor,
+              new java.lang.String[] { "FileType", "Path", "Length", "Permission", "Owner", "Group", "ModificationTime", "AccessTime", "Symlink", "BlockReplication", "Blocksize", "Locations", "FileId", "ChildrenNum", });
           return null;
         }
       };
