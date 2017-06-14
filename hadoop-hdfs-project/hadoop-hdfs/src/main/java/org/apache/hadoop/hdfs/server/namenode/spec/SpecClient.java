@@ -351,12 +351,22 @@ public class SpecClient implements ClientProtocol {
   }
 
   public static void main(String[] args) throws IOException, InterruptedException {
-    System.out.println("starting mkdir");
     SpecClient client = new SpecClient();
-    System.out.println(client.mkdirs("/mkdirtest", FsPermission.getDefault(), true));
-    System.out.println("mkdir complete");
-    Thread.sleep(2000);
+    int mkdirN = Integer.parseInt(args[1]);
+    String clientIndex = args[2];
+    System.out.println("starting mkdir " + clientIndex);
+    long start = System.nanoTime();
+    for(int i = 0; i < mkdirN; i++) {
+      System.out.println(client.mkdirs("/mkdirtest" + clientIndex + "_" + i, FsPermission.getDefault(), true));
+    }
+    long end = System.nanoTime();
+    System.out.println("mkdir complete " + clientIndex);
+    System.out.println("mkdir time elapse: " + Long.toString(end - start));
+
+    start = System.nanoTime();
     DirectoryListing result = client.getListing("/", new byte[0], false);
+    end = System.nanoTime();
+    System.out.println("LS time elapse: " + Long.toString(end - start));
     for (HdfsFileStatus s: result.getPartialListing()) {
       System.out.println(s.getLocalName() + " " + s.getOwner() + " " + s.getModificationTime());
     }
