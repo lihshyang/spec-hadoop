@@ -401,15 +401,17 @@ public class FSEditLog implements LogsPurgeable {
 
       endTransaction(start);
       
-      // check if it is time to schedule an automatic sync
-      if (!shouldForceSync()) {
-        return;
-      }
-      isAutoSyncScheduled = true;
+      // just return, don't matter if need sync'in
+      return;
+
+//      if (!shouldForceSync()) {
+//        return;
+//      }
+//      isAutoSyncScheduled = true;
     }
     
     // sync buffered edit log entries to persistent store
-    logSync();
+//    logSync();
   }
 
   /**
@@ -545,6 +547,7 @@ public class FSEditLog implements LogsPurgeable {
    * waitForSyncToFinish() before assuming they are running alone.
    */
   public void logSync() {
+    if (true) return;
     long syncStart = 0;
 
     // Fetch the transactionId of this thread. 
@@ -1052,7 +1055,7 @@ public class FSEditLog implements LogsPurgeable {
         "Bad state: %s", state);
     
     if (writeEndTxn) {
-      logEdit(LogSegmentOp.getInstance(cache.get(), 
+      logEdit(LogSegmentOp.getInstance(cache.get(),
           FSEditLogOpCodes.OP_END_LOG_SEGMENT));
       logSync();
     }
