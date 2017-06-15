@@ -22,6 +22,7 @@ public interface SpecServerCLib extends Library {
     void invoke(long current, long to);
   }
   void newClientPtr(String configPath, PointerByReference ppClient);
+  void test1();
   void runClient(Pointer clientPtr, String req, PointerByReference reply);
   void run(String configPath, int index, CommitUpcall_t commitUpcall, ReplicaUpcall_t replicaUpcall, RollbackUpcall_t rollbackUpcall);
 }

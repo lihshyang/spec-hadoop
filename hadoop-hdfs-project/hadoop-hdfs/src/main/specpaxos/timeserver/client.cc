@@ -7,6 +7,9 @@
 void newClientPtr(const char* configDir, Client** ppClient) {
     *ppClient = new Client(configDir);
 }
+void test1() {
+    cout << "int test1" << endl;
+}
 void runClient(Client* clientPtr, const char* req, char** reply) {
     const string requestStr = req;
     string replyStr = clientPtr -> Invoke(requestStr);
