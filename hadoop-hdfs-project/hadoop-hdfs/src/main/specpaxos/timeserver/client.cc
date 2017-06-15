@@ -4,18 +4,21 @@
 #include "timeserver/client.h"
 
 
-
-void runClient(const char* configDir, const char* req, char** reply) {
-    string configPath = configDir;
-    Client client(configPath);
+void newClientPtr(const char* configDir, Client** ppClient) {
+    *ppClient = new Client(configDir);
+}
+void test1() {
+    cout << "int test1" << endl;
+}
+void runClient(Client* clientPtr, const char* req, char** reply) {
     const string requestStr = req;
-    string replyStr = client.Invoke(requestStr);
+    string replyStr = clientPtr -> Invoke(requestStr);
     *reply = (char*)malloc(sizeof(char) * (replyStr.length() + 1));
     memset(*reply, 0, sizeof(char) * (replyStr.length() + 1));
     strcpy(*reply, replyStr.c_str());
 }
 
-    Client::Client(string configPath)
+Client::Client(string configPath)
             : transport(0.0, 0.0, 0) {
         string shardConfigPath = configPath;
         ifstream shardConfigStream(shardConfigPath);
@@ -29,17 +32,17 @@ void runClient(const char* configDir, const char* req, char** reply) {
         /* Run the transport in a new thread. */
         clientTransport = new thread(&Client::run_client, this);
         Debug("client [%lu] created!");
-    }
+}
 
-    Client::~Client() {
+Client::~Client() {
         // TODO: Consider killing transport and associated thread.
-    }
+}
 
 /* Runs the transport event loop. */
-    void
-    Client::run_client() {
+void
+Client::run_client() {
         transport.Run();
-    }
+}
 
 /* Sends BEGIN to a single shard indexed by i. */
 
@@ -51,7 +54,7 @@ void runClient(const char* configDir, const char* req, char** reply) {
  * Return a TID for the transaction.
  */
 
-    string Client::Invoke(const string &request) {
+string Client::Invoke(const string &request) {
         unique_lock<mutex> lk(cv_m);
         transport.Timer(0, [=]() {
             shard->Invoke(request,
@@ -60,10 +63,10 @@ void runClient(const char* configDir, const char* req, char** reply) {
         });
         cv.wait(lk);
         return replica_reply;
-    }
+}
 
-    void
-    Client::invokeCallback(const int i, const string &requestStr, const string &replyStr) {
+void
+Client::invokeCallback(const int i, const string &requestStr, const string &replyStr) {
         lock_guard<mutex> lock(cv_m);
 
         // Copy reply to "replica_reply".
@@ -71,7 +74,7 @@ void runClient(const char* configDir, const char* req, char** reply) {
 
         // Wake up thread waiting for the reply.
         cv.notify_all();
-    }
+}
 
 /* Returns the value corresponding to the supplied key. */
 // namespace hdfsSpec
