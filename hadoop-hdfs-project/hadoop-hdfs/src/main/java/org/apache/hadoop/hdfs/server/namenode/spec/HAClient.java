@@ -1,11 +1,9 @@
 package org.apache.hadoop.hdfs.server.namenode.spec;
 
-import com.google.protobuf.ByteString;
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
-import com.sun.jna.ptr.PointerByReference;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.fs.permission.FsPermission;
+import org.apache.hadoop.hdfs.NameNodeProxies;
 import org.apache.hadoop.hdfs.protocol.*;
 import org.apache.hadoop.hdfs.security.token.block.DataEncryptionKey;
 import org.apache.hadoop.hdfs.security.token.delegation.DelegationTokenIdentifier;
@@ -15,28 +13,21 @@ import org.apache.hadoop.io.EnumSetWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.security.AccessControlException;
 import org.apache.hadoop.security.token.Token;
-import org.apache.commons.codec.binary.Base64;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-
-import static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Request.Operation.LS;
-import static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Request.Operation.MKDIR;
-import static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Request.Operation.RM;
+import java.net.URI;
 
 /**
- * Created by aolx on 2017/5/25.
+ * Created by aolx on 6/14/17.
  */
-public class SpecClient implements ClientProtocol {
-  final SpecServerCLib specServer;
-  final String confPath;
+public class HAClient implements ClientProtocol {
+  final ClientProtocol namenode;
 
-  public SpecClient() {
-    specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
-    ClassLoader cl = Thread.currentThread().getContextClassLoader();
-    URL resource = cl.getResource("quorum.config");
-    confPath = resource.getPath();
+  public HAClient(Configuration conf) throws IOException {
+    URI uri = FileSystem.getDefaultUri(conf);
+    NameNodeProxies.ProxyAndInfo<ClientProtocol> proxyInfo = NameNodeProxies.createProxy(conf, uri, ClientProtocol.class);
+    this.namenode = proxyInfo.getProxy();
   }
 
   @Override
@@ -114,62 +105,19 @@ public class SpecClient implements ClientProtocol {
 
   }
 
-  private String callClientClib(byte[] request) {
-    PointerByReference ptrRep = new PointerByReference();
-    specServer.runClient(confPath, Base64.encodeBase64String(request), ptrRep);
-    final Pointer reply = ptrRep.getValue();
-    return reply.getString(0);
-  }
-
   @Override
   public boolean delete(String src, boolean recursive) throws AccessControlException, FileNotFoundException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
-    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(RM).setSrc(src).
-        setRecursive(recursive);
-    String result = callClientClib(req.build().toByteArray());
-    ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    byte[] bytes = Base64.decodeBase64(result);
-    ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
-    if (reply.hasException()) {
-      throw new IOException(reply.getException());
-    }
-    return reply.getSuccess();
+    return namenode.delete(src, recursive);
   }
 
   @Override
   public boolean mkdirs(String src, FsPermission masked, boolean createParent) throws AccessControlException, FileAlreadyExistsException, FileNotFoundException, NSQuotaExceededException, ParentNotDirectoryException, SafeModeException, UnresolvedLinkException, SnapshotAccessControlException, IOException {
-    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(MKDIR).setSrc(src).
-        setMasked(masked.toShort()).setCreateParent(createParent);
-    String result = callClientClib(req.build().toByteArray());
-    ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    byte[] bytes = Base64.decodeBase64(result);
-    ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
-    if (reply.hasException()) {
-      throw new IOException(reply.getException());
-    }
-    return reply.getSuccess();
+    return namenode.mkdirs(src, masked, createParent);
   }
 
   @Override
   public DirectoryListing getListing(String src, byte[] startAfter, boolean needLocation) throws AccessControlException, FileNotFoundException, UnresolvedLinkException, IOException {
-    ReplicaUpcall.Request.Builder req = ReplicaUpcall.Request.newBuilder().setOp(LS).setSrc(src).
-        setStartAfter(ByteString.copyFrom(startAfter)).setNeedLocation(needLocation);
-    String result = callClientClib(req.build().toByteArray());
-    ReplicaUpcall.Reply.Builder repBuilder = ReplicaUpcall.Reply.newBuilder();
-    byte[] bytes = Base64.decodeBase64(result);
-    ReplicaUpcall.Reply reply = repBuilder.mergeFrom(bytes).build();
-    if (reply.hasException()) {
-      throw new IOException(reply.getException());
-    }
-    ReplicaUpcall.DirectoryListing listing = reply.getDirectoryListing();
-    HdfsFileStatus[] allStates = new HdfsFileStatus[listing.getPartialListingCount()];
-    for (int i = 0; i < allStates.length; i++) {
-      ReplicaUpcall.HdfsFileStatus l = listing.getPartialListing(i);
-      allStates[i] = new HdfsFileStatus(l.getLength(),l.getFileType()==ReplicaUpcall.HdfsFileStatus.FileType.IS_DIR,
-          l.getBlockReplication(),l.getBlocksize(),l.getModificationTime(),l.getAccessTime(),new FsPermission((short) l.getPermission()),
-          l.getOwner(),l.getGroup(),l.getSymlink().toByteArray(),l.getPath().toByteArray(),l.getFileId(),l.getChildrenNum());
-    }
-    DirectoryListing dl = new DirectoryListing(allStates, listing.getRemainingEntries());
-    return dl;
+    return namenode.getListing(src, startAfter, needLocation);
   }
 
   @Override
@@ -249,7 +197,7 @@ public class SpecClient implements ClientProtocol {
 
   @Override
   public HdfsFileStatus getFileInfo(String src) throws AccessControlException, FileNotFoundException, UnresolvedLinkException, IOException {
-    return null;
+    return namenode.getFileInfo(src);
   }
 
   @Override
@@ -350,17 +298,5 @@ public class SpecClient implements ClientProtocol {
   @Override
   public SnapshotDiffReport getSnapshotDiffReport(String snapshotRoot, String fromSnapshot, String toSnapshot) throws IOException {
     return null;
-  }
-
-  public static void main(String[] args) throws IOException, InterruptedException {
-    System.out.println("starting mkdir");
-    SpecClient client = new SpecClient();
-    System.out.println(client.mkdirs("/mkdirtest", FsPermission.getDefault(), true));
-    System.out.println("mkdir complete");
-    Thread.sleep(2000);
-    DirectoryListing result = client.getListing("/", new byte[0], false);
-    for (HdfsFileStatus s: result.getPartialListing()) {
-      System.out.println(s.getLocalName() + " " + s.getOwner() + " " + s.getModificationTime());
-    }
   }
 }
