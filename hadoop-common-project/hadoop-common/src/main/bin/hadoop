@@ -116,6 +116,8 @@ case $COMMAND in
       CLASSPATH=${CLASSPATH}:${TOOL_PATH}
     elif [ "$COMMAND" = "specclient" ] ; then
       CLASS=org.apache.hadoop.hdfs.server.namenode.spec.SpecClient
+    elif [ "$COMMAND" = "clientbench" ] ; then
+      CLASS=org.apache.hadoop.hdfs.server.namenode.spec.ClientBench
     elif [[ "$COMMAND" = -*  ]] ; then
         # class and package names cannot begin with a -
         echo "Error: No command named \`$COMMAND' was found. Perhaps you meant \`hadoop ${COMMAND#-}'"

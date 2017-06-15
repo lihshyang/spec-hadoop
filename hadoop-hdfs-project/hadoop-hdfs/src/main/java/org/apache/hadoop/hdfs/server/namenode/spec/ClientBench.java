@@ -13,28 +13,28 @@ public class ClientBench {
   static ClientProtocol service;
 
   public static void main(String[] args) throws IOException {
-    if (args.length < 3) {
-      System.err.println("Usage: " + args[0] + " ha|spec ls|mkdir|rmdir [prefix]");
+    if (args.length < 2) {
+      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir [prefix]");
       return;
     }
 
-    if (args[1].equals("ha")) {
+    if (args[0].equals("ha")) {
       service = new HAClient(new HdfsConfiguration());
-    } else if (args[1].equals("spec")) {
+    } else if (args[0].equals("spec")) {
       service = new SpecClient();
     } else {
-      System.err.println("Usage: " + args[0] + " ha|spec ls|mkdir|rmdir [prefix]");
+      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir [prefix]");
       return;
     }
 
-    if (args[2].equals("ls")) {
+    if (args[1].equals("ls")) {
       testLs();
-    } else if (args[2].equals("mkdir") && args.length == 4) {
-      testMkdir(args[3]);
-    } else if (args[2].equals("rmdir") && args.length == 4) {
-      testRmdir(args[3]);
+    } else if (args[1].equals("mkdir") && args.length == 3) {
+      testMkdir(args[2]);
+    } else if (args[1].equals("rmdir") && args.length == 3) {
+      testRmdir(args[2]);
     } else {
-      System.err.println("Usage: " + args[0] + " ha|spec ls|mkdir|rmdir [prefix]");
+      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir [prefix]");
     }
   }
 
