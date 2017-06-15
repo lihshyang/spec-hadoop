@@ -4,9 +4,8 @@
 #include "timeserver/client.h"
 
 
-Client* newClientPtr(const char* configDir) {
-    Client* newClient = new Client(configDir);
-    return newClient;
+void newClientPtr(const char* configDir, Client** ppClient) {
+    *ppClient = new Client(configDir);
 }
 void runClient(Client* clientPtr, const char* req, char** reply) {
     const string requestStr = req;

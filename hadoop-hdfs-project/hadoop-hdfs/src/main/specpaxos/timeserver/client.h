@@ -55,7 +55,7 @@ class Client {
 
 };
 extern "C" void runClient(Client* clientPtr, const char* req, char** reply);
-extern "C" Client* newClientPtr(const char* configDir);
+extern "C" void newClientPtr(const char* configDir, Client** ppClient);
  //namespace hdfsSpec
 
 

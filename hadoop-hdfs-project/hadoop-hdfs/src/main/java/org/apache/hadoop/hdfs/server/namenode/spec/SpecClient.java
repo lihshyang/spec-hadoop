@@ -37,7 +37,10 @@ public class SpecClient implements ClientProtocol {
     ClassLoader cl = Thread.currentThread().getContextClassLoader();
     URL resource = cl.getResource("quorum.config");
     confPath = resource.getPath();
-    clientPtr = specServer.newClientPtr(confPath);
+
+    PointerByReference ppClient = new PointerByReference();
+    specServer.newClientPtr(confPath, ppClient);
+    clientPtr = ppClient.getValue();
   }
 
   @Override
