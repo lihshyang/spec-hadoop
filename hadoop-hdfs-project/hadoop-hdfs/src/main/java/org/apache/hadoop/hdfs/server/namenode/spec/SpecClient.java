@@ -31,11 +31,13 @@ import static org.apache.hadoop.hdfs.server.namenode.spec.ReplicaUpcall.Request.
 public class SpecClient implements ClientProtocol {
   final SpecServerCLib specServer;
   final String confPath;
+  final Pointer clientPtr;
   public SpecClient() {
     specServer = (SpecServerCLib) Native.loadLibrary("specServer", SpecServerCLib.class);
     ClassLoader cl = Thread.currentThread().getContextClassLoader();
     URL resource = cl.getResource("quorum.config");
     confPath = resource.getPath();
+    clientPtr = specServer.newClientPtr(confPath);
   }
 
   @Override
@@ -115,7 +117,7 @@ public class SpecClient implements ClientProtocol {
 
   private String callClientClib(byte[] request) {
     PointerByReference ptrRep = new PointerByReference();
-    specServer.runClient(confPath, Base64.encodeBase64String(request), ptrRep);
+    specServer.runClient(clientPtr, Base64.encodeBase64String(request), ptrRep);
     final Pointer reply = ptrRep.getValue();
     return reply.getString(0);
   }
@@ -353,6 +355,13 @@ public class SpecClient implements ClientProtocol {
 
   public static void main(String[] args) throws IOException, InterruptedException {
     SpecClient client = new SpecClient();
+    System.out.println("starting mkdir ");
+    System.out.println(client.mkdirs("/mkdirtest", FsPermission.getDefault(), true));
+    System.out.println("starting complete ");
+    Thread.sleep(2000);
+    DirectoryListing result = client.getListing("/", new byte[0], false);
+    /*
+    SpecClient client = new SpecClient();
     int mkdirN = Integer.parseInt(args[1]);
     String clientIndex = args[2];
     System.out.println("starting mkdir " + clientIndex);
@@ -370,6 +379,6 @@ public class SpecClient implements ClientProtocol {
     System.out.println("LS time elapse: " + Long.toString(end - start));
     for (HdfsFileStatus s: result.getPartialListing()) {
       System.out.println(s.getLocalName() + " " + s.getOwner() + " " + s.getModificationTime());
-    }
+    }*/
   }
 }
