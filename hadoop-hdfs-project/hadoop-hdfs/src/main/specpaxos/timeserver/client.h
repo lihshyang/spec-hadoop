@@ -25,8 +25,7 @@
 #include <thread>
 #include <set>
 using namespace std;
-extern "C" void runClient(Client* clientPtr, const char* req, char** reply);
-extern "C" Client* newClientPtr(const char* configDir);
+
 
 class Client {
     public:
@@ -55,7 +54,8 @@ class Client {
         void run_client(); // Runs the transport event loop.
 
 };
-
+extern "C" void runClient(Client* clientPtr, const char* req, char** reply);
+extern "C" Client* newClientPtr(const char* configDir);
  //namespace hdfsSpec
 
 
