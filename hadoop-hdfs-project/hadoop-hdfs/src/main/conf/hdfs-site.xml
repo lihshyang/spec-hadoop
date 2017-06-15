@@ -17,5 +17,16 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/mnt/nfs/var/nfs/dfs/name</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>/tmp/dfs/name</value>
+    </property>
 </configuration>
