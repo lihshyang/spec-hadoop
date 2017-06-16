@@ -111,6 +111,7 @@ public class NameNodeSpecServer {
    * @return marshaled return value
    */
   public String replicaUpcall(long opnum, String param) {
+    LOG.debug("speculative exec upcall: " + opnum);
     ReplicaUpcall.Request req = null;
     UpcallLog log;
 
@@ -202,6 +203,7 @@ public class NameNodeSpecServer {
    * @param to
    */
   public void rollbackUpcall(long current, long to) {
+    LOG.warn("rolling back upcall to: " + to);
     Iterator<UpcallLog> iter = upcallLogs.descendingIterator();
     while (iter.hasNext()) {
       UpcallLog l = iter.next();
@@ -221,6 +223,7 @@ public class NameNodeSpecServer {
    * @param commitOpnum
    */
   public void commitUpcall(long commitOpnum) {
+    LOG.info("committing upcall: " + commitOpnum);
     Iterator<UpcallLog> iter = upcallLogs.iterator();
     while (iter.hasNext()) {
       UpcallLog l = iter.next();

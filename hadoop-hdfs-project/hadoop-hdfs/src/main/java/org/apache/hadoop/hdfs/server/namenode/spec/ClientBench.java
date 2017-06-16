@@ -42,8 +42,9 @@ public class ClientBench {
     long last = System.nanoTime();
     for (int i = 0; i < 10000; i++) {
       service.getListing("/", new byte[0], false);
-      System.out.println((System.nanoTime() - last) / 1000);
-      last = System.nanoTime();
+      long current = System.nanoTime();
+      System.out.println((current - last) / 1000);
+      last = current;
     }
   }
 
@@ -53,8 +54,9 @@ public class ClientBench {
     long last = System.nanoTime();
     for (int i = 10000; i < 20000; i++) {
       service.mkdirs("/" + prefix + "/" + i, FsPermission.getDefault(), false);
-      System.out.println((System.nanoTime() - last) / 1000);
-      last = System.nanoTime();
+      long current = System.nanoTime();
+      System.out.println((current - last) / 1000);
+      last = current;
     }
   }
 
@@ -62,8 +64,9 @@ public class ClientBench {
     long last = System.nanoTime();
     for (int i = 10000; i < 20000; i++) {
       service.delete("/" + prefix + "/" + i, false);
-      System.out.println((System.nanoTime() - last) / 1000);
-      last = System.nanoTime();
+      long current = System.nanoTime();
+      System.out.println((current - last) / 1000);
+      last = current;
     }
   }
 }
