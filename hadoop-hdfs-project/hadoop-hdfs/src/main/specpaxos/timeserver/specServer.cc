@@ -18,10 +18,10 @@ HdfsServer::ReplicaUpcall(opnum_t opnum,
     char buf[2048]; //allocate more than str2.length() ??
     strcpy(buf, str2.c_str());
     replicaFunc(opnum, str1.c_str(), buf);
-    cout << "replicaUpcall returned" << endl;
-    cout << str1 << " -> " << buf << endl;
+//    cout << "replicaUpcall returned" << endl;
+ //   cout << str1 << " -> " << buf << endl;
     str2 = buf;
-    cout << "replicaUpcall returned 1 " << str1 << " " << str2 << endl;
+ //   cout << "replicaUpcall returned 1 " << str1 << " " << str2 << endl;
     Debug("Received Upcall: " FMT_OPNUM ", %s", opnum, str1.c_str());
 
 }
@@ -31,8 +31,8 @@ HdfsServer::RollbackUpcall(opnum_t current,
                                 opnum_t to,
                                 const std::map<opnum_t, string> &opMap)
 {
+    cout << "rollbackUpcall" << endl;
     rollbackFunc(current, to);
-    cout << "rollbackUpcall returned" << endl;
     Debug("Received Rollback Upcall: " FMT_OPNUM ", " FMT_OPNUM, current, to);
 
 }
@@ -41,9 +41,9 @@ HdfsServer::RollbackUpcall(opnum_t current,
 void
 HdfsServer::CommitUpcall(opnum_t commitOpnum)
 {
+    cout << "commitUpcall" << endl;
     Debug("Received Commit Upcall: " FMT_OPNUM, commitOpnum);
     commitFunc(commitOpnum);
-    cout << "commitUpcall returned" << endl;
 }
 
 
@@ -60,8 +60,7 @@ void run(const char* configDir, const int index, CommitUpcall_t commitFunc, Repl
     // Load configuration
     std::ifstream configStream(configPath);
     if (configStream.fail()) {
-        fprintf(stderr, "unable to read configuration file: %s\n",
-            configPath);
+        fprintf(stderr, "unable to read configuration file\n");
     }
     specpaxos::Configuration config(configStream);
 
