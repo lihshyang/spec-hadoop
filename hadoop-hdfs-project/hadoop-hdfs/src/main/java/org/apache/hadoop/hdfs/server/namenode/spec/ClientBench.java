@@ -43,7 +43,7 @@ public class ClientBench {
       long before = System.nanoTime();
       service.getListing("/", new byte[0], false);
       long after = System.nanoTime();
-      System.out.println((after - before) / 1000);
+      System.out.println(((after - before) / 1000) + '\n');
       try {
         long t = Long.parseLong(sleepTime);
         if (t > 0)
@@ -60,7 +60,7 @@ public class ClientBench {
       long before = System.nanoTime();
       service.mkdirs("/" + prefix + "/" + i, FsPermission.getDefault(), false);
       long after = System.nanoTime();
-      System.out.println((after - before) / 1000);
+      System.out.println(((after - before) / 1000) + '\n');
       try {
         long t = Long.parseLong(sleepTime);
         if (t > 0)
@@ -76,7 +76,7 @@ public class ClientBench {
       long before = System.nanoTime();
       service.delete("/" + prefix + "/" + i, false);
       long after = System.nanoTime();
-      System.out.println((after - before) / 1000);
+      System.out.println(((after - before) / 1000) + '\n');
       try {
         long t = Long.parseLong(sleepTime);
         if (t > 0)
