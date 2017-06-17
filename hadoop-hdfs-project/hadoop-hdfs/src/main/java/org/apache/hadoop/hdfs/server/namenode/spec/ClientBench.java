@@ -13,8 +13,8 @@ public class ClientBench {
   static ClientProtocol service;
 
   public static void main(String[] args) throws IOException {
-    if (args.length < 3) {
-      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir NOPS [prefix]");
+    if (args.length < 4) {
+      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir NOPS SLEEPTIME [prefix]");
       return;
     }
 
@@ -23,50 +23,67 @@ public class ClientBench {
     } else if (args[0].equals("spec")) {
       service = new SpecClient();
     } else {
-      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir NOPS [prefix]");
+      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir NOPS SLEEPTIME [prefix]");
       return;
     }
 
-    if (args[1].equals("ls") && args.length == 3) {
-      testLs(args[2]);
-    } else if (args[1].equals("mkdir") && args.length == 4) {
-      testMkdir(args[2], args[3]);
-    } else if (args[1].equals("rmdir") && args.length == 4) {
-      testRmdir(args[2], args[3]);
+    if (args[1].equals("ls") && args.length == 4) {
+      testLs(args[2], args[3]);
+    } else if (args[1].equals("mkdir") && args.length == 5) {
+      testMkdir(args[2], args[3], args[4]);
+    } else if (args[1].equals("rmdir") && args.length == 5) {
+      testRmdir(args[2], args[3], args[4]);
     } else {
-      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir NOPS [prefix]");
+      System.err.println("Usage: ClientBench ha|spec ls|mkdir|rmdir NOPS SLEEPTIME [prefix]");
     }
   }
 
-  public static void testLs(String nops) throws IOException {
-    long last = System.nanoTime();
+  public static void testLs(String nops, String sleepTime) throws IOException {
     for (int i = 0; i < Integer.parseInt(nops); i++) {
+      long before = System.nanoTime();
       service.getListing("/", new byte[0], false);
-      long current = System.nanoTime();
-      System.out.println((current - last) / 1000);
-      last = current;
+      long after = System.nanoTime();
+      System.out.println((after - before) / 1000);
+      try {
+        long t = Long.parseLong(sleepTime);
+        if (t > 0)
+          Thread.sleep(t);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 
-  public static void testMkdir(String nops, String prefix) throws IOException {
+  public static void testMkdir(String nops, String sleepTime, String prefix) throws IOException {
     service.mkdirs("/" + prefix, FsPermission.getDefault(), false);
-
-    long last = System.nanoTime();
     for (int i = 10000; i < 10000 + Integer.parseInt(nops); i++) {
+      long before = System.nanoTime();
       service.mkdirs("/" + prefix + "/" + i, FsPermission.getDefault(), false);
-      long current = System.nanoTime();
-      System.out.println((current - last) / 1000);
-      last = current;
+      long after = System.nanoTime();
+      System.out.println((after - before) / 1000);
+      try {
+        long t = Long.parseLong(sleepTime);
+        if (t > 0)
+          Thread.sleep(t);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 
-  public static void testRmdir(String nops, String prefix) throws IOException {
-    long last = System.nanoTime();
+  public static void testRmdir(String nops, String sleepTime, String prefix) throws IOException {
     for (int i = 10000; i < 10000 + Integer.parseInt(nops); i++) {
+      long before = System.nanoTime();
       service.delete("/" + prefix + "/" + i, false);
-      long current = System.nanoTime();
-      System.out.println((current - last) / 1000);
-      last = current;
+      long after = System.nanoTime();
+      System.out.println((after - before) / 1000);
+      try {
+        long t = Long.parseLong(sleepTime);
+        if (t > 0)
+          Thread.sleep(t);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 }
